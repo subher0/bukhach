@@ -7,3 +7,9 @@ left: 50%;
 margin-left: -50px !important; /* 50% of your logo width */
 display: block;
 }
+.card{
+    border: 0px;
+}
+body {
+    background-image: url("img/bg2.jpg")
+}
