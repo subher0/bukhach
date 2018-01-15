@@ -9,7 +9,14 @@ display: block;
 }
 .card{
     border: 0px;
+    background-color: transparent;
 }
 body {
-    background-image: url("img/bg2.jpg")
+    background-image: url("img/bg2.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+.d-inline-flex {
+    height: 30px;
 }
