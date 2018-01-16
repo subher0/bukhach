@@ -24,3 +24,11 @@ def match_view(request):
         "ip": request.META['HTTP_X_REAL_IP']
     }
     return HttpResponse(template.render(context, request))
+
+
+def contacts_view(request):
+    template = loader.get_template('bukhach/contacts.html')
+    context = {
+        "ip": request.META['HTTP_X_REAL_IP']
+    }
+    return HttpResponse(template.render(context, request))
