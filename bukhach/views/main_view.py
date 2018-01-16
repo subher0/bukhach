@@ -3,7 +3,7 @@ from django.template import loader
 
 
 def index_view(request):
-    template = loader.get_template('')
+    template = loader.get_template('bukhach/index.html')
     context = {
         "ip": request.META['HTTP_X_REAL_IP']
     }
@@ -11,7 +11,7 @@ def index_view(request):
 
 
 def about_us_view(request):
-    template = loader.get_template('')
+    template = loader.get_template('bukhach/about_us.html')
     context = {
         "ip": request.META['HTTP_X_REAL_IP']
     }
@@ -19,7 +19,7 @@ def about_us_view(request):
 
 
 def match_view(request):
-    template = loader.get_template('')
+    template = loader.get_template('bukhach/match.html')
     context = {
         "ip": request.META['HTTP_X_REAL_IP']
     }
