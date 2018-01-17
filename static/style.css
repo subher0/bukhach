@@ -1,22 +1,31 @@
 .navbar {
-position: relative;
+    position: relative;
 }
-.navbar-text {
-position: absolute;
-left: 50%;
-margin-left: -50px !important; /* 50% of your logo width */
-display: block;
-}
-.card{
+
+.card {
     border: 0px;
     background-color: transparent;
 }
+
 body {
     background-image: url("img/bg2.jpg");
     background-repeat: no-repeat;
     background-size: cover;
 
 }
+
 .d-inline-flex {
     height: 30px;
+}
+
+@media (max-width: 991px) {
+    .rot_img {
+        transform: rotate(90deg);
+    }
+}
+
+.img-thumbnail {
+    background-color: transparent;
+    border-radius: 25px;
+    border-color: transparent;
 }

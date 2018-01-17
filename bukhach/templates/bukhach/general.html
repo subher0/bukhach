@@ -12,25 +12,34 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <span class="navbar-text ">
-            BUHA.CH
-    </span>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/match">Подбор</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/about">О нас</a>
-            </li>
-        </ul>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-5">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/match">Подбор</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about">О нас</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/contacts">Контактики</a>
+                        </li>
+                </div>
+                <div class="col-2">
+                    <a class="navbar-brand" href="/">BUHA.CH</a>
+                </div>
+            </div>
+        </div>
     </div>
 </nav>
 {% block content %}
 {% endblock content %}
 </body>
 </html>
+
