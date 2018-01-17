@@ -12,23 +12,17 @@ def index_view(request):
 
 def about_us_view(request):
     template = loader.get_template('bukhach/about_us.html')
-    context = {
-        "ip": request.META['HTTP_X_REAL_IP']
-    }
+    context = {}
     return HttpResponse(template.render(context, request))
 
 
 def match_view(request):
     template = loader.get_template('bukhach/match.html')
-    context = {
-        "ip": request.META['HTTP_X_REAL_IP']
-    }
+    context = {}
     return HttpResponse(template.render(context, request))
 
 
 def contacts_view(request):
     template = loader.get_template('bukhach/contacts.html')
-    context = {
-        "ip": request.META['HTTP_X_REAL_IP']
-    }
+    context = {}
     return HttpResponse(template.render(context, request))
