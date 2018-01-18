@@ -18,14 +18,10 @@ body {
     height: 30px;
 }
 
-@media (max-width: 991px) {
-    .rot_img {
-        transform: rotate(90deg);
-    }
-}
-
 .img-thumbnail {
     background-color: transparent;
     border-radius: 25px;
     border-color: transparent;
 }
+
+
