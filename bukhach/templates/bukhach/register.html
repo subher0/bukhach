@@ -1,7 +1,7 @@
 {% extends "bukhach/general.html" %}
 {% block content %}
     <div class="container pt-5">
-        <form enctype="multipart/form-data" action="register" method="POST">{% csrf_token %}
+        <form enctype="multipart/form-data" action="/register" method="POST">{% csrf_token %}
             <div class="form-group">
                 <label for="InputFirstName">First Name</label>
                 <input name="first_nameField" value="{{ form.first_nameField.value }}" type="text" class="form-control" id="InputFirstName" placeholder="Enter First Name">

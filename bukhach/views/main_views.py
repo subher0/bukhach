@@ -26,9 +26,3 @@ def contacts_view(request):
     template = loader.get_template('bukhach/contacts.html')
     context = {}
     return HttpResponse(template.render(context, request))
-
-
-def register_view(request):
-    template = loader.get_template('bukhach/register.html')
-    context = {}
-    return HttpResponse(template.render(context, request))
