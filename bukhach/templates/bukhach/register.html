@@ -14,39 +14,29 @@
                                class="form-control" id="InputFirstName" placeholder="Enter First Name">
                     </div>
 
-                    <div class="form-group">
-                        <label for="InputLastName">Last Name</label>
-                        <input name="last_nameField" value="{{ form.last_nameField.value }}" type="text"
-                               class="form-control" id="InputLastName" placeholder="Enter Last Name">
-                        <small id="LastNameHelp" class="form-text text-muted">Not necessary.
-                        </small>
-                    </div>
-                    <div class="form-group">
-                        <label for="InputEmail1">Email address</label>
-                        <input name="emailField" value="{{ form.emailField.value }}" type="email" class="form-control"
-                               id="InputEmail1" aria-describedby="emailHelp"
-                               placeholder="Enter email">
-                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
-                            else.
-                        </small>
-                    </div>
-                    <div class="form-group">
-                        <label for="InputPassword1">Password</label>
-                        <input name="passwordField" value="{{ form.passwordField.value }}" type="password"
-                               class="form-control" id="InputPassword1" placeholder="Password">
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+            <div class="form-group">
+                <label for="InputLastName">Last Name</label>
+                <input name="last_nameField" value="{{ form.last_nameField.value }}" type="text" class="form-control" id="InputLastName" placeholder="Enter Last Name">
+                <small id="LastNameHelp" class="form-text text-muted">Not necessary.
+                </small>
             </div>
-            <div class="col-lg-4 mx-auto">
-                <img src="img/svidetel.png" class="img-fluid pt-5 ml-5" style="max-height: 550px">
+            <div class="form-group">
+                <label for="InputEmail1">Email address</label>
+                <input name="emailField" value="{{ form.emailField.value }}" type="email" class="form-control" id="InputEmail1" aria-describedby="emailHelp"
+                       placeholder="Enter email">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.
+                </small>
             </div>
-        </div>
-
+            <div class="form-group">
+                <label for="InputPassword1">Password</label>
+                <input name="passwordField" value="{{ form.passwordField.value }}" type="password" class="form-control" id="InputPassword1" placeholder="Password">
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
     </div>
 
 {% endblock content %}
