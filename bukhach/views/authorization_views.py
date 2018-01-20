@@ -1,8 +1,9 @@
 from django.http import HttpResponse
 from django.template import loader
 
-from bukhach.forms import RegisterForm
+from bukhach.forms import RegisterForm, LoginForm
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 
 
 def register_view(request):
@@ -28,4 +29,19 @@ def login_view(request):
     template = loader.get_template('bukhach/login.html')
     context = {}
     return HttpResponse(template.render(context, request))
+
+
+def login_user(request):
+    form = LoginForm(request.POST)
+    if form.is_valid():
+        user = authenticate(username = form.cleaned_data['usernameField'], password = form.cleaned_data['passwordField'])
+        if user is not None:
+            if user.is_active:
+                print("User is valid, active and authenticated")
+                login(request, user)
+            else:
+                print("The password is valid, but the account has been disabled!")
+        else:
+            print("The username and password were incorrect.")
+
 
