@@ -1,0 +1,24 @@
+{% extends "bukhach/general.html" %}
+{% block content %}
+
+    <div class="container text-center">
+        <form class="form-signin mx-auto" enctype="multipart/form-data" action="login" method="POST">{% csrf_token %}
+            <img class="img_for_login img-fluid pb-2" src="img/bukhach.png" alt="pedr">
+            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+            <label for="inputUsername" class="sr-only">Username</label>
+            <input name="usernameField" value="{{ form.usernameField.value }}" type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input name="passwordField" value="{{ form.passwordField.value }}" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me"> Remember me
+                </label>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+        </form>
+    </div>
+
+
+
+{% endblock content %}
