@@ -35,3 +35,11 @@ body {
     max-height: 200px;
     margin-left: 25px;
 }
+
+.logout-button {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.logout-button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
