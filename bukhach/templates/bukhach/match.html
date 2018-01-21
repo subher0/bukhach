@@ -1,22 +1,24 @@
 {% extends "bukhach/general.html" %}
 {% block content %}
 
-<h1 class="text ml-5 pt-3">ИДЕМ БУХАТЬ В СУББОТУ</h1>
-<div class="container">
-    <div class="embed-responsive embed-responsive-16by9">
-    <iframe  src="https://www.youtube.com/embed/dp0-8KEnlTc" frameborder="0"
-            allow="autoplay; encrypted-media" allowfullscreen></iframe>
-</div>
-</div>
-
-
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"
-        integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4"
-        crossorigin="anonymous"></script>
+    <div class="container">
+        <div class="row">
+            <h1 class="text ml-5 pt-3">Вот эти пацаны готовы пойти с тобой бухать:</h1>
+            {% for user in users %}
+                <div class="col-lg-4 col-md-6 col-12">
+                    {{ user.username }}<br>
+                    {{ user.first_name }}<br>
+                    {{ user.last_name }}<br>
+                    {{ user.email }}<br>
+                </div>
+            {% endfor %}
+            {% for interval in intervals %}
+                C {{ interval.start }} До {{ interval.end }}<br>
+            {% endfor %}
+        </div>
+        <div class="embed-responsive embed-responsive-16by9">
+            <iframe src="https://www.youtube.com/embed/dp0-8KEnlTc" frameborder="0"
+                    allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+    </div>
 {% endblock content %}
