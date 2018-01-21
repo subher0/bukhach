@@ -42,10 +42,6 @@ def login_user(request):
                 print("User is valid, active and authenticated")
                 login(request, user)
                 return dashboard_views.dashboard_view(request)
-            else:
-                print("The password is valid, but the account has been disabled!")
-        else:
-            print("The username and password were incorrect.")
 
 
 def logout_user(request):
