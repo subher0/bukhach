@@ -39,13 +39,8 @@ def login_user(request):
         user = authenticate(username = form.cleaned_data['usernameField'], password = form.cleaned_data['passwordField'])
         if user is not None:
             if user.is_active:
-                print("User is valid, active and authenticated")
                 login(request, user)
                 return dashboard_views.dashboard_view(request)
-            else:
-                print("The password is valid, but the account has been disabled!")
-        else:
-            print("The username and password were incorrect.")
 
 
 def logout_user(request):
