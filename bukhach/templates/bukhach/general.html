@@ -19,9 +19,11 @@
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <a class="navbar-brand" href="/">BUHA.CH</a>
         <ul class="navbar-nav mr-auto">
+            {% if user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link" href="/match">Подбор</a>
             </li>
+            {% endif %}
             <li class="nav-item">
                 <a class="nav-link" href="/about">О нас</a>
             </li>
