@@ -3,6 +3,7 @@ from django.template import loader
 
 from bukhach.forms import IntervalForm
 from bukhach.models.matcher_models import UserInterval
+from bukhach.models.profile_models import Profile
 
 
 def dashboard_view(request):
@@ -10,7 +11,7 @@ def dashboard_view(request):
     user = request.user
     intervals = UserInterval.objects.filter(user=user)
     context = {
-        'intervals': intervals
+        'intervals': intervals,
     }
     return HttpResponse(template.render(context, request))
 
@@ -23,3 +24,4 @@ def accept_interval(request):
                                         end_date=form.cleaned_data['end_interval'])
             userInterval.save()
     return dashboard_view(request)
+

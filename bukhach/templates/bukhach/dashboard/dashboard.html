@@ -3,45 +3,79 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h2 class="text-center">Личный кабинет</h2>
-            </div>
-            <div class="col-12 text-center">
-                <img class="img-fluid" src="img/avatar.png">
-            </div>
-            <div class="col-12">
-                <h3>Твое имя: {{ user.first_name }}</h3>
-            </div>
-            <div class="col-12">
-                <h3>Твоя фамилия: {{ user.last_name }}</h3>
-            </div>
-            <div class="col-12">
-                <h3>Твой юзернаме: {{ user.username }}</h3>
-            </div>
-            <div class="col-12">
-                <h3>Твой имейл: {{ user.email }}</h3>
-            </div>
-            <div class="col-12">
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="freeIntervals"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Когда ты свободен:
                     </button>
                     <div class="dropdown-menu" aria-labelledby="freeIntervals">
-                            {% for interval in intervals %}
-                                <button class="dropdown-item" type="button">
-                                    {{ interval.start_date }} - {{ interval.end_date }}
-                                </button>
-                            {% endfor %}
+                        {% for interval in intervals %}
+                            <button class="dropdown-item" type="button">
+                                {{ interval.start_date }} - {{ interval.end_date }}
+                            </button>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
             <div class="col-12">
                 <h3>Введи дату и время начала и конца интервала, когда можешь бухать</h3><br>
-                <form class="form-group" enctype="multipart/form-data" action="add-interval" method="POST">{% csrf_token %}
-                    <input name="start_interval" type="datetime-local" class="form-control" placeholder="Начало" required>
+                <form class="form-group" enctype="multipart/form-data" action="add-interval"
+                      method="POST">{% csrf_token %}
+                    <input name="start_interval" type="datetime-local" class="form-control" placeholder="Начало"
+                           required>
                     <input name="end_interval" type="datetime-local" class="form-control" placeholder="Конец" required>
                     <button class="btn btn-lg btn-primary btn-block" type="submit">Добавить интервал</button>
                 </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <div class="list-group" id="list-tab" role="tablist">
+                    <a class="list-group-item list-group-item-action active" id="list-profile-list" data-toggle="list"
+                       href="#list-profile" role="tab" aria-controls="profile">Profile</a>
+                    <a class="list-group-item list-group-item-action" id="list-friends-list" data-toggle="list"
+                       href="#list-friends" role="tab" aria-controls="friends">Friends</a>
+                    <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list"
+                       href="#list-messages" role="tab" aria-controls="messages">Messages</a>
+                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list"
+                       href="#list-settings" role="tab" aria-controls="settings">Bukhach Interval</a>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="list-profile" role="tabpanel"
+                         aria-labelledby="list-profile-list">
+                        <div class="row">
+                            <div class="col-12">
+                                <h2 class="text-center">Личный кабинет</h2>
+                            </div>
+                            <div class="col-12 text-center">
+                                <img src="">
+                            </div>
+                            <div class="col-12">
+                                <h3>Твое имя: {{ user.first_name }}</h3>
+                            </div>
+                            <div class="col-12">
+                                <h3>Твоя фамилия: {{ user.last_name }}</h3>
+                            </div>
+                            <div class="col-12">
+                                <h3>Твой юзернаме: {{ user.username }}</h3>
+                            </div>
+                            <div class="col-12">
+                                <h3>Твой имейл: {{ user.email }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="list-friends" role="tabpanel" aria-labelledby="list-friends-list">
+                        <p>{{ profile.friends}}</p>
+                    </div>
+                    <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
+                        <p>suck</p>
+                    </div>
+                    <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
+                        <img src="img/alesha.png">
+                    </div>
+                </div>
             </div>
         </div>
     </div>

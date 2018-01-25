@@ -1,9 +1,10 @@
 from django.http import HttpResponse
 from django.template import loader
-
 from bukhach.forms import RegisterForm, LoginForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+
+from bukhach.models.profile_models import Profile
 
 from bukhach.views import page_views, dashboard_views
 
@@ -24,6 +25,7 @@ def register_user(request):
         user.first_name = form.cleaned_data['first_nameField']
         user.last_name = form.cleaned_data['last_nameField']
         user.save()
+        profile = Profile(user=user).save()
 
 def login_view(request):
     if request.method == 'POST':
