@@ -42,7 +42,9 @@ def login_user(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return dashboard_views.dashboard_view(request)
+                response = HttpResponse(dashboard_views.dashboard_view(request))
+                response['Location'] = '/dashboard'
+                return response
 
 
 def logout_user(request):
