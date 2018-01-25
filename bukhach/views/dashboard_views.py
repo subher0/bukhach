@@ -10,8 +10,12 @@ def dashboard_view(request):
     template = loader.get_template('bukhach/dashboard/dashboard.html')
     user = request.user
     intervals = UserInterval.objects.filter(user=user)
+    profile = Profile.objects.filter(user=user).first()
+    friends = profile.friends.all()
     context = {
         'intervals': intervals,
+        'profile': profile,
+        'friends': friends
     }
     return HttpResponse(template.render(context, request))
 

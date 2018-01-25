@@ -67,7 +67,13 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="list-friends" role="tabpanel" aria-labelledby="list-friends-list">
-                        <p>{{ profile.friends}}</p>
+                    <img src="media/{{ profile.avatar }}" width="200" height="200">
+                        {% for friend in friends %}
+                            <p>{{ friend.user.username }}</p>
+                            <p>{{ friend.user.email }}</p>
+                            <hr>
+                            <br>
+                        {% endfor %}
                     </div>
                     <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
                         <p>suck</p>
