@@ -3,7 +3,7 @@ from django.template import loader
 from bukhach.forms import RegisterForm, LoginForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-
+from django.shortcuts import redirect
 from bukhach.models.profile_models import Profile
 
 from bukhach.views import page_views, dashboard_views
@@ -42,9 +42,7 @@ def login_user(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                response = HttpResponse(dashboard_views.dashboard_view(request))
-                response['Location'] = '/dashboard'
-                return response
+                return redirect('/dashboard')
 
 
 def logout_user(request):
