@@ -8,10 +8,10 @@
                        href="#list-profile" role="tab" aria-controls="profile">Profile</a>
                     <a class="list-group-item list-group-item-action" id="list-friends-list" data-toggle="list"
                        href="#list-friends" role="tab" aria-controls="friends">Friends</a>
-                    <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list"
-                       href="#list-messages" role="tab" aria-controls="messages">Вакантно</a>
-                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list"
-                       href="#list-settings" role="tab" aria-controls="settings">Bukhach Interval</a>
+                    <a class="list-group-item list-group-item-action" id="list-search-list" data-toggle="list"
+                       href="#list-search" role="tab" aria-controls="search">People Search</a>
+                    <a class="list-group-item list-group-item-action" id="list-interval-list" data-toggle="list"
+                       href="#list-interval" role="tab" aria-controls="interval">Bukhach Interval</a>
                 </div>
             </div>
             <div class="col-8">
@@ -42,10 +42,13 @@
                     <div class="tab-pane fade" id="list-friends" role="tabpanel" aria-labelledby="list-friends-list">
                         <div class="row">
                             {% for friend in friends %}
-                                <div class="media col-12 pt-2 justify-content-center">
-                                    <img class="d-inline-flex mr-2" src="media/{{ friend.user.profile.avatar }}" alt="пидор">
-                                    <div>
-                                        <p>{{ friend.user.first_name }} {{ friend.user.last_name }}</p>
+                                <div class="media col-sm-6 pt-2 justify-content-center">
+                                    <img class="d-inline-flex friend-avatar mr-2"
+                                         src="media/{{ friend.user.profile.avatar }}"
+                                         alt="пидор">
+                                    <div class="media-body">
+                                        <h6>{{ friend.user.first_name }} {{ friend.user.last_name }}</h6>
+                                        <p class="text-muted">{{ friend.user.username }}</p>
                                     </div>
                                 </div>
                                 <hr>
@@ -53,10 +56,31 @@
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
-                        <p>suck</p>
+                    <div class="tab-pane fade" id="list-search" role="tabpanel" aria-labelledby="list-search-list">
+
+                        <form class="mx-auto" enctype="multipart/form-data" action="people_search"
+                              method="GET">{% csrf_token %}
+                            <input name="nameField" value="{{ form.nameField.value }}" class="form-control" type="text"
+                                   placeholder="People Search" aria-label="Search">
+                            <button class="btn btn-primary" type="submit">
+                                Search
+                            </button>
+                        </form>
+                        {% for human in humans %}
+                            <div class="media col-sm-6 pt-2 justify-content-center">
+                                <img class="d-inline-flex friend-avatar mr-2"
+                                         src="media/{{ human.profile.avatar }}"
+                                         alt="пидор">
+                                    <div class="media-body">
+                                        <h6>{{ human.first_name }} {{ human.last_name }}</h6>
+                                        <p class="text-muted">{{ human.username }}</p>
+                                    </div>
+                            </div>
+                            <hr>
+                            <br>
+                        {% endfor %}
                     </div>
-                    <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
+                    <div class="tab-pane fade" id="list-interval" role="tabpanel" aria-labelledby="list-interval-list">
                         <div class="row">
                             <div class="col-12">
                                 <div class="dropdown">

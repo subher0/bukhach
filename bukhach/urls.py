@@ -15,5 +15,6 @@ urlpatterns = [
 
     #dashboard
     path(r'dashboard', dashboard_views.dashboard_view),
-    path(r'add-interval', dashboard_views.accept_interval)
+    path(r'add-interval', dashboard_views.accept_interval),
+    path(r'people_search', dashboard_views.people_search)
 ]

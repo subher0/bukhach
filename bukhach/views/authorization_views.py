@@ -11,7 +11,7 @@ from bukhach.views import page_views, dashboard_views
 
 def register_view(request):
     if request.method == 'POST':
-        register_user(request)
+       return register_user(request)
     template = loader.get_template('bukhach/register.html')
     context = {}
     return HttpResponse(template.render(context, request))
@@ -26,6 +26,8 @@ def register_user(request):
         user.last_name = form.cleaned_data['last_nameField']
         user.save()
         profile = Profile(user=user).save()
+        return redirect('/login')
+
 
 def login_view(request):
     if request.method == 'POST':
