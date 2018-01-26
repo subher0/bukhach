@@ -7,6 +7,8 @@ from django.template import loader
 from bukhach.models.matcher_models import UserInterval
 from bukhach.utils.matcher_utils import UsersToInterval, IntervalAsDatetime
 
+from bukhach.models.profile_models import Profile
+
 
 def index_view(request):
     template = loader.get_template('bukhach/index.html')
