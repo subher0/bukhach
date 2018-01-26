@@ -41,3 +41,9 @@ def people_search(request):
         l_name = name_list[1]
         humans = User.objects.filter(first_name=f_name, last_name=l_name)
         return dashboard_view(request, humans)
+
+
+def profile_view(request):
+    template = loader.get_template('bukhach/profile.html')
+    context = {}
+    return HttpResponse(template.render(context, request))

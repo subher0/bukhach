@@ -8,6 +8,7 @@ urlpatterns = [
     path(r'match', page_views.match_view),
     path(r'contacts', page_views.contacts_view),
 
+
     #authentication
     path(r'register', authorization_views.register_view),
     path(r'login', authorization_views.login_view),
@@ -16,5 +17,6 @@ urlpatterns = [
     #dashboard
     path(r'dashboard', dashboard_views.dashboard_view),
     path(r'add-interval', dashboard_views.accept_interval),
-    path(r'people_search', dashboard_views.people_search)
+    path(r'people_search', dashboard_views.people_search),
+    path(r'profile', dashboard_views.profile_view),
 ]
