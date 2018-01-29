@@ -50,3 +50,9 @@ body {
     width: auto;
     margin-right: 5px;
 }
+
+.friend-avatar {
+    height: 50px;
+    width: auto;
+    border-radius: 50%;
+}

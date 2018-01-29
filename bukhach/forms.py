@@ -17,3 +17,7 @@ class LoginForm(forms.Form):
 class IntervalForm(forms.Form):
     start_interval = forms.DateTimeField(label='start', input_formats=['%Y-%m-%dT%H:%M'])
     end_interval = forms.DateTimeField(label='end', input_formats=['%Y-%m-%dT%H:%M'])
+
+
+class PeopleSearchForm(forms.Form):
+    nameField = forms.CharField(label='name', max_length=41)
