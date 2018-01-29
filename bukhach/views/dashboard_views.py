@@ -43,7 +43,10 @@ def people_search(request):
         return dashboard_view(request, humans)
 
 
-def profile_view(request):
+def profile_view(request, profileId):
     template = loader.get_template('bukhach/profile.html')
-    context = {}
+    profile = Profile.objects.first(pk=profileId)
+    context = {
+        'profile': profile
+    }
     return HttpResponse(template.render(context, request))
