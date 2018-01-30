@@ -50,7 +50,7 @@
                             {% for friend in friends %}
                                 <div class="media col-sm-6 pt-2 justify-content-center">
                                     <img class="d-inline-flex friend-avatar mr-2"
-                                         src="media/{{ friend.user.profile.avatar }}"
+                                         src="/media/{{ friend.user.profile.avatar }}"
                                          alt="пидор">
                                     <div class="media-body">
                                         <h6><a href="/profile/{{ friend.user.profile.id }}">{{ friend.user.first_name }} {{ friend.user.last_name }}</a></h6>
