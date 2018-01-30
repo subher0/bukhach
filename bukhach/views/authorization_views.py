@@ -29,22 +29,32 @@ def register_user(request):
         return redirect('/login')
 
 
-def login_view(request):
-    if request.method == 'POST':
-        return login_user(request)
+def login_view(request, error_message=None):
     template = loader.get_template('bukhach/login.html')
-    context = {}
+    context = {
+        'error_message': error_message
+    }
     return HttpResponse(template.render(context, request))
 
 
 def login_user(request):
-    form = LoginForm(request.POST)
-    if form.is_valid():
-        user = authenticate(username = form.cleaned_data['usernameField'], password = form.cleaned_data['passwordField'])
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-                return redirect('/dashboard')
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            user = authenticate(username = form.cleaned_data['usernameField'], password = form.cleaned_data['passwordField'])
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return redirect('/dashboard')
+                else:
+                    return login_view(request, error_message='Юзер неактивен, гг')
+            else:
+                return login_view(request, error_message='Пользователь с таким именем или паролем не найден')
+        else:
+            return login_view(request, error_message='Неправильно заполнена форма')
+    else:
+        return login_view(request, error_message='Поддерживается только POST запрос!')
+
 
 
 def logout_user(request):
