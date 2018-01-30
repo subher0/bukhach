@@ -19,4 +19,5 @@ class Profile(models.Model):
     avatar = models.ImageField(upload_to=make_filepath, verbose_name='avatar', default='def_ava.png')
     rating = models.FloatField(verbose_name='rating', max_length=2, default=0.0)
     friends = ManyToManyField('self', verbose_name='friends', blank=True)
+    tel_num = models.CharField(max_length=21, blank=True, verbose_name='tel_num')
 
