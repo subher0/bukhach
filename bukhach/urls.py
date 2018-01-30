@@ -12,6 +12,7 @@ urlpatterns = [
     #authentication
     path(r'register', authorization_views.register_view),
     path(r'login', authorization_views.login_view),
+    path(r'login_user', authorization_views.login_user),
     path(r'logout', authorization_views.logout_user),
 
     #dashboard

@@ -2,7 +2,8 @@
 {% block content %}
 
     <div class="container text-center">
-        <form class="form-signin mx-auto" enctype="multipart/form-data" action="login" method="POST">{% csrf_token %}
+        {% if error_message %} <span class="error-message">{{ error_message }}</span> {% endif %}
+        <form class="form-signin mx-auto" enctype="multipart/form-data" action="login_user" method="POST">{% csrf_token %}
             <img class="img_for_login img-fluid pb-2" src="img/bukhach.png" alt="pedr">
             <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
             <label for="inputUsername" class="sr-only">Username</label>

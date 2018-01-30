@@ -56,3 +56,9 @@ body {
     width: auto;
     border-radius: 50%;
 }
+
+.error-message {
+    font-size: 1.4em;
+    color: #ff532e;
+    text-align: center;
+}
