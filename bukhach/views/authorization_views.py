@@ -60,4 +60,4 @@ def login_user(request):
 def logout_user(request):
     if request.method == 'POST':
         logout(request)
-    return page_views.index_view(request)
+        return redirect('/')

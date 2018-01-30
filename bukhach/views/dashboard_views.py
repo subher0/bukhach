@@ -5,8 +5,10 @@ from bukhach.forms import IntervalForm, PeopleSearchForm
 from bukhach.models.matcher_models import UserInterval
 from bukhach.models.profile_models import Profile
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 
+@login_required(login_url='/login')
 def dashboard_view(request, humans = None):
     template = loader.get_template('bukhach/dashboard/dashboard.html')
     user = request.user
@@ -43,6 +45,7 @@ def people_search(request):
         return dashboard_view(request, humans)
 
 
+@login_required(login_url='/login')
 def profile_view(request, profileId):
     template = loader.get_template('bukhach/profile.html')
     profile = Profile.objects.filter(id=profileId).first()
