@@ -46,7 +46,9 @@ def people_search(request):
 def profile_view(request, profileId):
     template = loader.get_template('bukhach/profile.html')
     profile = Profile.objects.filter(id=profileId).first()
+    friends = profile.friends.all()
     context = {
-        'profile': profile
+        'profile': profile,
+        'friends': friends
     }
     return HttpResponse(template.render(context, request))
