@@ -3,39 +3,32 @@
 
     <div class="container text-center">
 
+        {% for hidden_field in form.hidden_fields %}
+            {{ hidden_field.errors }}
+            {{ hidden_field }}
+        {% endfor %}
         <form class="form-signin mx-auto" enctype="multipart/form-data" action="login_user"
               method="POST">{% csrf_token %}
             <img class="img_for_login img-fluid pb-2" src="img/bukhach.png" alt="pedr">
 
             <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
 
-
-            {% if error_message %}
-
+            {% if error_message %}<h3>{{ error_message }}</h3> {% endif %}
+            {% for field in form.visible_fields %}
                 <label for="inputUsername" class="sr-only">Username</label>
-                <input name="usernameField" value="{{ form.usernameField.value }}" type="text" id="inputUsername"
-                       class="form-control is-invalid" placeholder="Username" required autofocus>
-                <div class="invalid-feedback">
-                    {{ error_message }}
-                </div>
-
-
-
-                <label for="inputPassword" class="sr-only">Password</label>
-                <input name="passwordField" value="{{ form.passwordField.value }}" type="password" id="inputPassword"
-                       class="form-control is-invalid" placeholder="Password" required>
-
-            {% else %}
-
-                 <label for="inputUsername" class="sr-only">Username</label>
-                <input name="usernameField" value="{{ form.usernameField.value }}" type="text" id="inputUsername"
-                       class="form-control" placeholder="Username" required autofocus>
-
-                <label for="inputPassword" class="sr-only">Password</label>
-                <input name="passwordField" value="{{ form.passwordField.value }}" type="password" id="inputPassword"
-                       class="form-control" placeholder="Password" required>
-
-            {% endif %}
+                <input name="{{ field.name }}" value="{% if field.value %}{{ field.value }}{% endif %}"
+                       type="{{ field.field.widget.input_type }}"
+                       id="inputUsername"
+                       class="form-control {% if error_message or field.errors %} is-invalid {% endif %}"
+                       placeholder="{{ field.label }}" required autofocus>
+                {% if field.errors %}
+                    <div class="invalid-feedback">
+                        {% for error in field.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endfor %}
 
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
             <a class="btn btn-lg btn-primary btn-block" role="button" href="/register">Join us</a>
