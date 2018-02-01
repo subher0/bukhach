@@ -4,13 +4,13 @@ from bukhach.views import page_views, authorization_views, dashboard_views, soci
 
 urlpatterns = [
     path(r'', page_views.index_view),
-    path(r'about', page_views.about_us_view),
     path(r'match', page_views.match_view),
-    path(r'contacts', page_views.contacts_view),
+    path(r'gay', page_views.gay_view),
 
 
     #authentication
     path(r'register', authorization_views.register_view),
+    path(r'register_user', authorization_views.register_user),
     path(r'login', authorization_views.login_view),
     path(r'login_user', authorization_views.login_user),
     path(r'logout', authorization_views.logout_user),
