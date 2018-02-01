@@ -24,6 +24,32 @@
                                 <h2 class="text-center">Страничка пидора</h2>
                             </div>
                             <div class="col-12 text-center">
+
+
+                                <div class="card card_profile">
+                                    <img class="card-img-top profile_avatar mx-auto" src="/media/{{ profile.avatar }}">
+                                    <div class="card-header">
+                                        Публичная информация:
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <strong>Имя, Фамилия :</strong> {{ user.first_name }} {{ user.last_name }}
+                                            <hr>
+                                            <strong>Имя пользователя :</strong> {{ user.username }}
+                                            <hr>
+                                        </h5>
+                                        <p class="card-text pt-2">
+                                            <strong>О себе :</strong>
+                                        <blockquote>
+                                            {{ profile.info }}
+                                        </blockquote>
+                                        </p>
+                                    </div>
+                                </div>
+
+
+
+
                                 <img src="/media/{{ profile.avatar }}" class="img-fluid">
                             </div>
                             <div class="col-12">
