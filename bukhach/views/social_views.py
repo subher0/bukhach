@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import loader
@@ -6,6 +7,7 @@ from bukhach.forms import AddFriendForm
 from bukhach.models.profile_models import Profile
 
 
+@login_required(login_url='/login')
 def profile_view(request, profileId):
     template = loader.get_template('bukhach/profile.html')
     profile = Profile.objects.filter(id=profileId).first()
@@ -23,6 +25,7 @@ def profile_view(request, profileId):
     return HttpResponse(template.render(context, request))
 
 
+@login_required(login_url='/login')
 def add_friend(request):
     if request.method == 'POST':
         form = AddFriendForm(request.POST)
