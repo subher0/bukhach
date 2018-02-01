@@ -2,9 +2,9 @@
 {% block content %}
     <div class="container pt-5">
         <div class="row">
-            <!-- меню -->
-            <div class="col-4">
-                <div class="list-group" id="list-tab" role="tablist">
+            <!----------------------------------------------------Меню------------------------------------------------->
+            <div class="col-lg-4 col-12">
+                <div class="list-group mx-auto" style="max-width: 500px" id="list-tab" role="tablist">
                     <a class="list-group-item list-group-item-action {% if not humans %}active {% endif %}"
                        id="list-profile-list" data-toggle="list"
                        href="#list-profile" role="tab" aria-controls="profile">Профиль</a>
@@ -18,10 +18,12 @@
                        href="#list-interval" role="tab" aria-controls="interval">Интервал для бухача</a>
                 </div>
             </div>
-            <!-- контент -->
-            <div class="col-8">
-                <!-- Профиль -->
+            <!---------------------------------------------------- контент -------------------------------------------->
+            <div class="col-lg-8 col-12">
+
                 <div class="tab-content" id="nav-tabContent">
+
+                    <!-- Профиль -->
                     <div class="tab-pane fade {% if not humans %} show active {% endif %}" id="list-profile"
                          role="tabpanel"
                          aria-labelledby="list-profile-list">
@@ -67,109 +69,111 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            <!-- Друзья и Поиск -->
-                            <div class="tab-pane fade {% if humans %}active show {% endif %}" id="list-friends"
-                                 role="tabpanel"
-                                 aria-labelledby="list-friends-list">
-                                <div class="row">
-                                    <!--                       Поиск людей                          -->
-                                    <div class="col-12">
-                                        <form class="mx-auto" enctype="multipart/form-data" action="people_search"
-                                              method="GET">{% csrf_token %}
-                                            <input name="nameField" value="{{ form.nameField.value }}"
-                                                   class="form-control"
-                                                   type="text"
-                                                   placeholder="People Search" aria-label="Search">
-                                            <button class="btn btn-primary" type="submit">
-                                                Search
-                                            </button>
-                                        </form>
-                                        {% for human in humans %}
-                                            <div class="media col-sm-6 pt-2 justify-content-center">
-                                                <img class="d-inline-flex friend-avatar mr-2"
-                                                     src="media/{{ human.profile.avatar }}"
-                                                     alt="пидор">
-                                                <div class="media-body">
-                                                    <h6>
-                                                        <a href="/profile/{{ human.profile.id }}">{{ human.first_name }} {{ human.last_name }}</a>
-                                                    </h6>
-                                                    <p class="text-muted">{{ human.username }}</p>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <br>
-                                        {% endfor %}
-                                    </div>
-                                    <!-- Друзья -->
-                                    <div class="col-12">
-                                        {% for friend in friends %}
-                                            <div class="media col-sm-6 pt-2 justify-content-center">
-                                                <img class="d-inline-flex friend-avatar mr-2"
-                                                     src="/media/{{ friend.user.profile.avatar }}"
-                                                     alt="пидор">
-                                                <div class="media-body">
-                                                    <h6>
-                                                        <a href="/profile/{{ friend.user.profile.id }}">{{ friend.user.first_name }} {{ friend.user.last_name }}</a>
-                                                    </h6>
-                                                    <p class="text-muted">{{ friend.user.username }}</p>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <br>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Редактирование -->
-                            <div class="tab-pane fade" id="list-edit" role="tabpanel" aria-labelledby="list-edit-list">
-                                gay
-                            </div>
-
-                            <!-- ИНтервалы Бухача -->
-                            <div class="tab-pane fade" id="list-interval" role="tabpanel"
-                                 aria-labelledby="list-interval-list">
-                                <div class="row">
-
-                                    <div class="col-12">
-                                        <div class="dropdown">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button"
-                                                    id="freeIntervals"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Когда ты свободен:
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="freeIntervals">
-                                                {% for interval in intervals %}
-                                                    <button class="dropdown-item" type="button">
-                                                        {{ interval.start_date }} - {{ interval.end_date }}
-                                                    </button>
-                                                {% endfor %}
-                                            </div>
+                    <!------------------------------------------- Друзья и Поиск -------------------------------------->
+                    <div class="tab-pane fade {% if humans %}active show {% endif %}" id="list-friends"
+                         role="tabpanel"
+                         aria-labelledby="list-friends-list">
+                        <div class="row">
+                            <!-------------------------------------Поиск людей----------------------------------------->
+                            <div class="col-12">
+                                <form class="mx-auto" enctype="multipart/form-data" action="people_search"
+                                      method="GET">{% csrf_token %}
+                                    <input name="nameField" value="{{ form.nameField.value }}"
+                                           class="form-control"
+                                           type="text"
+                                           placeholder="People Search" aria-label="Search">
+                                    <button class="btn btn-primary" type="submit">
+                                        Search
+                                    </button>
+                                </form>
+                                {% for human in humans %}
+                                    <div class="media col-sm-6 pt-2 justify-content-center">
+                                        <img class="d-inline-flex friend-avatar mr-2"
+                                             src="media/{{ human.profile.avatar }}"
+                                             alt="пидор">
+                                        <div class="media-body">
+                                            <h6>
+                                                <a href="/profile/{{ human.profile.id }}">{{ human.first_name }} {{ human.last_name }}</a>
+                                            </h6>
+                                            <p class="text-muted">{{ human.username }}</p>
                                         </div>
                                     </div>
-
-                                    <div class="col-12">
-                                        <h3>Введи дату и время начала и конца интервала, когда можешь бухать</h3><br>
-                                        <form class="form-group" enctype="multipart/form-data" action="add-interval"
-                                              method="POST">{% csrf_token %}
-                                            <input name="start_interval" type="datetime-local" class="form-control"
-                                                   placeholder="Начало"
-                                                   required>
-                                            <input name="end_interval" type="datetime-local" class="form-control"
-                                                   placeholder="Конец" required>
-                                            <button class="btn btn-lg btn-primary btn-block" type="submit">Добавить
-                                                интервал
-                                            </button>
-                                        </form>
+                                    <hr>
+                                    <br>
+                                {% endfor %}
+                            </div>
+                            <!----------------------------------------- Друзья ---------------------------------------->
+                            <div class="col-12">
+                                {% for friend in friends %}
+                                    <div class="media col-sm-6 pt-2 justify-content-center">
+                                        <img class="d-inline-flex friend-avatar mr-2"
+                                             src="/media/{{ friend.user.profile.avatar }}"
+                                             alt="пидор">
+                                        <div class="media-body">
+                                            <h6>
+                                                <a href="/profile/{{ friend.user.profile.id }}">{{ friend.user.first_name }} {{ friend.user.last_name }}</a>
+                                            </h6>
+                                            <p class="text-muted">{{ friend.user.username }}</p>
+                                        </div>
                                     </div>
+                                    <hr>
+                                    <br>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
 
+                    <!---------------------------------------------- Редактирование ----------------------------------->
+                    <div class="tab-pane fade" id="list-edit" role="tabpanel" aria-labelledby="list-edit-list">
+                        gay
+                    </div>
+
+                    <!-------------------------------------------- ИНтервалы Бухача ----------------------------------->
+                    <div class="tab-pane fade" id="list-interval" role="tabpanel"
+                         aria-labelledby="list-interval-list">
+                        <div class="row">
+
+                            <div class="col-12">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                            id="freeIntervals"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Когда ты свободен:
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="freeIntervals">
+                                        {% for interval in intervals %}
+                                            <button class="dropdown-item" type="button">
+                                                {{ interval.start_date }} - {{ interval.end_date }}
+                                            </button>
+                                        {% endfor %}
+                                    </div>
                                 </div>
                             </div>
 
+                            <div class="col-12">
+                                <h3>Введи дату и время начала и конца интервала, когда можешь бухать</h3><br>
+                                <form class="form-group" enctype="multipart/form-data" action="add-interval"
+                                      method="POST">{% csrf_token %}
+                                    <input name="start_interval" type="datetime-local" class="form-control"
+                                           placeholder="Начало"
+                                           required>
+                                    <input name="end_interval" type="datetime-local" class="form-control"
+                                           placeholder="Конец" required>
+                                    <button class="btn btn-lg btn-primary btn-block" type="submit">Добавить
+                                        интервал
+                                    </button>
+                                </form>
+                            </div>
 
                         </div>
                     </div>
+
+
                 </div>
             </div>
+        </div>
+    </div>
 {% endblock content %}
