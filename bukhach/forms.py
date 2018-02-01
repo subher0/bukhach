@@ -21,3 +21,7 @@ class IntervalForm(forms.Form):
 
 class PeopleSearchForm(forms.Form):
     nameField = forms.CharField(label='name', max_length=41)
+
+
+class AddFriendForm(forms.Form):
+    profile_id = forms.IntegerField(label='profile id')
