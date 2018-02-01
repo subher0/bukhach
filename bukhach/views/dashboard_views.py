@@ -43,15 +43,3 @@ def people_search(request):
         l_name = name_list[1]
         humans = User.objects.filter(first_name=f_name, last_name=l_name)
         return dashboard_view(request, humans)
-
-
-@login_required(login_url='/login')
-def profile_view(request, profileId):
-    template = loader.get_template('bukhach/profile.html')
-    profile = Profile.objects.filter(id=profileId).first()
-    friends = profile.friends.all()
-    context = {
-        'profile': profile,
-        'friends': friends
-    }
-    return HttpResponse(template.render(context, request))

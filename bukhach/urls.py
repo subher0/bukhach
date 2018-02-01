@@ -1,6 +1,6 @@
 from django.urls import path, re_path
 
-from bukhach.views import page_views, authorization_views, dashboard_views
+from bukhach.views import page_views, authorization_views, dashboard_views, social_views
 
 urlpatterns = [
     path(r'', page_views.index_view),
@@ -19,5 +19,8 @@ urlpatterns = [
     path(r'dashboard', dashboard_views.dashboard_view),
     path(r'add-interval', dashboard_views.accept_interval),
     path(r'people_search', dashboard_views.people_search),
-    re_path(r'^profile/(?P<profileId>\d+)/$', dashboard_views.profile_view),
+
+    #social
+    re_path(r'^profile/(?P<profileId>\d+)/$', social_views.profile_view),
+    path(r'add_friend', social_views.add_friend),
 ]

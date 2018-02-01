@@ -29,6 +29,19 @@
                             <div class="col-12">
                                 <h2 class="text-center">Страничка пидора</h2>
                             </div>
+                            {% if is_friend %}
+                                <div class="col-12">
+                                    <h4 class="text-center">Этот пидор твой братишка</h4>
+                                </div>
+                            {% else %}
+                                <div class="col-12">
+                                    <form enctype="multipart/form-data" action="/add_friend" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="profile_id" value="{{ profile.id }}">
+                                        <button class="btn btn-block" type="submit">Добавить пидора в друзья</button>
+                                    </form>
+                                </div>
+                            {% endif %}
                             <div class="col-12">
 
                                 <div class="card mx-auto card_profile">
