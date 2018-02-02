@@ -25,3 +25,7 @@ class PeopleSearchForm(forms.Form):
 
 class AddFriendForm(forms.Form):
     profile_id = forms.IntegerField(label='profile id')
+
+
+class DeleteFriendForm(forms.Form):
+    profile_id = forms.IntegerField(label='profile id')

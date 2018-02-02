@@ -79,18 +79,30 @@
                         <div class="row">
                             <!-------------------------------------Поиск людей----------------------------------------->
                             <div class="col-12">
-                                <form class="mx-auto" enctype="multipart/form-data" action="people_search"
+
+                                <h4>Поиск людей:</h4>
+
+                                <form class="pt-3" enctype="multipart/form-data" action="people_search"
                                       method="GET">{% csrf_token %}
-                                    <input name="nameField" value="{{ form.nameField.value }}"
-                                           class="form-control"
-                                           type="text"
-                                           placeholder="People Search" aria-label="Search">
-                                    <button class="btn btn-primary" type="submit">
-                                        Search
-                                    </button>
+                                    <div class="form-row align-items-center">
+                                        <div class="col-auto">
+                                            <input name="nameField" value="{{ form.nameField.value }}"
+                                                   class="form-control"
+                                                   type="text"
+                                                   placeholder="Введите Имя и Фамилию человека соблюдая регистр"
+                                                   aria-label="Search" required>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button class="btn btn-primary" type="submit">
+                                                Найти
+                                            </button>
+                                        </div>
+                                    </div>
                                 </form>
+
                                 {% for human in humans %}
-                                    <div class="media col-sm-6 pt-2 justify-content-center">
+                                    <h4 class="pt-4">Результаты поиска:</h4>
+                                    <div class="media col-sm-4 pt-5 justify-content-center">
                                         <img class="d-inline-flex friend-avatar mr-2"
                                              src="media/{{ human.profile.avatar }}"
                                              alt="пидор">
@@ -102,26 +114,30 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    <br>
                                 {% endfor %}
                             </div>
                             <!----------------------------------------- Друзья ---------------------------------------->
-                            <div class="col-12">
-                                {% for friend in friends %}
-                                    <div class="media col-sm-6 pt-2 justify-content-center">
-                                        <img class="d-inline-flex friend-avatar mr-2"
-                                             src="/media/{{ friend.user.profile.avatar }}"
-                                             alt="пидор">
-                                        <div class="media-body">
-                                            <h6>
-                                                <a href="/profile/{{ friend.user.profile.id }}">{{ friend.user.first_name }} {{ friend.user.last_name }}</a>
-                                            </h6>
-                                            <p class="text-muted">{{ friend.user.username }}</p>
+                            <div class="col-12 pt-4">
+                            <h4>Ваши друзья:</h4>
+                                <div class="row">
+                                    {% for friend in friends %}
+                                        <div class="col-sm-6 pt-4">
+                                            <div class="media pt-2 justify-content-center">
+                                                <img class="d-inline-flex friend-avatar mr-2"
+                                                     src="/media/{{ friend.user.profile.avatar }}"
+                                                     alt="пидор">
+                                                <div class="media-body">
+                                                    <h6>
+                                                        <a href="/profile/{{ friend.user.profile.id }}">{{ friend.user.first_name }} {{ friend.user.last_name }}</a>
+                                                    </h6>
+                                                    <p class="text-muted">{{ friend.user.username }}</p>
+                                                </div>
+                                            </div>
+                                            <hr>
                                         </div>
-                                    </div>
-                                    <hr>
-                                    <br>
-                                {% endfor %}
+                                    {% endfor %}
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -131,7 +147,7 @@
                         gay
                     </div>
 
-                    <!-------------------------------------------- ИНтервалы Бухача ----------------------------------->
+                    <!-------------------------------------------- Интервалы Бухача ----------------------------------->
                     <div class="tab-pane fade" id="list-interval" role="tabpanel"
                          aria-labelledby="list-interval-list">
                         <div class="row">

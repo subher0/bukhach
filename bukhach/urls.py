@@ -23,4 +23,5 @@ urlpatterns = [
     #social
     re_path(r'^profile/(?P<profileId>\d+)/$', social_views.profile_view),
     path(r'add_friend', social_views.add_friend),
+    path(r'delete_friend',social_views.delete_friend)
 ]
