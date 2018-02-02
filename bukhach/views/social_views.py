@@ -40,6 +40,7 @@ def add_friend(request):
         return redirect('/dashboard')
 
 
+@login_required(login_url='/login')
 def delete_friend(request):
     if request.method == 'POST':
         form = DeleteFriendForm(request.POST)

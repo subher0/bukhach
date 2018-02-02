@@ -7,6 +7,7 @@ class RegisterForm(forms.Form):
     usernameField = forms.CharField(label='username', max_length=20)
     emailField = forms.CharField(label='email', max_length=20)
     passwordField = forms.CharField(label='password', max_length=20)
+    tel_numField = forms.CharField(label='tel_num', max_length=21)
 
 
 class LoginForm(forms.Form):
@@ -29,3 +30,10 @@ class AddFriendForm(forms.Form):
 
 class DeleteFriendForm(forms.Form):
     profile_id = forms.IntegerField(label='profile id')
+
+
+class ProfileEditForm(forms.Form):
+    usernameField = forms.CharField(label='username', max_length=20)
+    emailField = forms.CharField(label='email', max_length=20)
+    tel_numField = forms.CharField(label='tel_num', max_length=21)
+    passwordField = forms.CharField(label='password', max_length=20)
