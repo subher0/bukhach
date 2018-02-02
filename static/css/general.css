@@ -9,6 +9,7 @@ html {
 
 .navbar {
     position: relative;
+    background-color: var(--font-color-l3);
 }
 
 .card_index {
@@ -21,7 +22,7 @@ html {
 }
 
 body {
-    background-image: url("img/bg2.jpg");
+    background-image: url("../img/bg2.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     height: 100%;
@@ -87,11 +88,27 @@ body {
 }
 
 .footer {
-    background-color: blanchedalmond;
+    background-color: var(--font-color-l3);
+    padding-top: 10px;
     flex: 0 0 auto;
+    border-top: 2px solid;
+    border-color: var(--font-color-l4);
+}
+
+.footer-link {
+    color: var(--background-color);
+    transition: 0.3s color;
 }
 
 .profile_avatar {
     max-height: 500px;
     max-width: 500px;
+}
+.footer-link:hover {
+    color: var(--background-color-d5);
+    text-decoration: none;
+}
+
+.footer-text {
+    color: var(--background-color-d2);
 }
