@@ -2,17 +2,18 @@ from django import forms
 
 
 class RegisterForm(forms.Form):
-    first_nameField = forms.CharField(label='first name', max_length=20)
-    last_nameField = forms.CharField(label='last name', max_length=20)
-    usernameField = forms.CharField(label='username', max_length=20)
-    emailField = forms.CharField(label='email', max_length=20)
-    passwordField = forms.CharField(label='password', max_length=20)
-    tel_numField = forms.CharField(label='tel_num', max_length=21)
+    first_name_field = forms.CharField(label='Имя', max_length=20)
+    last_name_field = forms.CharField(label='Фамилия', max_length=20)
+    username_field = forms.CharField(label='Имя пользователя', max_length=20)
+    email_field = forms.CharField(label='Email', max_length=20)
+    password_field = forms.CharField(label='Пароль', max_length=20, widget=forms.PasswordInput)
+    tel_num_field = forms.CharField(label='Номер телефона', max_length=21)
+    avatar_field = forms.ImageField(required=False)
 
 
 class LoginForm(forms.Form):
-    usernameField = forms.CharField(label='username', max_length=20)
-    passwordField = forms.CharField(label='password', max_length=20, widget=forms.PasswordInput)
+    username_field = forms.CharField(label='username', max_length=20)
+    password_field = forms.CharField(label='password', max_length=20, widget=forms.PasswordInput)
 
 
 class IntervalForm(forms.Form):
@@ -33,7 +34,6 @@ class DeleteFriendForm(forms.Form):
 
 
 class ProfileEditForm(forms.Form):
-    usernameField = forms.CharField(label='username', max_length=20)
-    emailField = forms.CharField(label='email', max_length=20)
-    tel_numField = forms.CharField(label='tel_num', max_length=21)
-    passwordField = forms.CharField(label='password', max_length=20)
+    username_field = forms.CharField(label='Имя пользователя', max_length=20)
+    email_field = forms.CharField(label='Email', max_length=20)
+    tel_num_field = forms.CharField(label='Номер телефона', max_length=21, required=False)

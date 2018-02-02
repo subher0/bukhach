@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.template import loader
 
 from bukhach.forms import IntervalForm, PeopleSearchForm, ProfileEditForm
@@ -15,11 +16,15 @@ def dashboard_view(request, humans = None):
     intervals = UserInterval.objects.filter(user=user)
     profile = Profile.objects.filter(user=user).first()
     friends = profile.friends.all()
+    form = ProfileEditForm(data={'username_field': user.username,
+                                 'email_field': user.email,
+                                 'tel_num_field': profile.tel_num})
     context = {
         'intervals': intervals,
         'profile': profile,
         'friends': friends,
-        'humans': humans
+        'humans': humans,
+        'form': form
     }
     return HttpResponse(template.render(context, request))
 
@@ -43,3 +48,21 @@ def people_search(request):
         l_name = name_list[1]
         humans = User.objects.filter(first_name=f_name, last_name=l_name)
         return dashboard_view(request, humans)
+
+
+def edit_profile(request):
+    if request.method == 'POST':
+        form = ProfileEditForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            profile = request.user.profile
+            profile.tel_num = form.cleaned_data['tel_num_field']
+            user.username = form.cleaned_data['username_field']
+            user.email = form.cleaned_data['email_field']
+            user.save()
+            profile.save()
+            return dashboard_view(request)
+        else:
+            return redirect('/dashboard')
+    else:
+        return redirect('/dashboard')

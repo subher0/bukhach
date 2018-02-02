@@ -1,0 +1,13 @@
+<input name="{{ field.name }}" value="{% if field.value %}{{ field.value }}{% endif %}"
+       type="{{ field.field.widget.input_type }}"
+       id="inputUsername"
+       class="form-control {% if error_message or field.errors %} is-invalid {% endif %}"
+       placeholder="{{ field.label }}"
+       {% if field.field.required %} required {% endif %} autofocus>
+{% if field.errors %}
+    <div class="invalid-feedback">
+        {% for error in field.errors %}
+            {{ error }}
+        {% endfor %}
+    </div>
+{% endif %}

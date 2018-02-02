@@ -22,14 +22,16 @@ def register_view(request, form=None):
 
 def register_user(request):
     if request.method == 'POST':
-        form = RegisterForm(request.POST)
+        form = RegisterForm(request.POST, request.FILES)
         if form.is_valid():
-            user = User.objects.create_user(form.cleaned_data['usernameField'],
-                                            form.cleaned_data['emailField'], form.cleaned_data['passwordField'])
-            user.first_name = form.cleaned_data['first_nameField']
-            user.last_name = form.cleaned_data['last_nameField']
+            user = User.objects.create_user(form.cleaned_data['username_field'],
+                                            form.cleaned_data['email_field'], form.cleaned_data['password_field'])
+            user.first_name = form.cleaned_data['first_name_field']
+            user.last_name = form.cleaned_data['last_name_field']
             user.save()
-            profile = Profile(user=user).save()
+            profile = Profile(user=user)
+            profile.avatar = form.cleaned_data['avatar_field']
+            profile.save()
             return redirect('/login')
         else:
             return register_view(request, form)
@@ -54,7 +56,7 @@ def login_user(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            user = authenticate(username = form.cleaned_data['usernameField'], password = form.cleaned_data['passwordField'])
+            user = authenticate(username = form.cleaned_data['username_field'], password = form.cleaned_data['password_field'])
             if user is not None:
                 if user.is_active:
                     login(request, user)
