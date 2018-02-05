@@ -49,15 +49,15 @@ def accept_interval(request):
 def people_search(request):
     form = PeopleSearchForm(request.GET)
     if form.is_valid():
-        name = form.cleaned_data['nameField']
-        name_list = name.split()
-        if len(name_list) == 1:
-            f_name = name_list[0]
-            humans = User.objects.filter(Q(first_name__icontains=f_name) | Q(last_name__icontains=f_name))
+        search_request = form.cleaned_data['nameField']
+        words = search_request.split()
+        if len(words) == 1:
+            name = words[0]
+            humans = User.objects.filter(Q(first_name__icontains=name) | Q(last_name__icontains=name))
             return dashboard_view(request, humans=humans)
-        elif len(name_list) == 2:
-            f_name = name_list[0]
-            l_name = name_list[1]
+        elif len(words) == 2:
+            f_name = words[0]
+            l_name = words[1]
             humans = User.objects.filter(first_name__icontains =f_name, last_name__icontains=l_name)
             return dashboard_view(request, humans=humans)
         else:
