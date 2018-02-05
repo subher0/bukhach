@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import loader
 
-from bukhach.forms import AddFriendForm
+from bukhach.forms import AddFriendForm, DeleteFriendForm
 from bukhach.models.profile_models import Profile
 
 
@@ -33,6 +33,21 @@ def add_friend(request):
             user_profile = Profile.objects.filter(user=request.user).first()
             friend_profile = Profile.objects.filter(id=form.cleaned_data['profile_id']).first()
             user_profile.friends.add(friend_profile)
+            return profile_view(request, form.cleaned_data['profile_id'])
+        else:
+            return redirect('/dashboard')
+    else:
+        return redirect('/dashboard')
+
+
+@login_required(login_url='/login')
+def delete_friend(request):
+    if request.method == 'POST':
+        form = DeleteFriendForm(request.POST)
+        if form.is_valid():
+            user_profile = Profile.objects.filter(user=request.user).first()
+            friend_profile = Profile.objects.filter(id=form.cleaned_data['profile_id']).first()
+            user_profile.friends.remove(friend_profile)
             return profile_view(request, form.cleaned_data['profile_id'])
         else:
             return redirect('/dashboard')

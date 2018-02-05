@@ -15,24 +15,12 @@
 
             {% if error_message %}<h3>{{ error_message }}</h3> {% endif %}
             {% for field in form.visible_fields %}
-                <label for="inputUsername" class="sr-only">Username</label>
-                <input name="{{ field.name }}" value="{% if field.value %}{{ field.value }}{% endif %}"
-                       type="{{ field.field.widget.input_type }}"
-                       id="inputUsername"
-                       class="form-control {% if error_message or field.errors %} is-invalid {% endif %}"
-                       placeholder="{{ field.label }}" required autofocus>
-                {% if field.errors %}
-                    <div class="invalid-feedback">
-                        {% for error in field.errors %}
-                            {{ error }}
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                {% include "bukhach/elements/form.html" %}
             {% endfor %}
 
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-            <a class="btn btn-lg btn-primary btn-block" role="button" href="/register">Join us</a>
-            <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+            <button class="btn btn-lg btn-primary btn-block mt-3" type="submit">Sign in</button>
+            <a class="btn btn-lg btn-primary btn-block mt-3" role="button" href="/register">Join us</a>
+            <p class="mt-3 mb-3 text-muted">&copy; 2017-2018</p>
         </form>
     </div>
 {% endblock content %}

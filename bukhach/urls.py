@@ -19,8 +19,12 @@ urlpatterns = [
     path(r'dashboard', dashboard_views.dashboard_view),
     path(r'add-interval', dashboard_views.accept_interval),
     path(r'people_search', dashboard_views.people_search),
+    path(r'edit_profile', dashboard_views.edit_profile),
+    path(r'edit_avatar', dashboard_views.edit_avatar),
+    path(r'edit_password', dashboard_views.edit_password),
 
     #social
     re_path(r'^profile/(?P<profileId>\d+)/$', social_views.profile_view),
     path(r'add_friend', social_views.add_friend),
+    path(r'delete_friend',social_views.delete_friend)
 ]

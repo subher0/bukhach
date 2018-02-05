@@ -1,0 +1,122 @@
+<div class="tab-pane fade" id="list-edit" role="tabpanel" aria-labelledby="list-edit-list">
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card-column mx-auto">
+
+                <!----------------------------------------- Аватарка ---------------------------------------->
+                <div class="card card_profile">
+
+                    <div class="card-header">
+                        <h4>Изменить фотографию:</h4>
+                    </div>
+                    <img class="card-img-top profile_avatar mx-auto" src="/media/{{ profile.avatar }}">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <form enctype="multipart/form-data" action="/edit_avatar" method="POST">{% csrf_token %}
+                                <input name="avatar_field" type="file"
+                                       id="avatar_field" value="{{ form.avatar_field.value }}"
+                                       class="form-control-file mb-3" required>
+                                <button type="submit" class="btn btn-primary mt-3">Сохранить изменения
+                                </button>
+                            </form>
+
+                            <hr>
+                        </h5>
+                        <p class="card-text">Пидор</p>
+                    </div>
+
+                </div>
+
+                <!----------------------------------------- Информация ---------------------------------------->
+                <div class="card card_profile mt-3 mb-3">
+
+                    <div class="card-header">
+                        <h4>Изменить основые данные:</h4>
+                    </div>
+
+                    <div class="card-body">
+                        <p class="card-title">
+
+                        <form enctype="multipart/form-data" action="/edit_profile" method="POST">{% csrf_token %}
+                            <div class="form-group">
+                                {% for field in form.visible_fields %}
+                                    <label for="{{ form.label }}">{{ field.label }}</label>
+                                    {% include "bukhach/elements/form.html" %}
+                                {% endfor %}
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block mt-3">Сохранить изменения</button>
+                        </form>
+
+                        </p>
+                    </div>
+
+                </div>
+
+                <!----------------------------------------- Пароль ---------------------------------------->
+                <div class="card card_profile mt-3 mb-3">
+                    <div class="card-header">
+                        <h4>Изменить Пароль:</h4>
+                    </div>
+
+                    <div class="card-body">
+                        <p class="card-title">
+
+
+                            <form enctype="multipart/form-data" action="/edit_password" method="POST">{% csrf_token %}
+                            <div class="form-group">
+                                {% for field in password_edit_form.visible_fields %}
+                                    <label for="{{ password_edit_form.label }}">{{ field.label }}</label>
+                                    {% include "bukhach/elements/form.html" %}
+                                {% endfor %}
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block mt-3">Изменить пароль</button>
+                        </form>
+
+
+                        </p>
+                    </div>
+                </div>
+
+                <!----------------------------------------- Удалить профиль ---------------------------------------->
+                <div class="card card_profile mt-3 mb-3">
+                    <div class="card-header">
+                        <h4>Удалить профиль:</h4>
+                    </div>
+
+                    <div class="card-body">
+                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#profile_delete">
+                            Удалить профиль
+                        </button>
+                    </div>
+                </div>
+
+
+                <!-------------------------------------------Modal----------------------------------------------------->
+                <div class="modal fade" id="profile_delete" tabindex="-1" role="dialog"
+                     aria-labelledby="profile_delete_title" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="profile_delete_title">Удалить профиль?</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                это действие удалит у хуям твой ненужный никому профиль с этого говносайта НАВСЕГДА
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                                <button type="button" class="btn btn-primary">Удалить(хуй те, эта функция пока не работает)</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

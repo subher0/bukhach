@@ -12,9 +12,14 @@ html {
     background-color: var(--font-color-l3);
 }
 
-.card {
+.card_index {
     border: 0px;
     background-color: transparent;
+}
+
+.card_profile {
+    max-width: 500px;
+    margin: auto;
 }
 
 body {
@@ -65,6 +70,7 @@ body {
     height: 50px;
     width: auto;
     border-radius: 50%;
+    background-color: transparent;
 }
 
 .error-message {
@@ -78,9 +84,11 @@ body {
     flex-direction: column;
     height: 100%;
 }
+
 .content {
     flex: 1 0 auto;
 }
+
 .footer {
     background-color: var(--font-color-l3);
     padding-top: 10px;
@@ -94,6 +102,11 @@ body {
     transition: 0.3s color;
 }
 
+.profile_avatar {
+    max-height: 500px;
+    max-width: 500px;
+    background-color: transparent;
+}
 .footer-link:hover {
     color: var(--background-color-d5);
     text-decoration: none;
