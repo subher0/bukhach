@@ -8,6 +8,7 @@ from bukhach.models.profile_models import Profile
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import check_password
+from django.db.models import Q
 
 
 @login_required(login_url='/login')
@@ -44,16 +45,23 @@ def accept_interval(request):
     return dashboard_view(request)
 
 
+#Временнная хуйня поправить!!11!1!1!1!!
 def people_search(request):
     form = PeopleSearchForm(request.GET)
     if form.is_valid():
         name = form.cleaned_data['nameField']
         name_list = name.split()
-        f_name = name_list[0]
-        l_name = name_list[1]
-        humans = User.objects.filter(first_name=f_name, last_name=l_name)
-        return dashboard_view(request, humans)
-
+        if len(name_list) == 1:
+            f_name = name_list[0]
+            humans = User.objects.filter(Q(first_name__icontains=f_name) | Q(last_name__icontains=f_name))
+            return dashboard_view(request, humans=humans)
+        elif len(name_list) == 2:
+            f_name = name_list[0]
+            l_name = name_list[1]
+            humans = User.objects.filter(first_name__icontains =f_name, last_name__icontains=l_name)
+            return dashboard_view(request, humans=humans)
+        else:
+            return redirect('/gtfo')
 
 def edit_profile(request):
     if request.method == 'POST':

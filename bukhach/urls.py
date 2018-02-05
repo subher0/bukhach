@@ -6,6 +6,7 @@ urlpatterns = [
     path(r'', page_views.index_view),
     path(r'match', page_views.match_view),
     path(r'gay', page_views.gay_view),
+    path(r'gtfo', page_views.fuck_yourself_view),
 
 
     #authentication

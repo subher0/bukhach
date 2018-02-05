@@ -58,3 +58,9 @@ def gay_view(request):
     template = loader.get_template('bukhach/GAY.html')
     context = {}
     return HttpResponse(template.render(context, request))
+
+
+def fuck_yourself_view(request):
+    template = loader.get_template('bukhach/GTFO/fuck_yourself.html')
+    context = {}
+    return HttpResponse(template.render(context, request))

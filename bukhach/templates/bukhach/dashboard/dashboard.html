@@ -78,60 +78,12 @@
                          role="tabpanel"
                          aria-labelledby="list-friends-list">
                         <div class="row">
-                            <!-------------------------------------Поиск людей----------------------------------------->
+
                             <div class="col-12">
                                 <div class="card-column mx-auto">
 
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h4>Поиск людей:</h4>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title">
-                                                <form class="pt-2" enctype="multipart/form-data" action="people_search"
-                                                      method="GET">{% csrf_token %}
-                                                    <div class="form-row align-items-center">
-                                                        <div class="col-auto">
-                                                            <input name="nameField" value="{{ form.nameField.value }}"
-                                                                   class="form-control"
-                                                                   type="text"
-                                                                   placeholder="Имя Фамилия"
-                                                                   aria-label="Search" required>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <button class="btn btn-primary" type="submit">
-                                                                Найти
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                                <hr>
-                                            </h5>
-                                            <p class="card-text">
-                                                {% if humans %}
-                                                    <h4 class="pt-3">Результаты поиска:</h4>
-                                                    <div class="row">
-                                                        {% for human in humans %}
-                                                            <div class="col-sm-6">
-                                                                <div class="media pt-4 justify-content-center">
-                                                                    <img class="d-inline-flex friend-avatar mr-2"
-                                                                         src="media/{{ human.profile.avatar }}"
-                                                                         alt="пидор">
-                                                                    <div class="media-body">
-                                                                        <h6>
-                                                                            <a href="/profile/{{ human.profile.id }}">{{ human.first_name }} {{ human.last_name }}</a>
-                                                                        </h6>
-                                                                        <p class="text-muted">{{ human.username }}</p>
-                                                                    </div>
-                                                                </div>
-                                                                <hr>
-                                                            </div>
-                                                        {% endfor %}
-                                                    </div>
-                                                    </p>
-                                                {% endif %}
-                                        </div>
-                                    </div>
+                                <!-----------------------------Поиск людей----!!!(СУПЕР--ВРЕМЕННЫЙ)!!!!--------------------->
+                                {% include "bukhach/dashboard/people_search.html" %}
 
                                     <!----------------------------------------- Друзья ---------------------------------------->
                                     <div class="card mt-3 mb-3">
