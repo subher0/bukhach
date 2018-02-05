@@ -1,9 +1,15 @@
-<input name="{{ field.name }}" value="{% if field.value %}{{ field.value }}{% endif %}"
-       type="{{ field.field.widget.input_type }}"
-       id="inputUsername"
-       class="form-control {% if error_message or field.errors %} is-invalid {% endif %}"
-       placeholder="{{ field.label }}"
-       {% if field.field.required %} required {% endif %} autofocus>
+<!-- Для поля с текстом -->
+{% if field.field.widget.template_name == 'django/forms/widgets/textarea.html' %}
+    <textarea rows="6"
+{% else %}
+    <!-- Остальные поля -->
+    <input {% endif %} name="{{ field.name }}" value="{% if field.value %}{{ field.value }}{% endif %}"
+                       type="{{ field.field.widget.input_type }}"
+                       id="{{ field.name }}"
+                       class="form-control{% if field.field.widget.template_name == 'django/forms/widgets/clearable_file_input.html' %}-file{% endif %} mb-3 {% if error_message or field.errors %} is-invalid "
+                       autofocus {% else %}"{% endif %}
+                        placeholder="{{ field.label }}"{% if field.field.required %} required {% endif %} >{% if field.field.widget.template_name == 'django/forms/widgets/textarea.html' %}{{ field.value }} </textarea>{% endif %}
+<!-- Фидбэк -->
 {% if field.errors %}
     <div class="invalid-feedback">
         {% for error in field.errors %}

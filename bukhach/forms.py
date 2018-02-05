@@ -37,3 +37,14 @@ class ProfileEditForm(forms.Form):
     username_field = forms.CharField(label='Имя пользователя', max_length=20)
     email_field = forms.CharField(label='Email', max_length=20)
     tel_num_field = forms.CharField(label='Номер телефона', max_length=21, required=False)
+    info_field = forms.CharField(label='О себе', required=False, widget=forms.Textarea)
+
+
+class AvatarEditForm(forms.Form):
+    avatar_field = forms.ImageField(required=False)
+
+
+class PasswordEditForm(forms.Form):
+    old_pass_field = forms.CharField(label='Текущий пароль', max_length=20, widget=forms.PasswordInput)
+    first_pass_field = forms.CharField(label='Новый пароль', max_length=20, widget=forms.PasswordInput)
+    second_pass_field = forms.CharField(label='Повторите новый пароль', max_length=20, widget=forms.PasswordInput)

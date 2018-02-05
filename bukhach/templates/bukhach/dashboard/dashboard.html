@@ -26,7 +26,7 @@
 
                 <div class="tab-content" id="nav-tabContent">
 
-                    <!-- Профиль -->
+                    <!--------------------------------------------- Профиль ------------------------------------------->
                     <div class="tab-pane fade {% if not humans %} show active {% endif %}" id="list-profile"
                          role="tabpanel"
                          aria-labelledby="list-profile-list">
@@ -49,9 +49,7 @@
                                         </h5>
                                         <p class="card-text pt-2">
                                             <strong>О себе :</strong>
-                                        <blockquote>
-                                            {{ profile.info }}
-                                        </blockquote>
+                                            <p style="white-space: pre-line">{{ profile.info }}</p>
                                         </p>
                                     </div>
                                 </div>
@@ -153,9 +151,7 @@
                                                                     <h6>
                                                                         <a href="/profile/{{ friend.user.profile.id }}">{{ friend.user.first_name }} {{ friend.user.last_name }}</a>
                                                                     </h6>
-                                                                    <p class="text-muted">
-                                                                        {{ friend.user.username }}
-                                                                    </p>
+                                                                    <p class="text-muted">{{ friend.user.username }}</p>
                                                                 </div>
                                                             </div>
                                                             <hr>
@@ -166,59 +162,59 @@
                                         </div>
                                     </div>
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!---------------------------------------------- Группы-------------------------------------------->
-                    <div class="tab-pane fade" id="list-crew" role="tabpanel" aria-labelledby="list-crew-list">
-                        gay
-                    </div>
-
-                    <!---------------------------------------------- Редактирование ----------------------------------->
-                   {% include "bukhach/dashboard/edit.html" %}
-
-                    <!-------------------------------------------- Интервалы Бухача ----------------------------------->
-                    <div class="tab-pane fade" id="list-interval" role="tabpanel"
-                         aria-labelledby="list-interval-list">
-                        <div class="row">
-
-                            <div class="col-12">
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button"
-                                        id="freeIntervals"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Когда ты свободен:
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="freeIntervals">
-                                        {% for interval in intervals %}
-                                            <button class="dropdown-item" type="button">
-                                                {{ interval.start_date }} - {{ interval.end_date }}
-                                            </button>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <h3>Введи дату и время начала и конца интервала, когда можешь бухать</h3><br>
-                                <form class="form-group" enctype="multipart/form-data" action="add-interval"
-                                    method="POST">{% csrf_token %}
-                                    <input name="start_interval" type="datetime-local" class="form-control"
-                                        placeholder="Начало"
-                                            required>
-                                    <input name="end_interval" type="datetime-local" class="form-control"
-                                           placeholder="Конец" required>
-                                    <button class="btn btn-lg btn-primary btn-block" type="submit">Добавить
-                                        интервал
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!---------------------------------------------- Группы-------------------------------------------->
+    <div class="tab-pane fade" id="list-crew" role="tabpanel" aria-labelledby="list-crew-list">
+        gay
+    </div>
+
+    <!---------------------------------------------- Редактирование ----------------------------------->
+    {% include "bukhach/dashboard/edit.html" %}
+
+    <!-------------------------------------------- Интервалы Бухача ----------------------------------->
+    <div class="tab-pane fade" id="list-interval" role="tabpanel"
+         aria-labelledby="list-interval-list">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                            id="freeIntervals"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Когда ты свободен:
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="freeIntervals">
+                        {% for interval in intervals %}
+                            <button class="dropdown-item" type="button">
+                                {{ interval.start_date }} - {{ interval.end_date }}
+                            </button>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <h3>Введи дату и время начала и конца интервала, когда можешь бухать</h3><br>
+                <form class="form-group" enctype="multipart/form-data" action="add-interval"
+                      method="POST">{% csrf_token %}
+                    <input name="start_interval" type="datetime-local" class="form-control"
+                           placeholder="Начало"
+                           required>
+                    <input name="end_interval" type="datetime-local" class="form-control"
+                           placeholder="Конец" required>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Добавить
+                        интервал
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
     </div>
 {% endblock content %}
