@@ -5,7 +5,7 @@
               class="form-control mb-3 {% if error_message or field.errors %} is-invalid"
               autofocus {% else %}"{% endif %}
     placeholder="{{ field.label }}"{% if field.field.required %}
-    required {% endif %}> {{ field.value }}
+    required {% endif %}>{{ field.value }}
     </textarea>
     <!------------------------------- File upload ---------------------------------------------->
 {% elif field.field.widget.template_name == 'django/forms/widgets/clearable_file_input.html' %}
