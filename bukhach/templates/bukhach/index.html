@@ -1,85 +1,87 @@
 {% extends "bukhach/general.html" %}
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+{% endblock styles %}
+
+{% block scripts %}
+{% endblock scripts %}
 {% block content %}
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 pt-3">
-                <h2 class="text-center">Я ТИБЯ ПА АЙПИ ВЫЧИСЛЮ, ТВОЙ АЙПИ УЖЕ В БАЗЕ: {{ ip }}</h2>
-            </div>
-            <div class="col-lg-4 pt-3">
-                <img src="img/alesha.png" class="img-fluid " alt="Пошел нахуй">
-            </div>
-            <div class="col-lg-7 justify-content-center align-self-center offset-md-1">
-                <p class="text-center ">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex
-                    ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                    eu fugiat
-                    nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                    mollit
-                    anim id est laborum.
-                </p>
-            </div>
-            <div class="col-lg-7 justify-content-center align-self-center">
-                <p class="text-center">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex
-                    ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                    eu fugiat
-                    nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                    mollit
-                    anim id est laborum.
-                </p>
-            </div>
-            <div class="col-lg-4 offset-md-1 pt-2">
-                <img src="img/farid.jpg" class="img-fluid img-thumbnail" alt="пошел нахуй">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-description">
+                        <h1 class="text-center">Сайт для планирования встреч с корешами</h1>
+                        <h4 class="">Сайт для назначения подбора подходящего интервала для встречи с твоими
+                            коршами.
+                            Все, что нужно сделать - это указать время, когда мамка отпускает тебя погулять и сайт
+                            автоматически подберет поцанов, которые тоже уже доделали домашку и могут выйти во двор</h4>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="col-lg-12">
+                        <h1 class="text-center">Сайт перешел на блокчейн технологию</h1>
+                        <h4 class="">Сайт перешел на блокчейн, вливайте свои бабосики, продавайте телевизор
+                            бабушки,
+                            тырьте деньги у родителей, не ешьте во время большой перемены - все деньги инвестируйте
+                            в
+                            этот
+                            сайт.
+                            Этот сайт - синергия мастерства, опыта и правости руководителей и работников!</h4>
+                    </div>
+                    <div class="col-lg-12">
+                        <h1 class="text-center">Идея для сайта</h1>
+                        <h4 class="">Идея для сайта пришла в светлейшие умы человеческой расы во время
+                            стрельбы по бездомным кошкам в бутово. Одного нашего кореша не было с нами, так как его
+                            посадили на
+                            30 суток за вандализм и он не утрудился нам об этом сообщить. Так и зародилась идея в
+                            наших
+                            разогнанных химической смесью на основе клея "Момент"(99%), сваренной Алешей, мозгах.
+                        </h4>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="col-lg-12">
+                        <h1 class="text-center">Наш топчик</h1>
+                        {% for profile in profiles %}
+                            {% if user.is_authenticated %}
+                                Username:
+                                <a href="/profile/{{ profile.id }}"><h3>{{ profile.user.username }}</h3></a>
+                            {% else %}
+                                <h3>Username: {{ profile.user.username }}</h3>
+                            {% endif %}
+                            <h3>Имя: {{ profile.user.first_name }} {{ profile.user.last_name }}</h3>
+                            <h3>Рейтинг: {{ profile.rating }}</h3>
+                            <hr>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="card-deck pt-5">
-            <div class="card card_index text-center bg-transparent">
-                <img class="card-img-top img-thumbnail" src="img/sasha.jpg">
-                <p class="card-text pt-2">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex
-                    ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                    eu fugiat
-                    nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                    mollit
-                    anim id est laborum.
-                </p>
-            </div>
-            <div class="card card_index text-center bg-transparent">
-                <img class="card-img-top img-thumbnail" src="img/we.jpg">
-                <p class="card-text pt-2">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex
-                    ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                    eu fugiat
-                    nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                    mollit
-                    anim id est laborum.
-                </p>
-            </div>
-            <div class="card card_index text-center bg-transparent">
-                <img class="card-img-top img-thumbnail" src="img/masha.jpg">
-                <p class="card-text pt-2">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex
-                    ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                    eu fugiat
-                    nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                    mollit
-                    anim id est laborum.
-                </p>
+    </div>
+    <div class="container-fluid section-news">
+        <div class="container">
+
+        </div>
+    </div>
+    <div class="container-fluid section-top-users">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="col-lg-12">
+                        <h1 class="text-center">Наш топчик</h1>
+                        {% for profile in profiles %}
+                            {% if user.is_authenticated %}
+                                Username: <a href="/profile/{{ profile.id }}"><h3>{{ profile.user.username }}</h3></a>
+                            {% else %}
+                                <h3>Username: {{ profile.user.username }}</h3>
+                            {% endif %}
+                            <h3>Имя: {{ profile.user.first_name }} {{ profile.user.last_name }}</h3>
+                            <h3>Рейтинг: {{ profile.rating }}</h3>
+                            <hr>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

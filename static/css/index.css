@@ -1,0 +1,13 @@
+.section-description {
+    padding: 10px;
+    border-bottom: 1px solid var(--background-color-d5);
+}
+
+.section-news {
+    padding: 10px;
+    border-bottom: 1px solid var(--font-color-l3);
+}
+
+.section-top-users {
+    padding: 10px;
+}
