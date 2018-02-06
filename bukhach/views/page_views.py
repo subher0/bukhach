@@ -65,3 +65,9 @@ def fuck_yourself_view(request):
     template = loader.get_template('bukhach/GTFO/fuck_yourself.html')
     context = {}
     return HttpResponse(template.render(context, request))
+
+
+def appeals_view(request):
+    template = loader.get_template('bukhach/appeals.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
