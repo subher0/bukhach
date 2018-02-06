@@ -19,6 +19,7 @@ html {
 
 .card_profile {
     max-width: 500px;
+    margin: auto;
 }
 
 body {
@@ -70,6 +71,7 @@ body {
     height: 50px;
     width: auto;
     border-radius: 50%;
+    background-color: transparent;
 }
 
 .error-message {
@@ -106,6 +108,7 @@ body {
 .profile_avatar {
     max-height: 500px;
     max-width: 500px;
+    background-color: transparent;
 }
 .footer-link:hover {
     color: var(--background-color-d5);
