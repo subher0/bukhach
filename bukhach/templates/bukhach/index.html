@@ -1,85 +1,61 @@
 {% extends "bukhach/general.html" %}
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+{% endblock styles %}
+
+{% block scripts %}
+{% endblock scripts %}
 {% block content %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 pt-3">
-                <h2 class="text-center">Я ТИБЯ ПА АЙПИ ВЫЧИСЛЮ, ТВОЙ АЙПИ УЖЕ В БАЗЕ: {{ ip }}</h2>
+    <div class="container-fluid full-screen-container">
+        <div class="row full-screen-container-row">
+            <div class="col-lg-6 section-description">
+                <div class="left-side-description">
+                    <span class="left-side-description-text"><i
+                            class="far fa-comments"></i> Заводи новые знакомства</span>
+                    <span class="left-side-description-text"><i class="far fa-calendar-check"></i> Создавай и планируй мероприятия</span>
+                    <span class="left-side-description-text"><i class="far fa-times-circle"></i> Антихайп</span>
+                </div>
             </div>
-            <div class="col-lg-4 pt-3">
-                <img src="img/alesha.png" class="img-fluid " alt="Пошел нахуй">
-            </div>
-            <div class="col-lg-7 justify-content-center align-self-center offset-md-1">
-                <p class="text-center ">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex
-                    ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                    eu fugiat
-                    nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                    mollit
-                    anim id est laborum.
-                </p>
-            </div>
-            <div class="col-lg-7 justify-content-center align-self-center">
-                <p class="text-center">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex
-                    ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                    eu fugiat
-                    nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                    mollit
-                    anim id est laborum.
-                </p>
-            </div>
-            <div class="col-lg-4 offset-md-1 pt-2">
-                <img src="img/farid.jpg" class="img-fluid img-thumbnail" alt="пошел нахуй">
-            </div>
-        </div>
-        <div class="card-deck pt-5">
-            <div class="card card_index text-center bg-transparent">
-                <img class="card-img-top img-thumbnail" src="img/sasha.jpg">
-                <p class="card-text pt-2">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex
-                    ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                    eu fugiat
-                    nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                    mollit
-                    anim id est laborum.
-                </p>
-            </div>
-            <div class="card card_index text-center bg-transparent">
-                <img class="card-img-top img-thumbnail" src="img/we.jpg">
-                <p class="card-text pt-2">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex
-                    ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                    eu fugiat
-                    nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                    mollit
-                    anim id est laborum.
-                </p>
-            </div>
-            <div class="card card_index text-center bg-transparent">
-                <img class="card-img-top img-thumbnail" src="img/masha.jpg">
-                <p class="card-text pt-2">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex
-                    ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                    eu fugiat
-                    nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                    mollit
-                    anim id est laborum.
-                </p>
+            <div class="col-lg-6 full-screen-container">
+                <div class="login-form-box">
+                    <form class="landing-login-form" enctype="multipart/form-data" action="login_user"
+                          method="POST">{% csrf_token %}
+                        <input name="username_field" type="text" class="landing-form-field" placeholder="Username"
+                               required>
+                        <input name="password_field" type="password" class="landing-form-field" placeholder="Пароль"
+                               required>
+                        <button class="landing-button" type="submit">Войти</button>
+                    </form>
+                </div>
+                <div class="registration-box-wrapper">
+                    <div class="registration-box">
+                        <div class="prompt-box">
+                            <div class="logo"></div>
+                            <div class="heading-text-wrapper">
+                                <span class="heading-text">Не тормози, зарегистрируйся прямо сейчас и получи пизды</span>
+                            </div>
+                            <div class="prompt-text-wrapper">
+                                <span class="prompt-text">Присоединяйся прямо сейчас</span>
+                            </div>
+                        </div>
+                        <form class="landing-register-form" enctype="multipart/form-data" action="register_user"
+                              method="POST">{% csrf_token %}
+                            <input name="username_field" type="text" class="landing-form-field registration-field"
+                                   placeholder="Username"
+                                   required>
+                            <input name="first_name_field" type="text" class="landing-form-field registration-field"
+                                   placeholder="Имя"
+                                   required>
+                            <input name="last_name_field" type="text" class="landing-form-field registration-field"
+                                   placeholder="Фамилия"
+                                   required>
+                            <input name="password_field" type="password" class="landing-form-field registration-field"
+                                   placeholder="Пароль"
+                                   required>
+                            <button class="landing-button" type="submit">Зарегистрироваться</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

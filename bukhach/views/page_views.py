@@ -13,8 +13,9 @@ from bukhach.models.profile_models import Profile
 
 def index_view(request):
     template = loader.get_template('bukhach/index.html')
+    profiles = Profile.objects.order_by('-rating', 'user__username')[:5]
     context = {
-        "ip": request.META['HTTP_X_REAL_IP']
+        'profiles': profiles
     }
     return HttpResponse(template.render(context, request))
 

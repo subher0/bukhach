@@ -27,6 +27,7 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     height: 100%;
+    font-family: 'Roboto', sans-serif;
 }
 
 .d-inline-flex {
@@ -87,6 +88,8 @@ body {
 
 .content {
     flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .footer {
@@ -114,4 +117,8 @@ body {
 
 .footer-text {
     color: var(--background-color-d2);
+}
+
+:focus {
+    outline: none;
 }
