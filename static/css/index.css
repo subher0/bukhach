@@ -1,13 +1,119 @@
 .section-description {
     padding: 10px;
-    border-bottom: 1px solid var(--background-color-d5);
+    background-image: url("/img/description_background.jpg");
+    background-size: cover;
+    min-height: 100px;
+    justify-content: space-around;
+    display: flex;
+    flex: 1 0 auto;
 }
 
-.section-news {
-    padding: 10px;
-    border-bottom: 1px solid var(--font-color-l3);
+.full-screen-container {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
 }
 
-.section-top-users {
+.full-screen-container-row {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: row;
+}
+
+.left-side-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.left-side-description-text {
+    color: var(--background-color);
+    font-size: 1.5em;
+    font-family: "Roboto", sans-serif;
+    font-kerning: normal;
+    margin: 24px 0;
+    font-weight: 100;
+}
+
+.login-form-box {
+    margin-top: 15px;
     padding: 10px;
+}
+
+.landing-login-form {
+    float: right;
+}
+
+.landing-form-field {
+    background-color: var(--background-color);
+    height: 40px;
+    margin: 5px 10px;
+    border: 1px solid var(--design-color);
+    border-radius: 5px;
+    padding: 0 5px;
+    color: var(--font-color-d1);
+    font-kerning: normal;
+}
+
+::placeholder {
+    color: var(--font-color-l4);
+}
+
+.landing-button {
+    background-color: var(--background-color);
+    height: 40px;
+    margin: 5px 10px;
+    border: 1px solid var(--design-color);
+    border-radius: 15px;
+    padding: 0 15px;
+    color: var(--font-color-d1);
+    cursor: pointer;
+    transition: background-color, 0.4s;
+    font-kerning: normal;
+}
+
+.landing-button:hover {
+    background-color: var(--design-color);
+    border: 1px solid var(--background-color);
+    color: var(--background-color);
+}
+
+.registration-box-wrapper {
+    margin-top: 40px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.registration-box {
+    max-width: 320px;
+}
+
+.registration-field {
+    width: 100%;
+}
+
+.logo {
+    margin: 0 auto;
+    background-image: url("/img/logo.svg");
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+}
+
+.heading-text-wrapper {
+    padding: 5px;
+}
+
+.heading-text {
+    font-size: 1.6em;
+    line-height: normal;
+}
+
+.prompt-text-wrapper {
+    padding: 5px;
+}
+
+.prompt-text {
+    font-size: 1.2em;
 }

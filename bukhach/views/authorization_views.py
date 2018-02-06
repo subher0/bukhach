@@ -24,15 +24,22 @@ def register_user(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST, request.FILES)
         if form.is_valid():
-            user = User.objects.create_user(form.cleaned_data['username_field'],
-                                            form.cleaned_data['email_field'], form.cleaned_data['password_field'])
+            try:
+                user = User.objects.create_user(form.cleaned_data['username_field'],
+                                                form.cleaned_data['email_field'], form.cleaned_data['password_field'])
+            except:
+                return redirect('/register')
+
             user.first_name = form.cleaned_data['first_name_field']
             user.last_name = form.cleaned_data['last_name_field']
             user.save()
+
             profile = Profile(user=user)
-            profile.avatar = form.cleaned_data['avatar_field']
+            if form.cleaned_data['avatar_field'] is not None:
+                profile.avatar = form.cleaned_data['avatar_field']
             profile.save()
-            return redirect('/login')
+            login(request, user)
+            return redirect('/dashboard')
         else:
             return register_view(request, form)
     else:

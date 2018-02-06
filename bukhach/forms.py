@@ -5,9 +5,9 @@ class RegisterForm(forms.Form):
     first_name_field = forms.CharField(label='Имя', max_length=20)
     last_name_field = forms.CharField(label='Фамилия', max_length=20)
     username_field = forms.CharField(label='Имя пользователя', max_length=20)
-    email_field = forms.CharField(label='Email', max_length=20)
+    email_field = forms.CharField(label='Email', max_length=20, required=False)
     password_field = forms.CharField(label='Пароль', max_length=20, widget=forms.PasswordInput)
-    tel_num_field = forms.CharField(label='Номер телефона', max_length=21)
+    tel_num_field = forms.CharField(label='Номер телефона', max_length=21, required=False)
     avatar_field = forms.ImageField(required=False)
 
 

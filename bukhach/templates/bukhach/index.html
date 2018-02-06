@@ -6,80 +6,54 @@
 {% block scripts %}
 {% endblock scripts %}
 {% block content %}
-    <div class="container-fluid">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-description">
-                        <h1 class="text-center">Сайт для планирования встреч с корешами</h1>
-                        <h4 class="">Сайт для назначения подбора подходящего интервала для встречи с твоими
-                            коршами.
-                            Все, что нужно сделать - это указать время, когда мамка отпускает тебя погулять и сайт
-                            автоматически подберет поцанов, которые тоже уже доделали домашку и могут выйти во двор</h4>
-                    </div>
-                </div>
-                <div class="col-lg-8">
-                    <div class="col-lg-12">
-                        <h1 class="text-center">Сайт перешел на блокчейн технологию</h1>
-                        <h4 class="">Сайт перешел на блокчейн, вливайте свои бабосики, продавайте телевизор
-                            бабушки,
-                            тырьте деньги у родителей, не ешьте во время большой перемены - все деньги инвестируйте
-                            в
-                            этот
-                            сайт.
-                            Этот сайт - синергия мастерства, опыта и правости руководителей и работников!</h4>
-                    </div>
-                    <div class="col-lg-12">
-                        <h1 class="text-center">Идея для сайта</h1>
-                        <h4 class="">Идея для сайта пришла в светлейшие умы человеческой расы во время
-                            стрельбы по бездомным кошкам в бутово. Одного нашего кореша не было с нами, так как его
-                            посадили на
-                            30 суток за вандализм и он не утрудился нам об этом сообщить. Так и зародилась идея в
-                            наших
-                            разогнанных химической смесью на основе клея "Момент"(99%), сваренной Алешей, мозгах.
-                        </h4>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="col-lg-12">
-                        <h1 class="text-center">Наш топчик</h1>
-                        {% for profile in profiles %}
-                            {% if user.is_authenticated %}
-                                Username:
-                                <a href="/profile/{{ profile.id }}"><h3>{{ profile.user.username }}</h3></a>
-                            {% else %}
-                                <h3>Username: {{ profile.user.username }}</h3>
-                            {% endif %}
-                            <h3>Имя: {{ profile.user.first_name }} {{ profile.user.last_name }}</h3>
-                            <h3>Рейтинг: {{ profile.rating }}</h3>
-                            <hr>
-                        {% endfor %}
-                    </div>
+    <div class="container-fluid full-screen-container">
+        <div class="row full-screen-container-row">
+            <div class="col-lg-6 section-description">
+                <div class="left-side-description">
+                    <span class="left-side-description-text"><i
+                            class="far fa-comments"></i> Заводи новые знакомства</span>
+                    <span class="left-side-description-text"><i class="far fa-calendar-check"></i> Создавай и планируй мероприятия</span>
+                    <span class="left-side-description-text"><i class="far fa-times-circle"></i> Антихайп</span>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="container-fluid section-news">
-        <div class="container">
-
-        </div>
-    </div>
-    <div class="container-fluid section-top-users">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="col-lg-12">
-                        <h1 class="text-center">Наш топчик</h1>
-                        {% for profile in profiles %}
-                            {% if user.is_authenticated %}
-                                Username: <a href="/profile/{{ profile.id }}"><h3>{{ profile.user.username }}</h3></a>
-                            {% else %}
-                                <h3>Username: {{ profile.user.username }}</h3>
-                            {% endif %}
-                            <h3>Имя: {{ profile.user.first_name }} {{ profile.user.last_name }}</h3>
-                            <h3>Рейтинг: {{ profile.rating }}</h3>
-                            <hr>
-                        {% endfor %}
+            <div class="col-lg-6 full-screen-container">
+                <div class="login-form-box">
+                    <form class="landing-login-form" enctype="multipart/form-data" action="login_user"
+                          method="POST">{% csrf_token %}
+                        <input name="username_field" type="text" class="landing-form-field" placeholder="Username"
+                               required>
+                        <input name="password_field" type="password" class="landing-form-field" placeholder="Пароль"
+                               required>
+                        <button class="landing-button" type="submit">Войти</button>
+                    </form>
+                </div>
+                <div class="registration-box-wrapper">
+                    <div class="registration-box">
+                        <div class="prompt-box">
+                            <div class="logo"></div>
+                            <div class="heading-text-wrapper">
+                                <span class="heading-text">Не тормози, зарегистрируйся прямо сейчас и получи пизды</span>
+                            </div>
+                            <div class="prompt-text-wrapper">
+                                <span class="prompt-text">Присоединяйся прямо сейчас</span>
+                            </div>
+                        </div>
+                        <form class="landing-register-form" enctype="multipart/form-data" action="register_user"
+                              method="POST">{% csrf_token %}
+                            <input name="username_field" type="text" class="landing-form-field registration-field"
+                                   placeholder="Username"
+                                   required>
+                            <input name="first_name_field" type="text" class="landing-form-field registration-field"
+                                   placeholder="Имя"
+                                   required>
+                            <input name="last_name_field" type="text" class="landing-form-field registration-field"
+                                   placeholder="Фамилия"
+                                   required>
+                            <input name="password_field" type="password" class="landing-form-field registration-field"
+                                   placeholder="Пароль"
+                                   required>
+                            <button class="landing-button" type="submit">Зарегистрироваться</button>
+                        </form>
                     </div>
                 </div>
             </div>
