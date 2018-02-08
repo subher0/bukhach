@@ -1,14 +1,14 @@
 from collections import defaultdict
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponse
 from django.template import loader
-
+from bukhach.models.profile_models import Profile
 from bukhach.models.matcher_models import UserInterval
 from bukhach.utils.matcher_utils import UsersToInterval, IntervalAsDatetime
-
-from bukhach.models.profile_models import Profile
+from rest_framework import viewsets
+from bukhach.serializers import UserSerializer, GroupSerializer
 
 
 def index_view(request):
@@ -71,3 +71,13 @@ def appeals_view(request):
     template = loader.get_template('bukhach/appeals.html')
     context = {}
     return HttpResponse(template.render(context, request))
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
