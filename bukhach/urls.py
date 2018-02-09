@@ -1,11 +1,11 @@
 from django.conf.urls import url, include
 from rest_framework import routers
-from bukhach.views import page_views, authorization_views, dashboard_views, social_views
+from bukhach.views import page_views, authorization_views, dashboard_views, social_views, view_sets
 from django.urls import path, re_path
 
 router = routers.DefaultRouter()
-router.register(r'users', page_views.UserViewSet)
-router.register(r'groups', page_views.GroupViewSet)
+router.register(r'users', view_sets.UserViewSet)
+router.register(r'groups', view_sets.GroupViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),
