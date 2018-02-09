@@ -48,3 +48,4 @@ class PasswordEditForm(forms.Form):
     old_pass_field = forms.CharField(label='Текущий пароль', max_length=20, widget=forms.PasswordInput)
     first_pass_field = forms.CharField(label='Новый пароль', max_length=20, widget=forms.PasswordInput)
     second_pass_field = forms.CharField(label='Повторите новый пароль', max_length=20, widget=forms.PasswordInput)
+

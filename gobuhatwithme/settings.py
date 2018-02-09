@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bukhach',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
