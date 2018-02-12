@@ -2,14 +2,9 @@ from django.conf.urls import url, include
 from rest_framework import routers
 from bukhach.views import page_views, authorization_views, dashboard_views, social_views, view_sets
 from django.urls import path, re_path
-
-router = routers.DefaultRouter()
-router.register(r'users', view_sets.UserViewSet)
-router.register(r'groups', view_sets.GroupViewSet)
+from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 
 urlpatterns = [
-    url(r'^', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path(r'', page_views.index_view),
     path(r'match', page_views.match_view),
     path(r'gay', page_views.gay_view),
@@ -32,7 +27,13 @@ urlpatterns = [
     path(r'edit_password', dashboard_views.edit_password),
 
     # social
-    re_path(r'^profile/(?P<profileId>\d+)/$', social_views.profile_view),
+    re_path(r'profile/(?P<profileId>\d+)/$', social_views.profile_view),
     path(r'add_friend', social_views.add_friend),
-    path(r'delete_friend', social_views.delete_friend)
+    path(r'delete_friend', social_views.delete_friend),
+
+    #rest_framework
+    url(r'^api-token-auth/', obtain_jwt_token),
+    url(r'^api-token-refresh/', refresh_jwt_token),
+    url(r'^api-token-verify/', verify_jwt_token),
+    path(r'v1/profile', view_sets.ProfileView.as_view())
 ]
