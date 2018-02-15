@@ -35,5 +35,4 @@ class ProfileView(GenericAPIView):
                              'rating': profile.rating,
                              'avatar': str(profile.avatar)
                              })
-        #response['Access-Control-Allow-Origin'] = 'http://176.112.233.43:3000'
         return response
