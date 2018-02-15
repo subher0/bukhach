@@ -23,7 +23,17 @@ class ProfileView(GenericAPIView):
     serializer_class = ProfileSerializer
 
     def get(self, request):
-        profile = Profile.objects.filter(user = request.user).first()
-        response = Response({'first_name': profile.user.first_name})
-        response['Access-Control-Allow-Origin'] = 'http://176.112.233.43:3000'
+        profile = Profile.objects.filter(user=request.user).first()
+        print(profile.avatar)
+        print(profile.user.first_name)
+        response = Response({'first_name': profile.user.first_name,
+                             'last_name': profile.user.last_name,
+                             'username': profile.user.username,
+                             'email': profile.user.email,
+                             'info': profile.info,
+                             'tel_num': profile.tel_num,
+                             'rating': profile.rating,
+                             'avatar': str(profile.avatar)
+                             })
+        #response['Access-Control-Allow-Origin'] = 'http://176.112.233.43:3000'
         return response
