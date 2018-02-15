@@ -32,8 +32,8 @@ urlpatterns = [
     path(r'delete_friend', social_views.delete_friend),
 
     #rest_framework
-    url(r'^api-token-auth/', obtain_jwt_token),
-    url(r'^api-token-refresh/', refresh_jwt_token),
-    url(r'^api-token-verify/', verify_jwt_token),
-    path(r'v1/profile', view_sets.ProfileView.as_view())
+    url(r'^api/v1/token-auth/', obtain_jwt_token),
+    url(r'^api/v1/token-refresh/', refresh_jwt_token),
+    url(r'^api/v1/token-verify/', verify_jwt_token),
+    path(r'api/v1/profile', view_sets.ProfileView.as_view())
 ]
