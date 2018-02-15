@@ -1,5 +1,5 @@
-from rest_framework import viewsets
-from rest_framework.generics import GenericAPIView
+from rest_framework import viewsets, status
+from rest_framework.generics import GenericAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -36,3 +36,16 @@ class ProfileView(GenericAPIView):
                              'avatar': str(profile.avatar)
                              })
         return response
+
+
+class RegistrationView(CreateAPIView):
+
+    def post(self, request, *args, **kwargs):
+        serializer_class = UserSerializer(data=request.data)
+        if serializer_class.is_valid():
+            user = serializer_class.save()
+            if user:
+                return Response(serializer_class.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer_class.errors)
+        return Response(serializer_class.errors)
