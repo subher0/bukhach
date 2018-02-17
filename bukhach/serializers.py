@@ -5,27 +5,9 @@ from bukhach.models.profile_models import Profile
 
 
 class UserSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(
-        required=True,
-        validators=[UniqueValidator(queryset=User.objects.all())]
-    )
-    username = serializers.CharField(
-        validators=[UniqueValidator(queryset=User.objects.all())]
-    )
-    password = serializers.CharField(min_length=8)
-
-    def create(self, validated_data):
-        user = User.objects.create_user(username=validated_data['username'], email=validated_data['email'],password=validated_data['password'])
-        user.first_name = validated_data['first_name']
-        user.last_name = validated_data['last_name']
-        user.save()
-        profile = Profile(user=user)
-        profile.save()
-        return user, profile
-
     class Meta:
         model = User
-        fields = ('username', 'email', 'first_name', 'last_name', 'password')
+        fields = ('first_name', 'last_name', 'password', 'username')
 
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
@@ -34,7 +16,15 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'username')
 
 
-class ProfileSerializer(serializers.HyperlinkedModelSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    def create(self, validated_data):
+        user_data = validated_data.pop('user')
+        validated_data['user'] = User.objects.create(**user_data)
+        profile = Profile.objects.create(**validated_data)
+        return profile
+
     class Meta:
         model = Profile
-        fields = ('user', 'url', 'info', 'tel_num', 'avatar', 'rating')
+        fields = ('user', 'info', 'tel_num', 'avatar', 'rating')

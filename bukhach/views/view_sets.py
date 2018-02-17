@@ -1,8 +1,9 @@
 from rest_framework import viewsets, status
 from rest_framework.generics import GenericAPIView, CreateAPIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
+from bukhach.permissions.is_authenticated_or_write_only import IsAuthenticatedOrWriteOnly
 from bukhach.serializers import UserSerializer, GroupSerializer, ProfileSerializer
 from django.contrib.auth.models import User, Group
 from bukhach.models.profile_models import Profile
@@ -19,29 +20,29 @@ class GroupViewSet(viewsets.ModelViewSet):
 
 
 class ProfileView(GenericAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
     serializer_class = ProfileSerializer
 
     def get(self, request):
-        profile = Profile.objects.filter(user=request.user).first()
-        print(profile.avatar)
-        print(profile.user.first_name)
-        response = Response({'first_name': profile.user.first_name,
-                             'last_name': profile.user.last_name,
-                             'username': profile.user.username,
-                             'email': profile.user.email,
-                             'info': profile.info,
-                             'tel_num': profile.tel_num,
-                             'rating': profile.rating,
-                             'avatar': str(profile.avatar)
-                             })
+        profiles = Profile.objects.all()
+        content = []
+        for profile in profiles:
+            element = {'first_name': profile.user.first_name,
+                 'last_name': profile.user.last_name,
+                 'username': profile.user.username,
+                 'email': profile.user.email,
+                 'info': profile.info,
+                 'tel_num': profile.tel_num,
+                 'rating': profile.rating,
+                 'avatar': str(profile.avatar)
+             }
+            content.append(element)
+
+        response = Response(content)
         return response
 
-
-class RegistrationView(CreateAPIView):
-
     def post(self, request, *args, **kwargs):
-        serializer_class = UserSerializer(data=request.data)
+        serializer_class = ProfileSerializer(data=request.data)
         if serializer_class.is_valid():
             user = serializer_class.save()
             if user:
