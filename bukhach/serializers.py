@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 from bukhach.models.profile_models import Profile
-from bukhach.serializers import UserSerializer
 
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
@@ -11,7 +10,6 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
-    user = UserSerializer()
 
     class Meta:
         model = Profile

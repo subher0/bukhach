@@ -47,7 +47,7 @@ class ProfileSearchView(viewsets.ViewSet):
         words = name.split()
         if len(words) == 1:
             name = words[0]
-            queryset = User.objects.filter(Q(first_name__icontains=name) | Q(last_name__icontains=name))
+            queryset = User.objects.filter(Q(first_name__icontains=name) | Q(last_name__icontains=name)).all()
             serializer_context = {
                 'request': request,
             }
@@ -56,7 +56,7 @@ class ProfileSearchView(viewsets.ViewSet):
         elif len(words) == 2:
             f_name = words[0]
             l_name = words[1]
-            queryset = User.objects.filter(first_name__icontains=f_name, last_name__icontains=l_name)
+            queryset = User.objects.filter(first_name__icontains=f_name, last_name__icontains=l_name).all()
             serializer_context = {
                 'request': request,
             }
