@@ -3,6 +3,13 @@ from rest_framework import serializers
 from bukhach.models.profile_models import Profile
 
 
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'first_name', 'last_name')
+
+
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Group
@@ -10,15 +17,8 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
+    user = UserSerializer()
 
     class Meta:
         model = Profile
-        fields = ('info', 'tel_num', 'avatar', 'rating')
-
-
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    profile = ProfileSerializer()
-
-    class Meta:
-        model = User
-        fields = ('username', 'email', 'first_name', 'last_name', 'profile')
+        fields = ('info', 'tel_num', 'avatar', 'rating', 'user')

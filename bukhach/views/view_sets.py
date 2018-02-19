@@ -43,22 +43,42 @@ class ProfileSearchView(viewsets.ViewSet):
     permission_classes = (IsAuthenticated,)
 
     def get(self,request):
+        content = []
         name = request.GET.get('name')
-        words = name.split()
-        if len(words) == 1:
-            name = words[0]
-            queryset = User.objects.filter(Q(first_name__icontains=name) | Q(last_name__icontains=name)).all()
-            serializer_context = {
-                'request': request,
-            }
-            serializer_class = UserSerializer(queryset, context=serializer_context)
-            return Response(serializer_class.data)
-        elif len(words) == 2:
-            f_name = words[0]
-            l_name = words[1]
-            queryset = User.objects.filter(first_name__icontains=f_name, last_name__icontains=l_name).all()
-            serializer_context = {
-                'request': request,
-            }
-            serializer_class = UserSerializer(queryset, context=serializer_context, many=True)
-            return Response(serializer_class.data)
+        if name == '':
+            return Response('gay')
+        else:
+            words = name.split()
+            if len(words) == 1:
+                name = words[0]
+                users = User.objects.filter(Q(first_name__icontains=name) | Q(last_name__icontains=name))
+                for user in users:
+                    element = {'first_name': user.first_name,
+                               'last_name': user.last_name,
+                               'username': user.username,
+                               'email': user.email,
+                               'info': user.profile.info,
+                               'tel_num': user.profile.tel_num,
+                               'rating': user.profile.rating,
+                               'avatar': str(user.profile.avatar)
+                               }
+                    content.append(element)
+                response = Response(content)
+                return response
+            elif len(words) == 2:
+                f_name = words[0]
+                l_name = words[1]
+                users = User.objects.filter(first_name__icontains=f_name, last_name__icontains=l_name)
+                for user in users:
+                    element = {'first_name': user.first_name,
+                               'last_name': user.last_name,
+                               'username': user.username,
+                               'email': user.email,
+                               'info': user.profile.info,
+                               'tel_num': user.profile.tel_num,
+                               'rating': user.profile.rating,
+                               'avatar': str(user.profile.avatar)
+                               }
+                    content.append(element)
+                response = Response(content)
+                return response
