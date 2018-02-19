@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
 from bukhach.permissions.is_authenticated_or_write_only import IsAuthenticatedOrWriteOnly
-from bukhach.serializers import UserSerializer, GroupSerializer, ProfileSerializer
+from bukhach.serializers import UserSerializer, GroupSerializer, RegisterUser
 from django.contrib.auth.models import User, Group
 from bukhach.models.profile_models import Profile
 
@@ -21,10 +21,10 @@ class GroupViewSet(viewsets.ModelViewSet):
 
 class ProfileView(GenericAPIView):
     permission_classes = (AllowAny,)
-    serializer_class = ProfileSerializer
+    serializer_class = RegisterUser
 
     def get(self, request):
-        profiles = Profile.objects.all()
+        profiles = Profile.objects.filter(user=request.user)
         content = []
         for profile in profiles:
             element = {'first_name': profile.user.first_name,
@@ -41,8 +41,12 @@ class ProfileView(GenericAPIView):
         response = Response(content)
         return response
 
+
+class RegisterView(CreateAPIView):
+    permission_classes = (AllowAny,)
+
     def post(self, request, *args, **kwargs):
-        serializer_class = ProfileSerializer(data=request.data)
+        serializer_class = RegisterUser(data=request.data)
         if serializer_class.is_valid():
             user = serializer_class.save()
             if user:

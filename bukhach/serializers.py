@@ -16,7 +16,7 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'username')
 
 
-class ProfileSerializer(serializers.ModelSerializer):
+class RegisterUser(serializers.ModelSerializer):
     user = UserSerializer()
 
     def create(self, validated_data):
