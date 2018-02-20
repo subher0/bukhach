@@ -16,6 +16,8 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'username')
 
 
+
+
 class RegisterUser(serializers.ModelSerializer):
     user = UserSerializer()
 

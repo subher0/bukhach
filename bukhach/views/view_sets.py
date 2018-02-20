@@ -20,25 +20,22 @@ class GroupViewSet(viewsets.ModelViewSet):
 
 
 class ProfileView(GenericAPIView):
-    permission_classes = (AllowAny,)
-    serializer_class = RegisterUser
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ProfileSerializer
 
     def get(self, request):
-        profiles = Profile.objects.filter(user=request.user)
-        content = []
-        for profile in profiles:
-            element = {'first_name': profile.user.first_name,
-                 'last_name': profile.user.last_name,
-                 'username': profile.user.username,
-                 'email': profile.user.email,
-                 'info': profile.info,
-                 'tel_num': profile.tel_num,
-                 'rating': profile.rating,
-                 'avatar': str(profile.avatar)
-             }
-            content.append(element)
-
-        response = Response(content)
+        profile = Profile.objects.filter(user=request.user).first()
+        print(profile.avatar)
+        print(profile.user.first_name)
+        response = Response({'first_name': profile.user.first_name,
+                             'last_name': profile.user.last_name,
+                             'username': profile.user.username,
+                             'email': profile.user.email,
+                             'info': profile.info,
+                             'tel_num': profile.tel_num,
+                             'rating': profile.rating,
+                             'avatar': str(profile.avatar)
+                             })
         return response
 
 
