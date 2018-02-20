@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from rest_framework.validators import UniqueValidator
 from bukhach.models.profile_models import Profile
 
 
@@ -17,15 +16,7 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'username')
 
 
-class ProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
-
-    class Meta:
-        model = Profile
-        fields = ('info', 'tel_num', 'avatar', 'rating', 'user')
-
-
-class RegisterUserSerializer(serializers.ModelSerializer):
+class ProfileSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer()
 
     def create(self, validated_data):

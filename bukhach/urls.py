@@ -36,4 +36,5 @@ urlpatterns = [
     url(r'^api/v1/token-refresh/', refresh_jwt_token),
     url(r'^api/v1/token-verify/', verify_jwt_token),
     path(r'api/v1/profile', view_sets.ProfileView.as_view()),
+    path(r'api/v1/profile_search', view_sets.ProfileSearchView.as_view({'get': 'get'}))
 ]
