@@ -3,6 +3,7 @@ from rest_framework.generics import GenericAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
+from bukhach.permissions.is_authenticated_or_write_only import IsAuthenticatedOrWriteOnly
 from bukhach.serializers import UserSerializer, GroupSerializer,  ProfileSerializer, RegisterUserSerializer
 from django.contrib.auth.models import User, Group
 from bukhach.models.profile_models import Profile
@@ -19,7 +20,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
 
 class ProfileView(GenericAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrWriteOnly,)
     serializer_class = ProfileSerializer
 
     def get(self, request):
@@ -36,11 +37,6 @@ class ProfileView(GenericAPIView):
                              'avatar': str(profile.avatar)
                              })
         return response
-
-
-class RegisterView(CreateAPIView):
-    permission_classes = (AllowAny,)
-    serializer_class = RegisterUserSerializer
 
     def post(self, request, *args, **kwargs):
         serializer_class = RegisterUserSerializer(data=request.data)
