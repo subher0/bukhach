@@ -20,12 +20,6 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
 
-    def create(self, validated_data):
-        user_data = validated_data.pop('user')
-        validated_data['user'] = User.objects.create(**user_data)
-        profile = Profile.objects.create(**validated_data)
-        return profile
-
     class Meta:
         model = Profile
         fields = ('info', 'tel_num', 'avatar', 'rating', 'user')
