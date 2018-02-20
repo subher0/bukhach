@@ -3,8 +3,7 @@ from rest_framework.generics import GenericAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
-from bukhach.permissions.is_authenticated_or_write_only import IsAuthenticatedOrWriteOnly
-from bukhach.serializers import UserSerializer, GroupSerializer, RegisterUser
+from bukhach.serializers import UserSerializer, GroupSerializer,  ProfileSerializer, RegisterUserSerializer
 from django.contrib.auth.models import User, Group
 from bukhach.models.profile_models import Profile
 
@@ -41,9 +40,10 @@ class ProfileView(GenericAPIView):
 
 class RegisterView(CreateAPIView):
     permission_classes = (AllowAny,)
+    serializer_class = RegisterUserSerializer
 
     def post(self, request, *args, **kwargs):
-        serializer_class = RegisterUser(data=request.data)
+        serializer_class = RegisterUserSerializer(data=request.data)
         if serializer_class.is_valid():
             user = serializer_class.save()
             if user:
