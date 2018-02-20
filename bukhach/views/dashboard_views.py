@@ -63,6 +63,7 @@ def people_search(request):
         else:
             return redirect('/gtfo')
 
+
 def edit_profile(request):
     if request.method == 'POST':
         form = ProfileEditForm(request.POST)

@@ -4,9 +4,10 @@ from bukhach.models.profile_models import Profile
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = User
-        fields = ('url', 'username', 'email', 'groups')
+        fields = ('username', 'email', 'first_name', 'last_name')
 
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
@@ -16,6 +17,8 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
+    user = UserSerializer()
+
     class Meta:
         model = Profile
-        fields = ('user', 'url', 'info', 'tel_num', 'avatar', 'rating')
+        fields = ('info', 'tel_num', 'avatar', 'rating', 'user')
