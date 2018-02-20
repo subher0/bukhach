@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 from bukhach.models.profile_models import Profile
+from bukhach.models.matcher_models import UserInterval
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -22,3 +23,11 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Profile
         fields = ('info', 'tel_num', 'avatar', 'rating', 'user')
+
+
+class IntervalSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = UserInterval
+        fields = ('user', 'start_date', 'end_date')
