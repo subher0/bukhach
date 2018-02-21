@@ -93,6 +93,23 @@ REST_FRAMEWORK = {
     ),
 }
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        }
+    },
+    'loggers': {
+        'django.db.backends': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    }
+}
+
 JWT_AUTH = {
     'JWT_ENCODE_HANDLER':
         'rest_framework_jwt.utils.jwt_encode_handler',
