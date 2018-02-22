@@ -5,6 +5,7 @@ from bukhach.models.matcher_models import UserInterval
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    password = serializers.CharField(max_length=20, required=True, write_only=True)
 
     class Meta:
         model = User
@@ -32,7 +33,11 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class IntervalSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+
+    def create(self, validated_data):
+        user_interval = UserInterval(**validated_data)
+        user_interval.save()
+        return user_interval
 
     class Meta:
         model = UserInterval

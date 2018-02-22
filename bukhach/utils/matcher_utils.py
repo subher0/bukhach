@@ -1,5 +1,10 @@
 import datetime
 
+from rest_framework import serializers
+from rest_framework.fields import DateTimeField
+
+from bukhach.serializers import UserSerializer
+
 
 class UsersToInterval:
     def __init__(self):
@@ -10,7 +15,7 @@ class UsersToInterval:
     # adds user that was participating in the match
     def add_user(self, user):
         if user is not None:
-            self.users.append(user)
+            self.users.append(UserSerializer(user).data)
 
     # accumalates intervals for the next match step
     def add_interval(self, start, end):
@@ -60,6 +65,11 @@ class UsersToInterval:
 
     def get_matched_intervals(self):
         return self.users, self.alreadyMatched
+
+
+class IntervalAsDatetimeSerializer(serializers.Serializer):
+    start = DateTimeField()
+    end = DateTimeField()
 
 
 class IntervalAsDatetime:
