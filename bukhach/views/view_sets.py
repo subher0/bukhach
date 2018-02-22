@@ -3,8 +3,8 @@ from rest_framework.generics import GenericAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
+from bukhach.serializers import UserSerializer, GroupSerializer, ProfileSerializer, IntervalSerializer
 from bukhach.permissions.is_authenticated_or_write_only import IsAuthenticatedOrWriteOnly
-from bukhach.serializers import UserSerializer, GroupSerializer, ProfileSerializer
 from django.contrib.auth.models import User, Group
 from bukhach.models.profile_models import Profile
 from django.db.models import Q
@@ -85,3 +85,10 @@ class ProfileSearchView(viewsets.ViewSet):
                 users = User.objects.filter(first_name__icontains=f_name, last_name__icontains=l_name)
                 response = Response(self.__info_append(users, content))
                 return response
+
+
+class IntervalView(viewsets.ModelViewSet):
+    permission_classes = IsAuthenticated
+    serializer_class = IntervalSerializer
+
+    def post(self, request):
