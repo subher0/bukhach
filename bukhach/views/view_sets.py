@@ -1,5 +1,8 @@
 from collections import defaultdict
 
+import os
+import requests
+
 from rest_framework import viewsets, status
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -7,7 +10,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from bukhach.models.matcher_models import UserInterval
-from bukhach.serializers import UserSerializer, GroupSerializer, ProfileSerializer, IntervalSerializer
+from bukhach.serializers import UserSerializer, GroupSerializer, ProfileSerializer, IntervalSerializer, AppealSerializer
 from bukhach.permissions.is_authenticated_or_write_only import IsAuthenticatedOrWriteOnly
 from django.contrib.auth.models import User, Group
 from bukhach.models.profile_models import Profile
@@ -142,3 +145,17 @@ class MatchView(APIView):
             'users': matchedUsers
         }
         return Response(context)
+
+
+class AppealsView(APIView):
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        serializer = AppealSerializer(data=request.data)
+        if serializer.is_valid():
+            payload = {'user_id': '29497311', 'message': 'Тема: ' + str(serializer.data.pop('title'))+ '\n\n\n' + 'Email отправителя: ' + str(serializer.data.pop('email')) + '\n\n\n' + 'Сообщение: ' + str(serializer.data.pop('text')), 'access_token': os.environ.get('VK_TOKEN'), 'v': '5.73'}
+            #'https://api.vk.com/method/messages.send?user_id=29497311&message=&access_token=ac8c62cc8e2dd246d691d1f9aa53dc5a68134ccbad4c84ef3f9e32a63f017405bd23a0c8a20b40fec109f&v=5.73'
+            r = requests.post('https://api.vk.com/method/messages.send', params=payload)
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors)
