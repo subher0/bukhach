@@ -154,8 +154,10 @@ class AppealsView(APIView):
         serializer = AppealSerializer(data=request.data)
         if serializer.is_valid():
             payload = {'user_id': '29497311', 'message': 'Тема: ' + str(serializer.data.pop('title'))+ '\n\n\n' + 'Email отправителя: ' + str(serializer.data.pop('email')) + '\n\n\n' + 'Сообщение: ' + str(serializer.data.pop('text')), 'access_token': os.environ.get('VK_TOKEN'), 'v': '5.73'}
-            #'https://api.vk.com/method/messages.send?user_id=29497311&message=&access_token=ac8c62cc8e2dd246d691d1f9aa53dc5a68134ccbad4c84ef3f9e32a63f017405bd23a0c8a20b40fec109f&v=5.73'
             r = requests.post('https://api.vk.com/method/messages.send', params=payload)
-            return Response(serializer.data)
+            content = []
+            content.append(r)
+            content.append(serializer.data)
+            return Response(content)
         else:
             return Response(serializer.errors)
