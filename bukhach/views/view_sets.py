@@ -1,5 +1,6 @@
 from collections import defaultdict
 
+import redis
 import os
 import requests
 
@@ -77,7 +78,7 @@ class ProfileSearchView(viewsets.ViewSet):
             content.append(element)
         return content
 
-    def get(self,request):
+    def get(self, request):
         content = []
         name = request.GET.get('name')
         if name == '':
@@ -138,7 +139,8 @@ class MatchView(APIView):
 
         matchedIntervalsAsTimestamps = []
         for interval in matchedIntervals:
-            matchedIntervalsAsTimestamps.append(IntervalAsDatetimeSerializer(IntervalAsDatetime(interval['start'], interval['end'])).data)
+            matchedIntervalsAsTimestamps.append(
+                IntervalAsDatetimeSerializer(IntervalAsDatetime(interval['start'], interval['end'])).data)
 
         context = {
             'intervals': matchedIntervalsAsTimestamps,
@@ -151,13 +153,34 @@ class AppealsView(APIView):
     permission_classes = (AllowAny,)
 
     def post(self, request):
+        redis_client = redis.StrictRedis(host='localhost', port=6379, db=2)
+        if 'HTTP_X_REAL_IP' in request.META:
+            requests_number = redis_client.get(request.META['HTTP_X_REAL_IP'])
+            if requests_number is not None:
+                requests_number = int(requests_number)
+                requests_number += 1
+                if requests_number > 3:
+                    return Response('fuck off')
+                else:
+                    redis_client.set(request.META['HTTP_X_REAL_IP'], str(requests_number), 60 * 60 * 24)
+            else:
+                redis_client.set(request.META['HTTP_X_REAL_IP'], '1', 60 * 60 * 24)
+
         serializer = AppealSerializer(data=request.data)
         if serializer.is_valid():
-            payload = {'user_id': '29497311', 'message': 'Тема: ' + str(serializer.data.pop('title'))+ '\n\n\n' + 'Email отправителя: ' + str(serializer.data.pop('email')) + '\n\n\n' + 'Сообщение: ' + str(serializer.data.pop('text')), 'access_token': os.environ.get('VK_TOKEN'), 'v': '5.73'}
-            r = requests.post('https://api.vk.com/method/messages.send', params=payload)
+            payload = {'user_id': '29497311',
+                       'message': 'Тема: ' + str(serializer.data.pop('title')) + '\n\n\n' +
+                                  'Email отправителя: ' + str(serializer.data.pop('email')) + '\n\n\n' +
+                                  'Сообщение: ' + str(serializer.data.pop('text')) + '\n\n\n' +
+                                  'IP петуха: ' + str(request.META.get('HTTP_X_REAL_IP', 'gay')) + '\n\n\n' +
+                                  'Номер высера: ' + str(int(redis_client.get(request.META['HTTP_X_REAL_IP']))) + '\n\n\n' +
+                                  '=================================================',
+                       'access_token': os.environ.get('VK_TOKEN'), 'v': '5.73'}
+            vk_request = requests.post('https://api.vk.com/method/messages.send', params=payload)
             content = []
-            content.append(r)
+            content.append(vk_request)
             content.append(serializer.data)
             return Response(content)
         else:
             return Response(serializer.errors)
+
