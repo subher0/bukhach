@@ -152,8 +152,12 @@ class MatchView(APIView):
 class AppealsView(APIView):
     permission_classes = (AllowAny,)
 
+    @staticmethod
+    def set_request_number(req, redis, req_num, time):
+        redis.set(req.META['HTTP_X_REAL_IP'], str(req_num), time)
+
     def post(self, request):
-        redis_client = redis.StrictRedis(host='localhost', port=6379, db=2)
+        redis_client = redis.StrictRedis(host='localhost', port=6379, db=4)
         if 'HTTP_X_REAL_IP' in request.META:
             requests_number = redis_client.get(request.META['HTTP_X_REAL_IP'])
             if requests_number is not None:
@@ -162,9 +166,9 @@ class AppealsView(APIView):
                 if requests_number > 3:
                     return Response('fuck off')
                 else:
-                    redis_client.set(request.META['HTTP_X_REAL_IP'], str(requests_number), 60 * 60 * 24)
+                    self.set_request_number(request, redis_client, requests_number, 60 * 60 * 24)
             else:
-                redis_client.set(request.META['HTTP_X_REAL_IP'], '1', 60 * 60 * 24)
+                self.set_request_number(request, redis_client, 1, 60 * 60 * 24)
 
         serializer = AppealSerializer(data=request.data)
         if serializer.is_valid():
@@ -174,7 +178,7 @@ class AppealsView(APIView):
                                   'Сообщение: ' + str(serializer.data.pop('text')) + '\n\n\n' +
                                   'IP петуха: ' + str(request.META.get('HTTP_X_REAL_IP', 'gay')) + '\n\n\n' +
                                   'Номер высера: ' + str(int(redis_client.get(request.META['HTTP_X_REAL_IP']))) + '\n\n\n' +
-                                  '=================================================',
+                                  '==================================================',
                        'access_token': os.environ.get('VK_TOKEN'), 'v': '5.73'}
             vk_request = requests.post('https://api.vk.com/method/messages.send', params=payload)
             content = []
