@@ -185,4 +185,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/static")
 # MEDIA_URL = '/static/media/'
 HOME = os.environ.get('HOME')
 MEDIA_ROOT = os.path.join(HOME, 'Dropbox/media')
-MEDIA_URL = '/Dropbox/media/'
+MEDIA_URL = '/media/'
