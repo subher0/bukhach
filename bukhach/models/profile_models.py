@@ -6,7 +6,7 @@ import uuid
 
 def make_filepath(instance, filename):
     new_filename = "%s.%s" % (uuid.uuid4(),
-                             filename.split('.')[-1])
+                              filename.split('.')[-1])
     return '/'.join([instance.__class__.__name__.lower(), new_filename])
 
 
@@ -20,4 +20,3 @@ class Profile(models.Model):
     rating = models.FloatField(verbose_name='rating', max_length=2, default=0.0)
     friends = ManyToManyField('self', verbose_name='friends', blank=True)
     tel_num = models.CharField(max_length=21, blank=True, verbose_name='tel_num')
-
