@@ -3,7 +3,7 @@ import datetime
 from rest_framework import serializers
 from rest_framework.fields import DateTimeField
 
-from bukhach.serializers import UserSerializer, ProfileSerializer
+from bukhach.serializers.profile_serializers import ProfileSerializer
 
 
 class UsersToInterval:

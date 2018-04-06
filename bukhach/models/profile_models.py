@@ -1,13 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import ForeignKey, ManyToManyField, OneToOneField
-import uuid
-
-
-def make_filepath(instance, filename):
-    new_filename = "%s.%s" % (uuid.uuid4(),
-                             filename.split('.')[-1])
-    return '/'.join([instance.__class__.__name__.lower(), new_filename])
+from django.db.models import ManyToManyField, OneToOneField
+from bukhach.utils.other_utils import make_filepath
 
 
 class Profile(models.Model):

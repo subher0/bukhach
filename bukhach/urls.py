@@ -1,6 +1,7 @@
 from django.conf.urls import url, include
 from rest_framework import routers
-from bukhach.views import page_views, authorization_views, dashboard_views, social_views, view_sets
+from bukhach.views import page_views, authorization_views, dashboard_views, social_views
+from bukhach.viewsets import profile_viewsets, group_viewsets, service_viewsets, intervals_and_match_viewsets
 from django.urls import path, re_path
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 
@@ -35,9 +36,9 @@ urlpatterns = [
     url(r'^api/v1/token-auth/', obtain_jwt_token),
     url(r'^api/v1/token-refresh/', refresh_jwt_token),
     url(r'^api/v1/token-verify/', verify_jwt_token),
-    path(r'api/v1/profile', view_sets.ProfileView.as_view()),
-    path(r'api/v1/profile_search', view_sets.ProfileSearchView.as_view({'get': 'get'})),
-    path(r'api/v1/intervals', view_sets.IntervalView.as_view()),
-    path(r'api/v1/match', view_sets.MatchView.as_view()),
-    path(r'api/v1/appeal', view_sets.AppealsView.as_view())
+    path(r'api/v1/profile', profile_viewsets.ProfileView.as_view()),
+    path(r'api/v1/profile_search', profile_viewsets.ProfileSearchView.as_view({'get': 'get'})),
+    path(r'api/v1/intervals', intervals_and_match_viewsets.IntervalView.as_view()),
+    path(r'api/v1/match', intervals_and_match_viewsets.MatchView.as_view()),
+    path(r'api/v1/appeal', service_viewsets.AppealsView.as_view())
 ]
