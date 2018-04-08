@@ -23,7 +23,7 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
 
     def create(self, validated_data):
         user_data = validated_data.pop('user')
-        validated_data['user'] = User.objects.create(**user_data)
+        validated_data['user'] = User.objects.create_user(**user_data)
         profile = Profile.objects.create(**validated_data)
         return profile
 

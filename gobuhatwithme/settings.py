@@ -89,8 +89,6 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
     ),
 }
 
@@ -103,12 +101,12 @@ LOGGING = {
             'class': 'logging.StreamHandler',
         }
     },
-    'loggers': {
-        'django.db.backends': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-        },
-    }
+    # 'loggers': {
+    #     'django.db.backends': {
+    #         'handlers': ['console'],
+    #         'level': 'DEBUG',
+    #     },
+    # }
 }
 
 JWT_AUTH = {
