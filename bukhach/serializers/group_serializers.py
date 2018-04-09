@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from bukhach.models.profile_models import Profile
-from bukhach.models.interval_models import UserInterval, GroupInterval
+from bukhach.models.interval_models import UserInterval, GatheringInterval
 from bukhach.models.group_models import Gathering
 
 
@@ -20,9 +20,9 @@ from bukhach.models.group_models import Gathering
 #         fields = ('users', 'group_avatar')
 #
 #
-# class GroupIntervalSerializer(serializers.ModelSerializer):
+# class GatheringIntervalSerializer(serializers.ModelSerializer):
 #     group = GatheringSerializer()
 #
 #     class Meta:
-#         model = GroupInterval
+#         model = GatheringInterval
 #         fields = ('group', 'start_matched_date', 'end_matched_date')
