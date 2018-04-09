@@ -6,8 +6,7 @@ python:
   - 3.5
 
 env:
-  - BUKHACH_DB_NAME="bukhach_dev_test" BUKHACH_DB_USER="postgres"
-  - BUKHACH_DB_PASSWORD="" BUKHACH_DB_HOST="127.0.0.1"
+  - BUKHACH_DB_NAME="bukhach_dev_test" BUKHACH_DB_USER="postgres" BUKHACH_DB_PASSWORD="" BUKHACH_DB_HOST="127.0.0.1"
 
 services:
   - postgresql
