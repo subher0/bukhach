@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.template import loader
 from bukhach.models.profile_models import Profile
-from bukhach.models.matcher_models import UserInterval
+from bukhach.models.interval_models import UserInterval
 from bukhach.utils.matcher_utils import UsersToInterval, IntervalAsDatetime
 
 
