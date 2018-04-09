@@ -19,11 +19,11 @@ from django.db.models import Q
 from bukhach.utils.matcher_utils import UsersToInterval, IntervalAsDatetime, IntervalAsDatetimeSerializer
 
 
-# class CustomGroupView(APIView):
+# class GatheringView(APIView):
 #     permission_classes = (IsAuthenticated,)
 #
 #     def post(self, request):
-#         serializer_class = CustomGroupSerializer(data=request.data)
+#         serializer_class = GatheringSerializer(data=request.data)
 #         if serializer_class.is_valid():
 #             custom_group = serializer_class.save()
 #             if custom_group:

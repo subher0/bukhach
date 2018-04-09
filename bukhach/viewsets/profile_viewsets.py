@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from bukhach.models.profile_models import Profile
 from django.db.models import Q
 
-from bukhach.serializers.profile_serializers import ProfileSerializer, UserSerializer
+from bukhach.serializers.user_serializers import ProfileSerializer, UserSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):

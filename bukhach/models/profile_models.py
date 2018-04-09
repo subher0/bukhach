@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import ManyToManyField, OneToOneField
-from bukhach.utils.other_utils import make_filepath
+from bukhach.utils.common_utils import make_filepath
 
 
 class Profile(models.Model):
