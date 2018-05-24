@@ -2,6 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.viewsets import ViewSet
 
 from bukhach.permissions.is_authenticated_or_write_only import IsAuthenticatedOrWriteOnly
 from django.contrib.auth.models import User
@@ -16,14 +17,25 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 
-class ProfileView(GenericAPIView):
-    permission_classes = (IsAuthenticatedOrWriteOnly,)
+class ProfileViewSet(ViewSet):
+    permission_classes = [IsAuthenticatedOrWriteOnly]
     serializer_class = ProfileSerializer
 
-    def get(self, request):
-        profile = Profile.objects.filter(user=request.user).first()
-        print(profile.avatar)
-        print(profile.user.first_name)
+    def list(self, request):
+        pass
+
+    def create(self, request):
+        serializer_class = ProfileSerializer(data=request.data)
+        if serializer_class.is_valid():
+            user = serializer_class.save()
+            if user:
+                return Response(serializer_class.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer_class.errors)
+        return Response(serializer_class.errors)
+
+    def retrieve(self, request, pk=None):
+        profile = User.objects.filter(pk=pk).first().profile
         response = Response({'first_name': profile.user.first_name,
                              'last_name': profile.user.last_name,
                              'username': profile.user.username,
@@ -35,15 +47,14 @@ class ProfileView(GenericAPIView):
                              })
         return response
 
-    def post(self, request, *args, **kwargs):
-        serializer_class = ProfileSerializer(data=request.data)
-        if serializer_class.is_valid():
-            user = serializer_class.save()
-            if user:
-                return Response(serializer_class.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer_class.errors)
-        return Response(serializer_class.errors)
+    def update(self, request, pk=None):
+        pass
+
+    def partial_update(self, request, pk=None):
+        pass
+
+    def destroy(self, request, pk=None):
+        pass
 
 
 class ProfileSearchView(viewsets.ViewSet):

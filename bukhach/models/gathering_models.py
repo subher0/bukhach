@@ -12,4 +12,4 @@ class Gathering(models.Model):
 
 class GatheringApplication(models.Model):
     gathering = ForeignKey(Gathering, verbose_name="Gathering", on_delete=models.CASCADE)
-    applicant = ForeignKey(User, verbose_name="Applacant", on_delete=models.CASCADE)
+    applicant = ForeignKey(User, verbose_name="Applicant", on_delete=models.CASCADE)

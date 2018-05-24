@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 from bukhach.models.profile_models import Profile
 from bukhach.models.interval_models import UserInterval, GatheringInterval
-from bukhach.models.group_models import Gathering
+from bukhach.models.gathering_models import Gathering
 
 
 # class GatheringSerializer(serializers.ModelSerializer):

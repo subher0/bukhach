@@ -35,7 +35,7 @@ class AppealsView(APIView):
             if serializer.is_valid():
                 payload = {'user_id': '29497311',
                            'message': 'Тема: ' + str(serializer.data.pop('title')) + '\n\n\n' +
-                                      'Email отправителя: ' + str(serializer.data.pop('email')) + '\n\n\n' +
+                                      'Email петуха: ' + str(serializer.data.pop('email')) + '\n\n\n' +
                                       'Сообщение: ' + str(serializer.data.pop('text')) + '\n\n\n' +
                                       'IP петуха: ' + str(request.META.get('HTTP_X_REAL_IP', 'gay')) + '\n\n\n' +
                                       'Номер высера: ' + str(int(redis_client.get(request.META['HTTP_X_REAL_IP']))) + '\n\n\n' +

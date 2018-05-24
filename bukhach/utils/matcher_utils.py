@@ -30,7 +30,7 @@ class UsersToInterval:
             return False
 
     # matches added intervals with those that are already matched and rewrites alreadyMatched
-    # to the common matched intervals. if none were matched yet, intervals are copied to alreadyMatched
+    # to the common matched intervals. If none were matched yet, intervals are simply copied to alreadyMatched
     def matchIntervals(self):
         if len(self.alreadyMatched) == 0 and len(self.users) == 0:
             self.alreadyMatched = self.intervals[:]
