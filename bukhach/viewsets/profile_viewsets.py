@@ -2,6 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.viewsets import ViewSet
 
 from bukhach.permissions.is_authenticated_or_write_only import IsAuthenticatedOrWriteOnly
 from django.contrib.auth.models import User
@@ -16,7 +17,7 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 
-class ProfileView(GenericAPIView):
+class ProfileView(ViewSet):
     permission_classes = (IsAuthenticatedOrWriteOnly,)
     serializer_class = ProfileSerializer
 
@@ -25,6 +26,7 @@ class ProfileView(GenericAPIView):
         print(profile.avatar)
         print(profile.user.first_name)
         response = Response({'first_name': profile.user.first_name,
+                             'id': profile.user.id,
                              'last_name': profile.user.last_name,
                              'username': profile.user.username,
                              'email': profile.user.email,
@@ -35,7 +37,13 @@ class ProfileView(GenericAPIView):
                              })
         return response
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
+        """
+
+        :param request: body = {'tel_num':'88888888888', 'user': {'username': 'imgay', 'email': 'im@g.ay',
+                                                       'first_name': 'im', 'last_name': 'gay', 'password': 'gayyy'}}
+        :return:
+        """
         serializer_class = ProfileSerializer(data=request.data)
         if serializer_class.is_valid():
             user = serializer_class.save()
@@ -52,7 +60,8 @@ class ProfileSearchView(viewsets.ViewSet):
     @staticmethod
     def __info_append(users, content):
         for user in users:
-            element = {'first_name': user.first_name,
+            element = {'id': user.id,
+                       'first_name': user.first_name,
                        'last_name': user.last_name,
                        'username': user.username,
                        'email': user.email,

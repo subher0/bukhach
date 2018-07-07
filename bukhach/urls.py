@@ -40,5 +40,6 @@ urlpatterns = [
     path(r'api/v1/profile_search', profile_viewsets.ProfileSearchView.as_view({'get': 'get'})),
     path(r'api/v1/intervals', intervals_and_match_viewsets.IntervalView.as_view()),
     path(r'api/v1/match', intervals_and_match_viewsets.MatchView.as_view()),
-    path(r'api/v1/appeal', service_viewsets.AppealsView.as_view())
+    path(r'api/v1/appeal', service_viewsets.AppealsView.as_view()),
+    path(r'api/v1/gathering', group_viewsets.GatheringView.as_view())
 ]
