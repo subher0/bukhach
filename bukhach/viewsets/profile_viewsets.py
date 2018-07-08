@@ -2,6 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.viewsets import GenericViewSet, ViewSet
 
 from bukhach.permissions.is_authenticated_or_write_only import IsAuthenticatedOrWriteOnly
 from django.contrib.auth.models import User
@@ -16,9 +17,24 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 
-class ProfileView(GenericAPIView):
+class ProfileViewSet(ViewSet):
     permission_classes = (IsAuthenticatedOrWriteOnly,)
     serializer_class = ProfileSerializer
+
+    def list(self, request):
+        profile = Profile.objects.filter(user=request.user).first()
+        print(profile.avatar)
+        print(profile.user.first_name)
+        response = Response({'first_name': profile.user.first_name,
+                             'last_name': profile.user.last_name,
+                             'username': profile.user.username,
+                             'email': profile.user.email,
+                             'info': profile.info,
+                             'tel_num': profile.tel_num,
+                             'rating': profile.rating,
+                             'avatar': str(profile.avatar)
+                             })
+        return response
 
     def get(self, request):
         profile = Profile.objects.filter(user=request.user).first()
