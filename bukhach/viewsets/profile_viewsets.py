@@ -9,17 +9,22 @@ from django.contrib.auth.models import User
 from bukhach.models.profile_models import Profile
 from django.db.models import Q
 
-from bukhach.serializers.user_serializers import ProfileSerializer, UserSerializer
+from bukhach.serializers.friends_serializer import FriendsSerializer
+from bukhach.serializers.user_serializers import FullProfileSerializer, FullUserSerializer, ProfileSerializer
 
+UNSUPPORTED_SEARCH_MESAGE = {'message': 'The saerch text is unsupported. Only one or two words text is supported for now'}
+EMPTY_SEARCH_MESAGE = {'message': 'You requested search by empty text'}
+
+PROFILE_DOES_NOT_EXIST = {'message': 'Requested profile does not exist'}
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = FullUserSerializer
 
 
 class ProfileViewSet(ViewSet):
     permission_classes = (IsAuthenticatedOrWriteOnly,)
-    serializer_class = ProfileSerializer
+    serializer_class = FullProfileSerializer
 
     def list(self, request):
         profile = Profile.objects.filter(user=request.user).first()
@@ -36,23 +41,15 @@ class ProfileViewSet(ViewSet):
                              })
         return response
 
-    def get(self, request):
-        profile = Profile.objects.filter(user=request.user).first()
-        print(profile.avatar)
-        print(profile.user.first_name)
-        response = Response({'first_name': profile.user.first_name,
-                             'last_name': profile.user.last_name,
-                             'username': profile.user.username,
-                             'email': profile.user.email,
-                             'info': profile.info,
-                             'tel_num': profile.tel_num,
-                             'rating': profile.rating,
-                             'avatar': str(profile.avatar)
-                             })
-        return response
+    def retrieve(self, request, pk=None):
+        profile = Profile.objects.filter(pk=pk).first()
+        if profile is None:
+            return Response(data=PROFILE_DOES_NOT_EXIST, status=status.HTTP_404_NOT_FOUND)
+        response = ProfileSerializer(profile).data
+        return Response(response)
 
     def post(self, request, *args, **kwargs):
-        serializer_class = ProfileSerializer(data=request.data)
+        serializer_class = FullProfileSerializer(data=request.data)
         if serializer_class.is_valid():
             user = serializer_class.save()
             if user:
@@ -68,15 +65,7 @@ class ProfileSearchView(viewsets.ViewSet):
     @staticmethod
     def __info_append(users, content):
         for user in users:
-            element = {'first_name': user.first_name,
-                       'last_name': user.last_name,
-                       'username': user.username,
-                       'email': user.email,
-                       'info': user.profile.info,
-                       'tel_num': user.profile.tel_num,
-                       'rating': user.profile.rating,
-                       'avatar': str(user.profile.avatar)
-                       }
+            element = FriendsSerializer(user.profile).data
             content.append(element)
         return content
 
@@ -84,17 +73,20 @@ class ProfileSearchView(viewsets.ViewSet):
         content = []
         name = request.GET.get('name')
         if name == '':
-            return Response('gay')
+            return Response(data=EMPTY_SEARCH_MESAGE, status=status.HTTP_400_BAD_REQUEST)
         else:
             words = name.split()
             if len(words) == 1:
                 name = words[0]
-                users = User.objects.filter(Q(first_name__icontains=name) | Q(last_name__icontains=name))
+                users = User.objects.filter(Q(first_name__icontains=name) | Q(last_name__icontains=name)
+                                            | Q(username__icontains=name))
                 response = Response(self.__info_append(users, content))
                 return response
             elif len(words) == 2:
                 f_name = words[0]
                 l_name = words[1]
-                users = User.objects.filter(first_name__icontains=f_name, last_name__icontains=l_name)
+                users = User.objects.filter(Q(first_name__icontains=f_name, last_name__icontains=l_name)
+                                            | Q(last_name__icontains=f_name, first_name__icontains=l_name))
                 response = Response(self.__info_append(users, content))
                 return response
+        return Response(data=UNSUPPORTED_SEARCH_MESAGE, status=status.HTTP_400_BAD_REQUEST)

@@ -25,7 +25,7 @@ class FriendsSerializer(serializers.ModelSerializer):
 
 
 class FriendFullSerializer(serializers.ModelSerializer):
-    user = user_serializers.UserSerializer()
+    user = user_serializers.FullUserSerializer()
 
     class Meta:
         model = Profile
