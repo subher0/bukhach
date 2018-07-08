@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
 from bukhach.models.profile_models import Profile
-from bukhach.serializers.friends_serializer import FriendsSerializer
+from bukhach.serializers.friends_serializer import FriendsSerializer, FriendFullSerializer
 
 FRIEND_EXISTS_MESSAGE = {'message': 'This one is already in your friends list'}
 FRIEND_DOES_NOT_EXIST_MESSAGE = {'message': 'This one is not in your friends list'}
@@ -24,10 +24,18 @@ class FriendsViewSet(ViewSet):
             friendsResponse.append(FriendsSerializer(friend).data)
         return Response(friendsResponse)
 
+    #Retrieves fuller data of a friend which primary key equals to pk
+    def retrieve(self, request, pk=None):
+        profile = Profile.objects.filter(user=request.user).first()
+        friend = Profile.objects.filter(pk=pk).first()
+        if friend is None:
+            return Response(data=PROFILE_DOES_NOT_EXIST_MESSAGE, status=status.HTTP_404_NOT_FOUND)
+        if not profile.friends.filter(pk=pk).exists():
+            return Response(data=FRIEND_DOES_NOT_EXIST_MESSAGE, status=status.HTTP_400_BAD_REQUEST)
+        return Response(FriendFullSerializer(friend).data)
+
     # Adds profile which primary key equals to pk to current profile's friends list
     def update(self, request, pk=None):
-        if pk is None:
-            return Response(data=None, status=status.HTTP_400_BAD_REQUEST)
         profile = Profile.objects.filter(user=request.user).first()
         friend = Profile.objects.filter(pk=pk).first()
         if friend is None:
@@ -39,8 +47,6 @@ class FriendsViewSet(ViewSet):
 
     # Deletes profile which primary key equals to pk from current profile's friends list
     def destroy(self, request, pk=None):
-        if pk is None:
-            return Response(data=None, status=status.HTTP_400_BAD_REQUEST)
         profile = Profile.objects.filter(user=request.user).first()
         friend = Profile.objects.filter(pk=pk).first()
         if friend is None:

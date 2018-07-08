@@ -3,6 +3,7 @@ from rest_framework import serializers
 from rest_framework.utils import model_meta
 
 from bukhach.models.profile_models import Profile
+from bukhach.serializers import user_serializers
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -21,3 +22,11 @@ class FriendsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ('id', 'avatar', 'user')
+
+
+class FriendFullSerializer(serializers.ModelSerializer):
+    user = user_serializers.UserSerializer()
+
+    class Meta:
+        model = Profile
+        fields = ('id', 'avatar', 'info', 'rating', 'user')
