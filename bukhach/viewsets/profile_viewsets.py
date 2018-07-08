@@ -2,7 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.viewsets import GenericViewSet
+from rest_framework.viewsets import GenericViewSet, ViewSet
 
 from bukhach.permissions.is_authenticated_or_write_only import IsAuthenticatedOrWriteOnly
 from django.contrib.auth.models import User
@@ -17,7 +17,7 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 
-class ProfileViewSet(GenericViewSet):
+class ProfileViewSet(ViewSet):
     permission_classes = (IsAuthenticatedOrWriteOnly,)
     serializer_class = ProfileSerializer
 

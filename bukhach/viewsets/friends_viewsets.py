@@ -1,11 +1,10 @@
 from rest_framework import status
-from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.viewsets import GenericViewSet
+from rest_framework.viewsets import ViewSet
 
 from bukhach.models.profile_models import Profile
-from bukhach.permissions.is_authenticated_or_write_only import IsAuthenticatedOrWriteOnly
+from bukhach.serializers.friends_serializer import FriendsSerializer
 
 FRIEND_EXISTS_MESSAGE = {'message': 'This one is already in your friends list'}
 FRIEND_DOES_NOT_EXIST_MESSAGE = {'message': 'This one is not in your friends list'}
@@ -14,7 +13,7 @@ FRIEND_ADDED_MESSAGE = {'message': 'You are now friends with this man'}
 FRIEND_DELETED_MESSAGE = {'message': 'You are no longer friends with this man'}
 
 
-class FriendsViewSet(GenericViewSet):
+class FriendsViewSet(ViewSet):
     permission_classes = (IsAuthenticated,)
 
     # Retrieves All friends of current user
@@ -22,13 +21,7 @@ class FriendsViewSet(GenericViewSet):
         friends = Profile.objects.filter(user=request.user).first().friends.all()
         friendsResponse = []
         for friend in friends:
-            friendsResponse.append({
-                'id': friend.id,
-                'avatar': friend.avatar.url,
-                'username': friend.user.username,
-                'first_name': friend.user.first_name,
-                'last_name': friend.user.last_name
-            })
+            friendsResponse.append(FriendsSerializer(friend).data)
         return Response(friendsResponse)
 
     # Adds profile which primary key equals to pk to current profile's friends list
