@@ -17,14 +17,30 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 
-class ProfileView(ViewSet):
-    permission_classes = (IsAuthenticatedOrWriteOnly,)
+class ProfileViewSet(ViewSet):
+    permission_classes = [IsAuthenticatedOrWriteOnly]
     serializer_class = ProfileSerializer
 
-    def get(self, request):
-        profile = Profile.objects.filter(user=request.user).first()
-        print(profile.avatar)
-        print(profile.user.first_name)
+    def list(self, request):
+        pass
+
+    def create(self, request):
+        """
+        :param request: data = {'tel_num':'88888888888', 'user': {'username': 'imgay', 'email': 'im@g.ay',
+                                                       'first_name': 'im', 'last_name': 'gay', 'password': 'gayyy'}}
+        :return:
+        """
+        serializer_class = ProfileSerializer(data=request.data)
+        if serializer_class.is_valid():
+            user = serializer_class.save()
+            if user:
+                return Response(serializer_class.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer_class.errors)
+        return Response(serializer_class.errors)
+
+    def retrieve(self, request, pk=None):
+        profile = User.objects.filter(pk=pk).first().profile
         response = Response({'first_name': profile.user.first_name,
                              'id': profile.user.id,
                              'last_name': profile.user.last_name,
@@ -37,21 +53,14 @@ class ProfileView(ViewSet):
                              })
         return response
 
-    def post(self, request):
-        """
+    def update(self, request, pk=None):
+        pass
 
-        :param request: body = {'tel_num':'88888888888', 'user': {'username': 'imgay', 'email': 'im@g.ay',
-                                                       'first_name': 'im', 'last_name': 'gay', 'password': 'gayyy'}}
-        :return:
-        """
-        serializer_class = ProfileSerializer(data=request.data)
-        if serializer_class.is_valid():
-            user = serializer_class.save()
-            if user:
-                return Response(serializer_class.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer_class.errors)
-        return Response(serializer_class.errors)
+    def partial_update(self, request, pk=None):
+        pass
+
+    def destroy(self, request, pk=None):
+        pass
 
 
 class ProfileSearchView(viewsets.ViewSet):
