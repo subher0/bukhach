@@ -15,3 +15,4 @@ class Profile(models.Model):
     friends = ManyToManyField('self', verbose_name='friends', blank=True)
     tel_num = models.CharField(max_length=21, blank=True, verbose_name='tel_num')
 
+

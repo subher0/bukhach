@@ -20,8 +20,7 @@ class FriendsViewSet(ViewSet):
     # Retrieves All friends of current user
     def list(self, request):
         friends = Profile.objects.get(user=request.user).friends.all()
-        serialized = ProfileMinSerializer(friends, many=True)
-        return Response(serialized.data, status=status.HTTP_200_OK)
+        return Response(ProfileMinSerializer(friends, many=True).data, status=status.HTTP_200_OK)
 
     #Retrieves fuller data of a friend which primary key equals to pk
     def retrieve(self, request, pk=None):
@@ -36,8 +35,7 @@ class FriendsViewSet(ViewSet):
             friend = profile.friends.get(pk=pk)
         except ObjectDoesNotExist:
             return Response(data=FRIEND_DOES_NOT_EXIST_MESSAGE, status=status.HTTP_400_BAD_REQUEST)
-        serialized = ProfileMedSerializer(friend)
-        return Response(serialized.data, status=status.HTTP_200_OK)
+        return Response(ProfileMedSerializer(friend).data, status=status.HTTP_200_OK)
 
     # Adds profile which primary key equals to pk to current profile's friends list
     def update(self, request, pk=None):

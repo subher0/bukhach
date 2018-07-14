@@ -25,8 +25,7 @@ class ProfileViewSet(ViewSet):
 
     def list(self, request):
         profile = Profile.objects.get(user=request.user)
-        serialized = ProfileMaxSerializer(profile)
-        response = Response(serialized.data, status=status.HTTP_200_OK)
+        response = Response(ProfileMaxSerializer(profile).data, status=status.HTTP_200_OK)
         return response
 
     def retrieve(self, request, pk=None):
@@ -34,8 +33,7 @@ class ProfileViewSet(ViewSet):
             profile = Profile.objects.get(pk=pk)
         except ObjectDoesNotExist:
             return Response(data=PROFILE_DOES_NOT_EXIST, status=status.HTTP_404_NOT_FOUND)
-        serialized = ProfileMedSerializer(profile)
-        return Response(serialized.data, status=status.HTTP_200_OK)
+        return Response(ProfileMedSerializer(profile).data, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
         serializer_class = ProfileMaxSerializer(data=request.data)
@@ -60,13 +58,10 @@ class ProfileSearchView(APIView):
             if len(words) == 1:
                 name = words[0]
                 profiles = Profile.objects.filter(user__in=User.objects.filter(Q(first_name__icontains=name) | Q(last_name__icontains=name) | Q(username__icontains=name)))
-                serialized = ProfileMinSerializer(profiles, many=True)
-                return Response(serialized.data, status=status.HTTP_200_OK)
             elif len(words) == 2:
                 f_name = words[0]
                 l_name = words[1]
                 profiles = Profile.objects.filter(
                     user__in=User.objects.filter(Q(first_name__icontains=f_name, last_name__icontains=l_name) | Q(last_name__icontains=f_name, first_name__icontains=l_name)))
-                serialized = ProfileMinSerializer(profiles, many=True)
-                return Response(serialized.data, status=status.HTTP_200_OK)
+            return  Response(ProfileMinSerializer(profiles, many=True).data, status=status.HTTP_200_OK)
         return Response(data=UNSUPPORTED_SEARCH_MESAGE, status=status.HTTP_400_BAD_REQUEST)
