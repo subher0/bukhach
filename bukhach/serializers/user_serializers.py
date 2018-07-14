@@ -12,7 +12,13 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('username', 'email', 'first_name', 'last_name', 'password')
 
 
-class ProfileSerializer(serializers.HyperlinkedModelSerializer):
+class MinUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name')
+
+
+class SelfProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
 
     def create(self, validated_data):
@@ -23,4 +29,20 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('info', 'tel_num', 'avatar', 'rating', 'user')
+        fields = ('id', 'info', 'tel_num', 'avatar', 'rating', 'user')
+
+
+class MinProfileSerializer(serializers.ModelSerializer):
+    user = MinUserSerializer()
+
+    class Meta:
+        model = Profile
+        fields = ('id', 'avatar', 'rating', 'user')
+
+
+class MaxProfileSerializer(serializers.ModelSerializer):
+    user = MinUserSerializer()
+
+    class Meta:
+        model = Profile
+        fields = ('id', 'info', 'avatar', 'rating', 'user')

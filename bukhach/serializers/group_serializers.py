@@ -3,12 +3,11 @@ from rest_framework import serializers
 
 from bukhach.models.profile_models import Profile
 from bukhach.models.interval_models import UserInterval, GatheringInterval
-from bukhach.models.group_models import Gathering
-from bukhach.serializers.user_serializers import UserSerializer
+from bukhach.models.gathering_models import Gathering, GatheringApplication
+from bukhach.serializers.user_serializers import UserSerializer, MinUserSerializer, MinProfileSerializer
 
 
-class GatheringSerializer(serializers.ModelSerializer):
-    #users = UserSerializer()
+class GatheringCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         name = validated_data.get('name', None)
@@ -23,15 +22,45 @@ class GatheringSerializer(serializers.ModelSerializer):
         gathering.save()
         return gathering.id
 
-
     class Meta:
         model = Gathering
         fields = ('users', 'gathering_avatar', 'name', 'gathering_creator')
 
 
 class GatheringIntervalSerializer(serializers.ModelSerializer):
-    group = GatheringSerializer()
 
     class Meta:
         model = GatheringInterval
-        fields = ('group', 'start_matched_date', 'end_matched_date')
+        fields = ('start_matched_date', 'end_matched_date')
+
+
+class GatheringApplicationSerializer(serializers.ModelSerializer):
+    applicant = MinProfileSerializer()
+
+    class Meta:
+        model = GatheringApplication
+        fields = ('id', 'applicant')
+
+
+class GatheringFullGetSerializer(serializers.ModelSerializer):
+    users = MinProfileSerializer(many=True)
+    interval = GatheringIntervalSerializer()
+    applications = GatheringApplicationSerializer(many=True)
+
+    class Meta:
+        model = Gathering
+        fields = ('id', 'users', 'gathering_avatar', 'name', 'interval', 'applications')
+
+
+class GatheringMinGetSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Gathering
+        fields = ('id', 'gathering_avatar', 'name')
+
+
+class GatheringUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Gathering
+        fields = ('id', 'gathering_avatar', 'name')

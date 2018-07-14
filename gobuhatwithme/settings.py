@@ -75,10 +75,10 @@ WSGI_APPLICATION = 'gobuhatwithme.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('BUKHACH_DB_NAME'),
-        'USER': os.environ.get('BUKHACH_DB_USER'),
-        'PASSWORD': os.environ.get('BUKHACH_DB_PASSWORD'),
-        'HOST': os.environ.get('BUKHACH_DB_HOST'),
+        'NAME': 'bukhach_dev', #os.environ.get('BUKHACH_DB_NAME'),
+        'USER': 'saske', #os.environ.get('BUKHACH_DB_USER'),
+        'PASSWORD': 'heilhitler' #os.environ.get('BUKHACH_DB_PASSWORD'),
+        #'HOST': os.environ.get('BUKHACH_DB_HOST'),
     }
 }
 
