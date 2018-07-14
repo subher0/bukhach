@@ -54,7 +54,7 @@ class FriendsViewSet(ViewSet):
         profile.friends.add(friend)
         return Response(data=FRIEND_ADDED_MESSAGE, status=status.HTTP_202_ACCEPTED)
 
-    # Deletes profile which primary key equals to pk from current profile's friends list
+    # Removes profile which primary key equals to pk from current profile's friends list
     def destroy(self, request, pk=None):
         profile = Profile.objects.get(user=request.user)
 
