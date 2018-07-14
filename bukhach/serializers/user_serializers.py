@@ -4,7 +4,7 @@ from rest_framework import serializers
 from bukhach.models.profile_models import Profile
 
 
-class FullUserSerializer(serializers.HyperlinkedModelSerializer):
+class UserMaxSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=20, required=True, write_only=True)
 
     class Meta:
@@ -12,12 +12,18 @@ class FullUserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('username', 'email', 'first_name', 'last_name', 'password')
 
 
-class FullProfileSerializer(serializers.HyperlinkedModelSerializer):
-    user = FullUserSerializer()
+class UserMinSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name')
+
+
+class ProfileMaxSerializer(serializers.ModelSerializer):
+    user = UserMaxSerializer()
 
     def create(self, validated_data):
         user_data = validated_data.pop('user')
-        validated_data['user'] = User.objects.create(**user_data)
+        validated_data['user'] = User.objects.create_user(**user_data)
         profile = Profile.objects.create(**validated_data)
         return profile
 
@@ -26,14 +32,16 @@ class FullProfileSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('info', 'tel_num', 'avatar', 'rating', 'user')
 
 
-class UserSerializer(serializers.ModelSerializer):
+class ProfileMedSerializer(serializers.ModelSerializer):
+    user = UserMinSerializer()
+
     class Meta:
-        model = User
-        fields = ('username', 'first_name', 'last_name')
+        model = Profile
+        fields = ('info', 'avatar', 'rating', 'user')
 
 
-class ProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+class ProfileMinSerializer(serializers.ModelSerializer):
+    user = UserMinSerializer()
 
     class Meta:
         model = Profile
