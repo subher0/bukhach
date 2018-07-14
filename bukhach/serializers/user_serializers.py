@@ -29,7 +29,7 @@ class ProfileMaxSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('info', 'tel_num', 'avatar', 'rating', 'user')
+        fields = ('id', 'info', 'tel_num', 'avatar', 'rating', 'user')
 
 
 class ProfileMedSerializer(serializers.ModelSerializer):
@@ -37,7 +37,7 @@ class ProfileMedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('info', 'avatar', 'rating', 'user')
+        fields = ('id', 'info', 'avatar', 'rating', 'user')
 
 
 class ProfileMinSerializer(serializers.ModelSerializer):
@@ -45,4 +45,4 @@ class ProfileMinSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('info', 'avatar', 'user')
+        fields = ('id', 'info', 'avatar', 'user')
