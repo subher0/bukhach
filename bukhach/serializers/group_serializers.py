@@ -7,7 +7,7 @@ from bukhach.models.group_models import Gathering
 
 
 # class GatheringSerializer(serializers.ModelSerializer):
-#     users = UserSerializer()
+#     users = UserMinSerializer()
 #
 #     def create(self, validated_data):
 #         custom_group = Gathering(**validated_data)
