@@ -1,19 +1,21 @@
 from django.conf.urls import url, include
 from rest_framework import routers
-from bukhach.views import page_views, authorization_views, dashboard_views, social_views
-from bukhach.viewsets import profile_viewsets, gathering_viewsets, service_viewsets, intervals_and_match_viewsets
+from rest_framework_nested.routers import NestedSimpleRouter
 from django.urls import path, re_path
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 
 from bukhach.viewsets.intervals_and_match_viewsets import IntervalView, get_matches
 from bukhach.viewsets.profile_viewsets import ProfileViewSet, ProfileSearchView
 from bukhach.viewsets.service_viewsets import AppealsView
-from bukhach.viewsets.gathering_viewsets import GatheringViewSet
+from bukhach.viewsets.gathering_viewsets import GatheringViewSet, GatheringApplicationViewSet
 
 router = routers.SimpleRouter()
-
 router.register(r'profiles', ProfileViewSet, base_name='profile')
 router.register(r'gatherings', GatheringViewSet, base_name='gathering')
+
+gathering_router = NestedSimpleRouter(router, r'gatherings', lookup='gathering')
+gathering_router.register(r'applications', GatheringApplicationViewSet, base_name='application')
+
 
 urlpatterns = [
     # path(r'', page_views.index_view),
@@ -48,11 +50,11 @@ urlpatterns = [
     url(r'^api/v1/token-refresh/', refresh_jwt_token),
     url(r'^api/v1/token-verify/', verify_jwt_token),
 
-    path(r'api/v1/profile_search', profile_viewsets.ProfileSearchView.as_view()),
-    path(r'api/v1/intervals', intervals_and_match_viewsets.IntervalView.as_view()),
-    #path(r'api/v1/gathering', gathering_viewsets.GatheringView.as_view({'patch': 'partial_update', 'post': 'create'})),
+    path(r'api/v1/profile_search', ProfileSearchView.as_view()),
+    path(r'api/v1/intervals', IntervalView.as_view()),
     re_path(r'api/v1/match/(?P<gathering_id>\d+)', get_matches),
-    path(r'api/v1/appeal', service_viewsets.AppealsView.as_view()),
+    path(r'api/v1/appeal', AppealsView.as_view()),
 
-    url(r'^api/v1/', include(router.urls))
+    url(r'^api/v1/', include(router.urls)),
+    url(r'^api/v1/', include(gathering_router.urls))
 ]

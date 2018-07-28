@@ -76,8 +76,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'bukhach_dev', #os.environ.get('BUKHACH_DB_NAME'),
-        'USER': 'saske', #os.environ.get('BUKHACH_DB_USER'),
-        'PASSWORD': 'heilhitler' #os.environ.get('BUKHACH_DB_PASSWORD'),
+        'USER': 'postgres', #os.environ.get('BUKHACH_DB_USER'),
+        'PASSWORD': 'postgres' #os.environ.get('BUKHACH_DB_PASSWORD'),
         #'HOST': os.environ.get('BUKHACH_DB_HOST'),
     }
 }
