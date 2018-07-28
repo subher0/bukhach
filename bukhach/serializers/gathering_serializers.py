@@ -39,7 +39,7 @@ class GatheringApplicationSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         app = GatheringApplication.objects.create(**validated_data)
-        return app.id
+        return app
 
     class Meta:
         model = GatheringApplication

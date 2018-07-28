@@ -19,3 +19,4 @@ class GatheringMessages:
     ALREADY_EXIST = {'message': 'GAY ALREADY EXIST'}
     UNSUPPORTED_SEARCH_MESAGE = {
         'message': 'GAY PLS ENTER CORRECT NAME. NOT THIS SHIT'}
+    WTF_GAY_MESSAGE = {'message': 'Тебе же сказали - не лезь блядь она тебя сожрет'}
