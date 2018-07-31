@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from bukhach.models.interval_models import UserInterval, GatheringInterval
 from bukhach.models.profile_models import Profile
-from bukhach.models.group_models import Gathering, GatheringApplication
+from bukhach.models.gathering_models import Gathering, GatheringApplication
 
 admin.site.register(UserInterval)
 admin.site.register(Profile)

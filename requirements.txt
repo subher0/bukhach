@@ -5,3 +5,4 @@ djangorestframework-jwt==1.11.0
 redis==2.10.6
 requests==2.18.4
 Pillow==5.1.0
+drf-nested-routers==0.90.2

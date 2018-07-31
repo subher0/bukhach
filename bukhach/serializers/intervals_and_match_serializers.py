@@ -12,4 +12,4 @@ class IntervalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserInterval
-        fields = ('user', 'start_date', 'end_date')
+        fields = ('id', 'user', 'start_date', 'end_date')

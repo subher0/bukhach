@@ -3,7 +3,7 @@ import datetime
 from rest_framework import serializers
 from rest_framework.fields import DateTimeField
 
-from bukhach.serializers.user_serializers import ProfileMaxSerializer
+from bukhach.serializers.user_serializers import ProfileMinSerializer
 
 
 class UsersToInterval:
@@ -15,7 +15,7 @@ class UsersToInterval:
     # adds user that was participating in the match
     def add_user(self, user):
         if user is not None:
-            self.users.append(ProfileMaxSerializer(user.profile).data)
+            self.users.append(ProfileMinSerializer(user.profile).data)
 
     # accumalates intervals for the next match step
     def add_interval(self, start, end):
@@ -30,7 +30,7 @@ class UsersToInterval:
             return False
 
     # matches added intervals with those that are already matched and rewrites alreadyMatched
-    # to the common matched intervals. if none were matched yet, intervals are copied to alreadyMatched
+    # to the common matched intervals. If none were matched yet, intervals are simply copied to alreadyMatched
     def matchIntervals(self):
         if len(self.alreadyMatched) == 0 and len(self.users) == 0:
             self.alreadyMatched = self.intervals[:]
