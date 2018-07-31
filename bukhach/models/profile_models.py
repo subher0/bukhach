@@ -16,3 +16,4 @@ class Profile(models.Model):
     tel_num = models.CharField(max_length=21, blank=True, verbose_name='tel_num')
     last_ip = models.CharField(max_length=16, verbose_name='Last IP adress', blank=True, default=None, null=True)
 
+

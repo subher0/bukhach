@@ -1,5 +1,5 @@
 from django.conf.urls import url, include
-from rest_framework import routers
+from rest_framework.routers import SimpleRouter
 from rest_framework_nested.routers import NestedSimpleRouter
 from django.urls import path, re_path
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
@@ -8,9 +8,11 @@ from bukhach.viewsets.intervals_and_match_viewsets import IntervalView, get_matc
 from bukhach.viewsets.profile_viewsets import ProfileViewSet
 from bukhach.viewsets.service_viewsets import AppealsView
 from bukhach.viewsets.gathering_viewsets import GatheringViewSet, GatheringApplicationViewSet
+from bukhach.viewsets.friends_viewsets import FriendsViewSet
 
-router = routers.SimpleRouter()
-router.register(r'profiles', ProfileViewSet, base_name='profile')
+router = SimpleRouter()
+router.register(r'profiles', ProfileViewSet, base_name='profiles')
+router.register(r'friends', FriendsViewSet, base_name='friends')
 router.register(r'gatherings', GatheringViewSet, base_name='gathering')
 
 gathering_router = NestedSimpleRouter(router, r'gatherings', lookup='gathering')
