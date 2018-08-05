@@ -1,48 +1,172 @@
 {% extends "bukhach/general.html" %}
 {% block content %}
-    <div class="container">
+    <div class="container pt-5">
         <div class="row">
-            <div class="col-12">
-                <h2 class="text-center">Личный кабинет</h2>
+            <!----------------------------------------------------Меню------------------------------------------------->
+            <div class="col-lg-4 col-12">
+                <div class="list-group mx-auto" style="max-width: 500px" id="list-tab" role="tablist">
+                    <a class="list-group-item list-group-item-action {% if not humans %}active {% endif %}"
+                       id="list-profile-list" data-toggle="list"
+                       href="#list-profile" role="tab" aria-controls="profile">Профиль</a>
+                    <a class="list-group-item list-group-item-action {% if humans %}active {% endif %}"
+                       id="list-friends-list" data-toggle="list"
+                       href="#list-friends" role="tab" aria-controls="friends">Друзья</a>
+                    <a class="list-group-item list-group-item-action "
+                       id="list-edit-list" data-toggle="list"
+                       href="#list-edit" role="tab" aria-controls="edit">Редактировать</a>
+                    <a class="list-group-item list-group-item-action "
+                       id="list-crew-list" data-toggle="list"
+                       href="#list-crew" role="tab" aria-controls="crew">Группы</a>
+                    <a class="list-group-item list-group-item-action" id="list-interval-list" data-toggle="list"
+                       href="#list-interval" role="tab" aria-controls="interval">Интервал для бухача</a>
+                </div>
             </div>
-            <div class="col-12 text-center">
-                <img class="img-fluid" src="img/avatar.png">
+            <!---------------------------------------------------- контент -------------------------------------------->
+            <div class="col-lg-8 col-12">
+
+                <div class="tab-content" id="nav-tabContent">
+
+                    <!--------------------------------------------- Профиль ------------------------------------------->
+                    <div class="tab-pane fade {% if not humans %} show active {% endif %}" id="list-profile"
+                         role="tabpanel"
+                         aria-labelledby="list-profile-list">
+                        <div class="row">
+                            <div class="col-12 ">
+                                <h2 class="text-center">Личный кабинет</h2>
+                            </div>
+                            <div class="card-column mx-auto">
+                                <div class="card card_profile">
+                                    <img class="card-img-top profile_avatar mx-auto" src="/media/{{ profile.avatar }}">
+                                    <div class="card-header">
+                                        Публичная информация:
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <strong>Имя, Фамилия :</strong> {{ user.first_name }} {{ user.last_name }}
+                                            <hr>
+                                            <strong>Имя пользователя :</strong> {{ user.username }}
+                                            <hr>
+                                        </h5>
+                                        <p class="card-text pt-2">
+                                            <strong>О себе :</strong>
+                                            <p style="white-space: pre-line">{{ profile.info }}</p>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="card card_profile mt-3 mb-3">
+                                    <div class="card-header">
+                                        Личная информация:
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <strong>Почта :</strong>
+                                            {{ user.email }}
+                                            <hr>
+                                            <strong>Телефон :</strong>
+                                            {{ profile.tel_num }}
+                                        </h5>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!------------------------------------------- Друзья и Поиск -------------------------------------->
+                    <div class="tab-pane fade {% if humans %}active show {% endif %}" id="list-friends"
+                         role="tabpanel"
+                         aria-labelledby="list-friends-list">
+                        <div class="row">
+
+                            <div class="col-12">
+                                <div class="card-column mx-auto">
+
+                                <!-----------------------------Поиск людей----!!!(СУПЕР--ВРЕМЕННЫЙ)!!!!--------------------->
+                                {% include "bukhach/dashboard/people_search.html" %}
+
+                                    <!----------------------------------------- Друзья ---------------------------------------->
+                                    <div class="card mt-3 mb-3">
+                                        <div class="card-header">
+                                            <h4>Ваши друзья:</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text">
+                                                <div class="row">
+                                                    {% for friend in friends %}
+                                                        <div class="col-sm-6">
+                                                            <div class="media pt-3 justify-content-center">
+                                                                <img class="d-inline-flex friend-avatar mr-2"
+                                                                     src="/media/{{ friend.user.profile.avatar }}"
+                                                                     alt="пидор">
+                                                                <div class="media-body">
+                                                                    <h6>
+                                                                        <a href="/profile/{{ friend.user.profile.id }}">{{ friend.user.first_name }} {{ friend.user.last_name }}</a>
+                                                                    </h6>
+                                                                    <p class="text-muted">{{ friend.user.username }}</p>
+                                                                </div>
+                                                            </div>
+                                                            <hr>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                </div>
             </div>
-            <div class="col-12">
-                <h3>Твое имя: {{ user.first_name }}</h3>
-            </div>
-            <div class="col-12">
-                <h3>Твоя фамилия: {{ user.last_name }}</h3>
-            </div>
-            <div class="col-12">
-                <h3>Твой юзернаме: {{ user.username }}</h3>
-            </div>
-            <div class="col-12">
-                <h3>Твой имейл: {{ user.email }}</h3>
-            </div>
+        </div>
+    </div>
+
+    <!---------------------------------------------- Группы-------------------------------------------->
+    <div class="tab-pane fade" id="list-crew" role="tabpanel" aria-labelledby="list-crew-list">
+        gay
+    </div>
+
+    <!---------------------------------------------- Редактирование ----------------------------------->
+    {% include "bukhach/dashboard/edit.html" %}
+
+    <!-------------------------------------------- Интервалы Бухача ----------------------------------->
+    <div class="tab-pane fade" id="list-interval" role="tabpanel"
+         aria-labelledby="list-interval-list">
+        <div class="row">
+
             <div class="col-12">
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="freeIntervals"
+                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                            id="freeIntervals"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Когда ты свободен:
                     </button>
                     <div class="dropdown-menu" aria-labelledby="freeIntervals">
-                            {% for interval in intervals %}
-                                <button class="dropdown-item" type="button">
-                                    {{ interval.start_date }} - {{ interval.end_date }}
-                                </button>
-                            {% endfor %}
+                        {% for interval in intervals %}
+                            <button class="dropdown-item" type="button">
+                                {{ interval.start_date }} - {{ interval.end_date }}
+                            </button>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
+
             <div class="col-12">
                 <h3>Введи дату и время начала и конца интервала, когда можешь бухать</h3><br>
-                <form class="form-group" enctype="multipart/form-data" action="add-interval" method="POST">{% csrf_token %}
-                    <input name="start_interval" type="datetime-local" class="form-control" placeholder="Начало" required>
-                    <input name="end_interval" type="datetime-local" class="form-control" placeholder="Конец" required>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Добавить интервал</button>
+                <form class="form-group" enctype="multipart/form-data" action="add-interval"
+                      method="POST">{% csrf_token %}
+                    <input name="start_interval" type="datetime-local" class="form-control"
+                           placeholder="Начало"
+                           required>
+                    <input name="end_interval" type="datetime-local" class="form-control"
+                           placeholder="Конец" required>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Добавить
+                        интервал
+                    </button>
                 </form>
             </div>
         </div>
+    </div>
+    </div>
+    </div>
+    </div>
     </div>
 {% endblock content %}

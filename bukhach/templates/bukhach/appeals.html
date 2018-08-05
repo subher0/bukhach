@@ -1,0 +1,35 @@
+{% extends "bukhach/general.html" %}
+
+{% block scripts %}
+{% endblock scripts %}
+
+{% block content %}
+
+
+    <div class="container">
+        <div class="row">
+            <h4 class="text-center pt-4">Если у вас есть предложения по развитию сервиса или вы нашли какой-либо баг или
+                недочет, то, пожалуйста, идите нахуй</h4>
+            <div class="col-sm-5 mx-auto">
+                <form enctype="multipart/form-data" action="/" method="POST">{% csrf_token %}
+                    <div class="form-group pt-4">
+                        <label for="title">тут чета</label>
+                        <input name="title_field" type="text" id="title" class="form-control mb-3"
+                               required>
+                        <label for="appeal">тут суть</label>
+                        <textarea name="appeal_field" type="text" class="form-control mb-3"
+                                  required rows="6">
+                        </textarea>
+                        <label for="image">сюда картинку</label>
+                        <input name="image" type="file" id="image" class="form-control-file mb-4">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block mt-3">Отправить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+{% endblock content %}

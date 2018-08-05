@@ -1,0 +1,124 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+}
+
+.navbar {
+    position: relative;
+    background-color: var(--font-color-l3);
+}
+
+.card_index {
+    border: 0px;
+    background-color: transparent;
+}
+
+.card_profile {
+    max-width: 500px;
+    margin: auto;
+}
+
+body {
+    background-image: url("../img/bg2.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+}
+
+.d-inline-flex {
+    height: 30px;
+}
+
+.img-thumbnail {
+    background-color: transparent;
+    border-radius: 25px;
+    border-color: transparent;
+}
+
+.form-signin {
+    padding-top: 100px;
+    max-width: 350px;
+    align-items: center;
+    justify-content: center;
+}
+
+.img_for_login {
+    max-height: 200px;
+    margin-left: 25px;
+}
+
+.logout-button {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.logout-button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.navbar_avatar {
+    border-radius: 50%;
+    height: 30px;
+    width: auto;
+    margin-right: 5px;
+}
+
+.friend-avatar {
+    height: 50px;
+    width: auto;
+    border-radius: 50%;
+    background-color: transparent;
+}
+
+.error-message {
+    font-size: 1.4em;
+    color: #ff532e;
+    text-align: center;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.content {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.footer {
+    background-color: var(--font-color-l3);
+    padding-top: 10px;
+    flex: 0 0 auto;
+    border-top: 2px solid;
+    border-color: var(--font-color-l4);
+}
+
+.footer-link {
+    color: var(--background-color);
+    transition: 0.3s color;
+}
+
+.profile_avatar {
+    max-height: 500px;
+    max-width: 500px;
+    background-color: transparent;
+}
+.footer-link:hover {
+    color: var(--background-color-d5);
+    text-decoration: none;
+}
+
+.footer-text {
+    color: var(--background-color-d2);
+}
+
+:focus {
+    outline: none;
+}

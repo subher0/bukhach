@@ -1,27 +1,24 @@
 from collections import defaultdict
-from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponse
 from django.template import loader
-
-from bukhach.models.matcher_models import UserInterval
+from bukhach.models.profile_models import Profile
+from bukhach.models.interval_models import UserInterval
 from bukhach.utils.matcher_utils import UsersToInterval, IntervalAsDatetime
+
 
 
 def index_view(request):
     template = loader.get_template('bukhach/index.html')
+    profiles = Profile.objects.order_by('-rating', 'user__username')[:5]
     context = {
-        "ip": request.META['HTTP_X_REAL_IP']
+        'profiles': profiles
     }
     return HttpResponse(template.render(context, request))
 
 
-def about_us_view(request):
-    template = loader.get_template('bukhach/about_us.html')
-    context = {}
-    return HttpResponse(template.render(context, request))
-
-
+@login_required(login_url='/login')
 def match_view(request):
     template = loader.get_template('bukhach/match.html')
     intervals = UserInterval.objects.filter(~Q(user=request.user))
@@ -56,7 +53,19 @@ def match_view(request):
     return HttpResponse(template.render(context, request))
 
 
-def contacts_view(request):
-    template = loader.get_template('bukhach/contacts.html')
+def gay_view(request):
+    template = loader.get_template('bukhach/GAY.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
+
+
+def fuck_yourself_view(request):
+    template = loader.get_template('bukhach/GTFO/fuck_yourself.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
+
+
+def appeals_view(request):
+    template = loader.get_template('bukhach/appeals.html')
     context = {}
     return HttpResponse(template.render(context, request))
