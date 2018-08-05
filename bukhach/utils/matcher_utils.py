@@ -15,7 +15,7 @@ class UsersToInterval:
     # adds user that was participating in the match
     def add_user(self, user):
         if user is not None:
-            self.users.append(ProfileMinSerializer(user.profile).data)
+            self.users.append(ProfileMinSerializer(user).data)
 
     # accumalates intervals for the next match step
     def add_interval(self, start, end):

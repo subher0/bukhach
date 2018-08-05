@@ -9,7 +9,7 @@ class UserInterval(models.Model):
     user = ForeignKey(Profile, verbose_name="User", on_delete=models.CASCADE)
     start_date = models.DateTimeField(verbose_name='Start date')
     end_date = models.DateTimeField(verbose_name='End date')
-    gathering_id = ForeignKey(Gathering, verbose_name="Gathering", on_delete=models.CASCADE, blank=True, default=None)
+    gathering = ForeignKey(Gathering, db_column='gathering_id', verbose_name="Gathering", on_delete=models.CASCADE, blank=True, default=None)
 
 
 class GatheringInterval(models.Model):

@@ -1,17 +1,14 @@
+from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 from rest_framework import status
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet
 
-from bukhach.permissions.is_authenticated_or_write_only import IsAuthenticatedOrWriteOnly
-from django.contrib.auth.models import User
-from bukhach.models.profile_models import Profile
-from django.db.models import Q
 from bukhach.consts import ProfileMessages, MainMessages
-
+from bukhach.models.profile_models import Profile, Invite
+from bukhach.permissions.is_authenticated_or_write_only import IsAuthenticatedOrWriteOnly
 from bukhach.serializers.user_serializers import ProfileMinSerializer, ProfileMaxSerializer, ProfileMedSerializer
 
 
@@ -19,12 +16,24 @@ class ProfileViewSet(ViewSet):
     permission_classes = (IsAuthenticatedOrWriteOnly,)
 
     def create(self, request):
+        invite_code = request.data.get('invite', None)
+
+        try:
+            invite = Invite.objects.get(invitation_code=invite_code)
+        except ObjectDoesNotExist:
+            return Response(ProfileMessages.INVITE_DOES_NOT_EXIST, status=status.HTTP_401_UNAUTHORIZED)
+
+        if invite.user is not None:
+            return Response(ProfileMessages.INVITE_TAKEN, status=status.HTTP_401_UNAUTHORIZED)
+
         serializer_class = ProfileMaxSerializer(data=request.data)
         if serializer_class.is_valid():
-            serializer_class.save()
+            profile = serializer_class.save()
+            invite.user = profile.user
+            invite.save()
             return Response(serializer_class.data, status=status.HTTP_201_CREATED)
         else:
-            return Response(serializer_class.errors)
+            return Response(serializer_class.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def list(self, request):
         profile = Profile.objects.get(user=request.user)

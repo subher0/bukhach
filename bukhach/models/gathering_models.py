@@ -18,7 +18,7 @@ class Gathering(models.Model):
 
 class GatheringApplication(models.Model):
     gathering = ForeignKey(Gathering, verbose_name="Gathering", on_delete=models.CASCADE, related_name='applications')
-    applicant = OneToOneField(Profile, verbose_name="Applicant", on_delete=models.CASCADE)
+    applicant = ForeignKey(Profile, verbose_name="Applicant", on_delete=models.CASCADE)
 
     def __str__(self):
         return '_'.join([self.gathering.name, str(self.gathering.id), self.applicant.user.username])
