@@ -56,6 +56,9 @@ class ProfileViewSet(ViewSet):
             return Response(ProfileMessages.PROFILE_DOES_NOT_EXIST, status=status.HTTP_404_NOT_FOUND)
 
     def update(self, request, pk=None):
+        request.data['user'].pop('username')
+        if '/media/def_ava.png' in request.data['avatar']:
+            request.data.pop('avatar')
         if int(pk) != request.user.profile.id:
             return Response(ProfileMessages.NOT_ENOUGH_PERMISSIONS, status=status.HTTP_403_FORBIDDEN)
         profile = Profile.objects.get(pk=pk)
