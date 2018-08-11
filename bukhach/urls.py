@@ -5,7 +5,7 @@ from django.urls import path, re_path
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 
 from bukhach.viewsets.intervals_and_match_viewsets import IntervalViewSet, get_matches
-from bukhach.viewsets.profile_viewsets import ProfileViewSet
+from bukhach.viewsets.profile_viewsets import ProfileViewSet, confirm
 from bukhach.viewsets.service_viewsets import AppealsView
 from bukhach.viewsets.gathering_viewsets import GatheringViewSet, GatheringApplicationViewSet
 from bukhach.viewsets.friends_viewsets import FriendsViewSet
@@ -56,6 +56,7 @@ urlpatterns = [
 #    path(r'api/v1/intervals', IntervalViewSet.as_view()),
     re_path(r'api/v1/match/(?P<gathering_id>\d+)', get_matches),
     path(r'api/v1/appeal', AppealsView.as_view()),
+    path(r'api/v1/confirm-profile', confirm),
 
     url(r'^api/v1/', include(router.urls)),
     url(r'^api/v1/', include(gathering_router.urls))
