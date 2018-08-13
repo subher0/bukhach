@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from bukhach.models.interval_models import UserInterval, GatheringInterval
-from bukhach.models.profile_models import Profile
+from bukhach.models.profile_models import Profile, Invite
 from bukhach.models.gathering_models import Gathering, GatheringApplication
 
 
@@ -47,3 +47,4 @@ admin.site.register(Profile, CustomProfileAdmin)
 admin.site.register(GatheringInterval, CustomGatheringIntervalAdmin)
 admin.site.register(Gathering, CustomGatheringAdmin)
 admin.site.register(GatheringApplication, CustomGatheringApplicationAdmin)
+admin.site.register(Invite)

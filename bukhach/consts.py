@@ -1,6 +1,6 @@
 class MainMessages:
     OK = {'message': 'GAY OK'}
-
+    NOT_IMPLEMENTED = {'message', 'Бля, мы в рот вас ебали и пока не запилили эту тему'}
 
 class ProfileMessages:
 
@@ -11,13 +11,18 @@ class ProfileMessages:
     PROFILE_DOES_NOT_EXIST = {'message': 'Requested profile does not exist'}
     NOT_ENOUGH_PERMISSIONS = {'message': 'GAY YOU HAVEN`T PERMS TO DO THIS'}
 
+    EMAIL_ALREADY_EXISTS = {'message': 'Такой емаил уже забит, иди нахуй!'}
+
+    INVITE_TAKEN = {'message': 'Инвайт уже забит, идите нахуй!'}
+    INVITE_DOES_NOT_EXIST = {'message': 'Сука, даже не пытайся, тут та-ша512 алгоритм, хуй ты значения переберешь'}
+
 
 class GatheringMessages:
     GATHERING_NOT_FOUND = {'message': 'GAY THERE IS NOT GATHERING'}
     APPLICATION_NOT_FOUND = {'message': 'GAY THERE IS NOT APPLICATION'}
     NOT_ENOUGH_PERMISSIONS = {'message': 'GAY YOU HAVEN`T PERMS TO DO THIS'}
     ALREADY_EXIST = {'message': 'GAY ALREADY EXIST'}
-    UNSUPPORTED_SEARCH_MESAGE = {
+    UNSUPPORTED_SEARCH_MESSAGE = {
         'message': 'GAY PLS ENTER CORRECT NAME. NOT THIS SHIT'}
     WTF_GAY_MESSAGE = {'message': 'Тебе же сказали - не лезь блядь она тебя сожрет'}
 

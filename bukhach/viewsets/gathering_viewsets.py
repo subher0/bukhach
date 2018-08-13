@@ -1,4 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -47,7 +48,7 @@ class GatheringViewSet(ViewSet):
             return Response(GatheringMessages.GATHERING_NOT_FOUND, status=status.HTTP_404_NOT_FOUND)
         if gathering.gathering_creator != request.user.profile:
             return Response(GatheringMessages.NOT_ENOUGH_PERMISSIONS, status=status.HTTP_403_FORBIDDEN)
-        serializer_class = GatheringMaxSerializer(gathering, request.data, partial=True)
+        serializer_class = GatheringMaxSerializer(gathering, request.data, user=request.user.profile, partial=True)
         if serializer_class.is_valid():
             serializer_class.save()
             return Response(serializer_class.data, status=status.HTTP_200_OK)
@@ -60,9 +61,9 @@ class GatheringViewSet(ViewSet):
         except ObjectDoesNotExist:
             return Response(GatheringMessages.GATHERING_NOT_FOUND, status=status.HTTP_404_NOT_FOUND)
         if request.user.profile == gathering.gathering_creator:
-            serializer = GatheringMaxSerializer(gathering)
+            serializer = GatheringMaxSerializer(gathering, user=request.user.profile)
         else:
-            serializer = GatheringMinSerializer(gathering)
+            serializer = GatheringMaxSerializer(gathering, user=request.user.profile,)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def list(self, request):
@@ -70,7 +71,11 @@ class GatheringViewSet(ViewSet):
         Get list of self gatherings
         :param request:
         """
-        return Response(GatheringMinSerializer(request.user.profile.gatherings, many=True).data, status=status.HTTP_200_OK)
+        response = GatheringMinSerializer(request.user.profile,
+                                        request.user.profile.gatherings, many=True)
+
+        response.is_valid()
+        return Response(response.data, status=status.HTTP_200_OK)
 
     def destroy(self, request, pk=None):
         """
@@ -86,14 +91,30 @@ class GatheringViewSet(ViewSet):
         else:
             return Response(GatheringMessages.NOT_ENOUGH_PERMISSIONS, status=status.HTTP_403_FORBIDDEN)
 
+    @action(methods=['delete'], detail=True)
+    def leave(self, request, pk=None):
+        """
+        Leave the gathering
+        """
+        try:
+            gathering = Gathering.objects.filter(pk=pk, users=request.user.profile) \
+                .exclude(gathering_creator=request.user.profile).get()
+        except ObjectDoesNotExist:
+            return Response(GatheringMessages.WTF_GAY_MESSAGE, status=status.HTTP_400_BAD_REQUEST)
+        gathering.users.remove(request.user.profile)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
     @action(methods=['get'], detail=False)
     def search(self, request):
         name = request.GET.get('name', None)
         if not name:
-            return Response(GatheringMessages.UNSUPPORTED_SEARCH_MESAGE, status=status.HTTP_400_BAD_REQUEST)
+            return Response(GatheringMessages.UNSUPPORTED_SEARCH_MESSAGE, status=status.HTTP_400_BAD_REQUEST)
 
         gatherings = Gathering.objects.filter(name__icontains=name)
-        return Response(GatheringMinSerializer(gatherings, many=True).data, status=status.HTTP_200_OK)
+        response = GatheringMinSerializer(request.user.profile,
+                                               gatherings, many=True)
+        response.is_valid()
+        return Response(response.data, status=status.HTTP_200_OK)
 
     @action(methods=['get'], detail=True)
     def match(self, request, pk=None):
@@ -123,7 +144,7 @@ class GatheringApplicationViewSet(ViewSet):
         if gathering.applications.filter(applicant=request.user.profile):
             return Response(GatheringMessages.WTF_GAY_MESSAGE, status=status.HTTP_400_BAD_REQUEST)
         request.data['applicant'] = request.user.profile.id
-        request.data['gathering'] = gathering_pk
+        request.data['gathering'] = gathering.id
         serializer_class = GatheringApplicationSerializer(data=request.data)
         if serializer_class.is_valid():
             serializer_class.save()
@@ -159,16 +180,16 @@ class GatheringApplicationViewSet(ViewSet):
             return Response(GatheringMessages.APPLICATION_NOT_FOUND, status=status.HTTP_404_NOT_FOUND)
         return Response(GatheringApplicationSerializer(application).data, status=status.HTTP_200_OK)
 
-    def destroy(self, request, gathering_pk=None, application_pk=None):
+    def delete(self, request, gathering_pk=None):
         """
-        Reject or cancel application
+        Withdraw application (for currently authenticated user)
         """
         try:
             gathering = Gathering.objects.get(pk=gathering_pk)
         except ObjectDoesNotExist:
             return Response(GatheringMessages.GATHERING_NOT_FOUND, status=status.HTTP_404_NOT_FOUND)
         try:
-            app = gathering.applications.get(pk=application_pk)
+            app = gathering.applications.get(applicant=request.user.profile)
         except ObjectDoesNotExist:
             return Response(GatheringMessages.APPLICATION_NOT_FOUND, status=status.HTTP_404_NOT_FOUND)
         if gathering.gathering_creator == request.user.profile or app.applicant == request.user.profile:
@@ -177,7 +198,25 @@ class GatheringApplicationViewSet(ViewSet):
         else:
             return Response(GatheringMessages.NOT_ENOUGH_PERMISSIONS, status=status.HTTP_403_FORBIDDEN)
 
-    def update(self, request, gathering_pk=None, application_pk=None):
+    def destroy(self, request, gathering_pk=None, pk=None):
+        """
+        Reject user's application (for group admin)
+        """
+        try:
+            gathering = Gathering.objects.get(pk=gathering_pk)
+        except ObjectDoesNotExist:
+            return Response(GatheringMessages.GATHERING_NOT_FOUND, status=status.HTTP_404_NOT_FOUND)
+        try:
+            app = gathering.applications.get(pk=pk)
+        except ObjectDoesNotExist:
+            return Response(GatheringMessages.APPLICATION_NOT_FOUND, status=status.HTTP_404_NOT_FOUND)
+        if gathering.gathering_creator == request.user.profile or app.applicant == request.user.profile:
+            app.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response(GatheringMessages.NOT_ENOUGH_PERMISSIONS, status=status.HTTP_403_FORBIDDEN)
+
+    def update(self, request, gathering_pk=None, pk=None):
         """
         Apply application
         """
@@ -188,7 +227,7 @@ class GatheringApplicationViewSet(ViewSet):
         if gathering.gathering_creator != request.user.profile:
             return Response(GatheringMessages.NOT_ENOUGH_PERMISSIONS, status=status.HTTP_403_FORBIDDEN)
         try:
-            app = gathering.applications.get(pk=application_pk)
+            app = gathering.applications.get(pk=pk)
             applicant = app.applicant
             gathering.users.add(applicant)
             app.delete()
