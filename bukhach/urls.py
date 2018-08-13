@@ -4,7 +4,7 @@ from rest_framework_nested.routers import NestedSimpleRouter
 from django.urls import path, re_path
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 
-from bukhach.viewsets.intervals_and_match_viewsets import IntervalView, get_matches
+from bukhach.viewsets.intervals_and_match_viewsets import IntervalViewSet
 from bukhach.viewsets.profile_viewsets import ProfileViewSet
 from bukhach.viewsets.service_viewsets import AppealsView
 from bukhach.viewsets.gathering_viewsets import GatheringViewSet, GatheringApplicationViewSet
@@ -14,6 +14,7 @@ router = SimpleRouter()
 router.register(r'profiles', ProfileViewSet, base_name='profiles')
 router.register(r'friends', FriendsViewSet, base_name='friends')
 router.register(r'gatherings', GatheringViewSet, base_name='gathering')
+router.register(r'intervals', IntervalViewSet, base_name='interval')
 
 gathering_router = NestedSimpleRouter(router, r'gatherings', lookup='gathering')
 gathering_router.register(r'applications', GatheringApplicationViewSet, base_name='application')
@@ -52,8 +53,7 @@ urlpatterns = [
     url(r'^api/v1/token-refresh/', refresh_jwt_token),
     url(r'^api/v1/token-verify/', verify_jwt_token),
 
-    path(r'api/v1/intervals', IntervalView.as_view()),
-    re_path(r'api/v1/match/(?P<gathering_id>\d+)', get_matches),
+    #re_path(r'api/v1/match/(?P<gathering_id>\d+)', get_matches),
     path(r'api/v1/appeal', AppealsView.as_view()),
 
     url(r'^api/v1/', include(router.urls)),

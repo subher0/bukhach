@@ -13,6 +13,7 @@ from django.db.models import Q
 from bukhach.consts import ProfileMessages, MainMessages
 
 from bukhach.serializers.user_serializers import ProfileMinSerializer, ProfileMaxSerializer, ProfileMedSerializer
+from bukhach.utils.matcher_utils import match
 
 
 class ProfileViewSet(ViewSet):
@@ -81,3 +82,7 @@ class ProfileViewSet(ViewSet):
                                 Q(first_name__icontains=l_name) & Q(last_name__icontains=f_name)))).distinct()
                 serialized = ProfileMinSerializer(profiles, many=True)
                 return Response(serialized.data, status=status.HTTP_200_OK)
+
+    @action(methods=['get'], detail=False)
+    def test(self, request):
+        intervals = match(1)

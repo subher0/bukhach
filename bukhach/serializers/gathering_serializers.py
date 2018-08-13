@@ -28,13 +28,6 @@ class GatheringMaxSerializer(serializers.ModelSerializer):
         fields = ('id', 'users', 'gathering_avatar', 'name', 'gathering_creator', 'creator')
 
 
-class GatheringIntervalSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = GatheringInterval
-        fields = ('id', 'start_matched_date', 'end_matched_date')
-
-
 class GatheringApplicationSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):

@@ -1,61 +1,79 @@
-from collections import defaultdict
-
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework.viewsets import ViewSet
 
-from bukhach.models.interval_models import UserInterval, GatheringInterval
-from django.db.models import Q
-
+from bukhach.models.interval_models import UserInterval
 from bukhach.serializers.intervals_and_match_serializers import IntervalSerializer
-from bukhach.utils.matcher_utils import UsersToInterval, IntervalAsDatetime, IntervalAsDatetimeSerializer
+from bukhach.consts import IntervalMessages
+from bukhach.utils.matcher_utils import match
 
 
-class IntervalView(APIView):
+class IntervalViewSet(ViewSet):
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request):
-        serializer_class = IntervalSerializer(data=request.data)
-        if serializer_class.is_valid():
-            interval = serializer_class.save()
-            if interval:
-                return Response(serializer_class.data, status=status.HTTP_201_CREATED)
+    def create(self, request):
+        """
+        :param request:
+        {
+            "start_date": "2018-09-08T12:00:00+03:00",
+            "end_date": "2018-11-08T12:00:00+03:00",
+            "gathering": 1
+        }
+        :return: interval info
+        """
+        request.data['user'] = request.user.profile.id
+        serializer = IntervalSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            return Response(serializer_class.errors)
-        return Response(serializer_class.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def list(self, request):
+        """
+        :return: user's intervals
+        """
+        return Response(IntervalSerializer(UserInterval.objects.filter(user=request.user.profile.id), many=True).data,
+                        status=status.HTTP_200_OK)
 
-@api_view(['GET'])
-def get_matches(request, gathering_id):
-    return Response(perform_match(request, gathering_id))
+    def retrieve(self, request, pk=None):
+        """
+        :param pk: gathering pk
+        :return: user's gathering intervals or user's free intervals(pk=0)
+        """
+        if pk == 0:
+            pk = None
+        return Response(
+            IntervalSerializer(UserInterval.objects.filter(user=request.user.profile, gathering_id=pk),
+                               many=True).data, status=status.HTTP_200_OK)
 
+    def destroy(self, request, pk=None):
+        try:
+            UserInterval.objects.get(user=request.user.profile, pk=pk).delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except UserInterval.DoesNotExist:
+            return Response(IntervalMessages.INTERVAL_DOES_NOT_EXIST, status=status.HTTP_404_NOT_FOUND)
 
-def perform_match(request, gathering_id):
-    intervals = UserInterval.objects.filter(gathering_id=gathering_id)
+    def update(self, request, pk=None):
+        try:
+            interval = UserInterval.objects.get(user=request.user.profile, pk=pk)
+        except UserInterval.DoesNotExist:
+            return Response(IntervalMessages.INTERVAL_DOES_NOT_EXIST, status=status.HTTP_404_NOT_FOUND)
+        request.data.pop('user')
+        request.data.pop('gathering')
+        serializer = IntervalSerializer(interval, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    usersToIntervals = defaultdict(list)
-    for interval in intervals:
-        usersToIntervals[interval.user].append(interval)
-
-    matcher = UsersToInterval()
-
-    for key, value in usersToIntervals.items():
-        for userInterval in value:
-            matcher.add_interval(userInterval.start_date.timestamp(), userInterval.end_date.timestamp())
-        matcher.matchIntervals()
-        matcher.add_user(key)
-
-    matchedUsers, matchedIntervals = matcher.get_matched_intervals()
-
-    GatheringInterval.objects.filter(gathering_id=gathering_id).delete()
-
-    for interval in matchedIntervals:
-        GatheringInterval.objects.create(start_matched_date=interval['start'], end_matched_date=interval['end'],
-                                         gathering_id=gathering_id)
-
-    return {
-        'matchedUsers': matchedUsers,
-        'matchedIntervals': matchedIntervals
-    }
+    @action(methods=['get'], detail=False)
+    def match(self, request):
+        """
+        Matches free intervals by user and user's friens
+        :return: interval list
+        """
+        return Response(match(user=request.user.profile), status=status.HTTP_200_OK)

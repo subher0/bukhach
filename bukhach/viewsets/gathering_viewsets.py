@@ -7,8 +7,10 @@ from rest_framework.decorators import action
 
 from bukhach.consts import GatheringMessages
 from bukhach.models.gathering_models import Gathering
+from bukhach.models.interval_models import GatheringInterval
 from bukhach.serializers.gathering_serializers import GatheringMaxSerializer, GatheringMinSerializer, \
     GatheringApplicationSerializer
+from bukhach.serializers.intervals_and_match_serializers import GatheringIntervalSerializer
 
 
 class GatheringViewSet(ViewSet):
@@ -92,6 +94,16 @@ class GatheringViewSet(ViewSet):
 
         gatherings = Gathering.objects.filter(name__icontains=name)
         return Response(GatheringMinSerializer(gatherings, many=True).data, status=status.HTTP_200_OK)
+
+    @action(methods=['get'], detail=True)
+    def match(self, request, pk=None):
+        try:
+            gathering = Gathering.objects.get(pk=pk)
+        except Gathering.DoesNotExist:
+            return Response(GatheringMessages.GATHERING_NOT_FOUND, status=status.HTTP_404_NOT_FOUND)
+        if not gathering.users.filter(user=request.user):
+            return Response(GatheringMessages.NOT_ENOUGH_PERMISSIONS, status=status.HTTP_403_FORBIDDEN)
+        return Response(GatheringIntervalSerializer(GatheringInterval.objects.filter(gathering_id=pk), many=True).data, status=status.HTTP_200_OK)
 
 
 class GatheringApplicationViewSet(ViewSet):
