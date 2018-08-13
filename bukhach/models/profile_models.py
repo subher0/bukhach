@@ -28,8 +28,7 @@ def generate_invitation_code():
 
 class Invite(models.Model):
     user = OneToOneField(User, verbose_name='User', editable=False, on_delete=models.CASCADE, blank=True, null=True)
-    invitation_code = models.CharField(db_index=True, max_length=255, blank=False, null=False,
-                                      default=generate_invitation_code)
+    invitation_code = models.CharField(db_index=True, max_length=255, blank=False, null=False)
 
     def __str__(self):
         return (self.user.username if self.user is not None else 'Free invite code') + ' ' + self.invitation_code
