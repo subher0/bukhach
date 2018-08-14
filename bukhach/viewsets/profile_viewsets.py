@@ -95,6 +95,8 @@ class ProfileViewSet(ViewSet):
             return Response(ProfileMessages.PROFILE_DOES_NOT_EXIST, status=status.HTTP_404_NOT_FOUND)
 
     def update(self, request, pk=None):
+        request.data['user'].pop('username')
+        request.data.pop('avatar')
         if int(pk) != request.user.profile.id:
             return Response(ProfileMessages.NOT_ENOUGH_PERMISSIONS, status=status.HTTP_403_FORBIDDEN)
         profile = Profile.objects.get(pk=pk)
@@ -104,6 +106,12 @@ class ProfileViewSet(ViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(methods=['post'], detail=False)
+    def update_photo(self, request):
+        request.user.profile.avatar = request.data['avatar']
+        request.user.profile.save()
+        return Response(data={'avatar': request.user.profile.avatar.url})
 
     @action(methods=['get'], detail=False)
     def search(self, request):
