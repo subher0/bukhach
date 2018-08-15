@@ -27,6 +27,15 @@ class GatheringMessages:
     WTF_GAY_MESSAGE = {'message': 'Тебе же сказали - не лезь блядь она тебя сожрет'}
 
 
+class FriendMessages:
+    FRIEND_EXISTS_MESSAGE = {'message': 'This one is already in your friends list'}
+    FRIEND_DOES_NOT_EXIST_MESSAGE = {'message': 'This one is not in your friends list'}
+    PROFILE_DOES_NOT_EXIST_MESSAGE = {'message': 'The man you are trying to add doesn\'t seem to exist'}
+    FRIEND_ADDED_MESSAGE = {'message': 'You are now friends with this man'}
+    FRIEND_DELETED_MESSAGE = {'message': 'You are no longer friends with this man'}
+
+
 class IntervalMessages:
     INTERVAL_INVALID = {'message': 'Ты що, ебобо, неадекват ебаный, твой интервал нельзя принять!'}
     INVALID_REQUEST = {'message': 'Ты чо чорт, пытался чужой или несуществующий интервал ебнуть!? Хуй тебе!'}
+    INTERVAL_DOES_NOT_EXIST = {'message': 'Interval does not exist'}

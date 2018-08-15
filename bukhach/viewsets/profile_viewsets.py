@@ -20,6 +20,7 @@ from bukhach.consts import ProfileMessages, MainMessages
 from bukhach.models.profile_models import Profile, Invite
 from bukhach.permissions.is_authenticated_or_write_only import IsAuthenticatedOrWriteOnly
 from bukhach.serializers.user_serializers import ProfileMinSerializer, ProfileMaxSerializer, ProfileMedSerializer
+from bukhach.utils.matcher_utils import match
 
 
 def send_email_with_confirmation(profile):
@@ -115,17 +116,23 @@ class ProfileViewSet(ViewSet):
             return Response(ProfileMessages.UNSUPPORTED_SEARCH_MESAGE, status=status.HTTP_400_BAD_REQUEST)
         else:
             words = name.split()
+            if len(words) > 2:
+                words = words[:2]
             if len(words) == 1:
                 name = words[0]
                 profiles = Profile.objects.select_related('user').filter(
                     user__in=User.objects.filter(
-                        Q(first_name__icontains=name) | Q(last_name__icontains=name) | Q(username__icontains=name)))
+                        Q(first_name__icontains=name) | Q(last_name__icontains=name) | Q(username__icontains=name))).order_by('rating')
                 return Response(ProfileMinSerializer(profiles, many=True).data, status=status.HTTP_200_OK)
             elif len(words) == 2:
                 f_name = words[0]
                 l_name = words[1]
                 profiles = Profile.objects.select_related('user').filter(
                     user__in=User.objects.filter((Q(first_name__icontains=f_name) & Q(last_name__icontains=l_name)) | (
-                            Q(first_name__icontains=l_name) & Q(last_name__icontains=f_name)))).distinct()
+                            Q(first_name__icontains=l_name) & Q(last_name__icontains=f_name)))).distinct().order_by('rating')
                 serialized = ProfileMinSerializer(profiles, many=True)
                 return Response(serialized.data, status=status.HTTP_200_OK)
+
+    @action(methods=['get'], detail=False)
+    def test(self, request):
+        intervals = match(1)

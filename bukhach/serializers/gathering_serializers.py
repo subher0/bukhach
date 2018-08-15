@@ -66,13 +66,6 @@ class GatheringMaxSerializer(serializers.ModelSerializer):
                   'is_available_for_join', 'is_member', 'has_applied_for_join')
 
 
-class GatheringIntervalSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = GatheringInterval
-        fields = ('id', 'start_matched_date', 'end_matched_date')
-
-
 class GatheringApplicationSerializer(serializers.ModelSerializer):
     profile_info = SerializerMethodField(read_only=True, required=False)
 
