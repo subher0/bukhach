@@ -39,7 +39,6 @@ class CustomGatheringAdmin(admin.ModelAdmin):
     list_display = ('name', 'id', 'gathering_creator', 'users_count')
     list_filter = ('gathering_creator',)
     search_fields = ('name',)
-    list_select_related = ('users',)
 
     def users_count(self, obj):
         return obj.users.all().count()
