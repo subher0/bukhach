@@ -110,7 +110,7 @@ class GatheringViewSet(ViewSet):
         if not name:
             return Response(GatheringMessages.UNSUPPORTED_SEARCH_MESSAGE, status=status.HTTP_400_BAD_REQUEST)
 
-        gatherings = Gathering.objects.filter(name__icontains=name)
+        gatherings = Gathering.objects.filter(name__icontains=name).order_by('users__count')
         response = GatheringMinSerializer(request.user.profile,
                                                gatherings, many=True)
         response.is_valid()

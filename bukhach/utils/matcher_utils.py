@@ -2,13 +2,9 @@ import datetime
 import numpy
 
 from django.utils import timezone
-from rest_framework import serializers
-from rest_framework.fields import DateTimeField
 
 from bukhach.models.gathering_models import Gathering
 from bukhach.models.interval_models import UserInterval
-from bukhach.models.profile_models import Profile
-from bukhach.serializers.user_serializers import ProfileMinSerializer
 
 
 # class UsersToInterval:
@@ -83,29 +79,23 @@ from bukhach.serializers.user_serializers import ProfileMinSerializer
 #         self.end = datetime.datetime.fromtimestamp(end)
 
 
-def transform_time(dt):
-    if dt.minute < 30:
-        dt.replace(hour=dt.hour + datetime.timedelta(hours=1))
-    dt.replace(minute=0, second=0)
-    return dt
-
-
 def intervals_to_array(intervals):
     """
-    Transform datedime interval to binary array
+    Transform datetime interval to binary array
     :param intervals: list of datetimes
     :return: binary array
     """
     array = numpy.array([])
     for i in range(1, len(intervals)):
         interval_in_hours = int((intervals[i] - intervals[i - 1]).total_seconds() / 3600)
-        array = numpy.append(array, [1 if i % 2 == 0 else 0 for x in range(interval_in_hours)])
+        binary_array = [1 if i % 2 == 0 else 0 for x in range(interval_in_hours)]
+        array = numpy.append(array, binary_array)
     return array
 
 
 def match(gath_pk=None, user=None):
     """
-    Matches user's inteervals
+    Matches user's intervals
     Working only for 30 days period (starting today)
     :param gath_pk: gathering id if matching in gathering else None
     :param user: user object if matching in users's friends
@@ -113,7 +103,7 @@ def match(gath_pk=None, user=None):
     """
     start = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
     stop = start + datetime.timedelta(days=30)
-    b = numpy.zeros(720, int)
+    full_array = numpy.zeros(720, int)
     if gath_pk:
         users = Gathering.objects.get(pk=gath_pk).users.all()
     elif user:
@@ -134,13 +124,13 @@ def match(gath_pk=None, user=None):
                 end_date = stop
             intervals = intervals + [start_date, end_date]
         intervals.append(stop)
-        a = intervals_to_array(intervals)
-        b = b + a
+        users_array = intervals_to_array(intervals)
+        full_array = full_array + users_array
 
-    if b.max() < users.count():
+    if full_array.max() < users.count():
         return []
 
-    return array_to_intervals(b, users.count(), start)
+    return array_to_intervals(full_array, users.count(), start)
 
 
 def array_to_intervals(array, count, start):
